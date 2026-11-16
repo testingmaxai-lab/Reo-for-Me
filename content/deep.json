@@ -1,0 +1,104 @@
+{
+  "defaults": {
+    "status": "cross-checked",
+    "source": "Widely published whakataukī; explanations written by AI for this app from commonly published accounts. Not yet reviewed by a fluent speaker or cultural advisor."
+  },
+  "items": [
+    {
+      "id": "he-tangata", "kind": "whakatauki",
+      "title": "He aha te mea nui o te ao?",
+      "lines": [
+        { "mi": "He aha te mea nui o te ao?", "en": "What is the most important thing in the world?" },
+        { "mi": "He tangata, he tangata, he tangata.", "en": "It is people, it is people, it is people." }
+      ],
+      "literal": "What [is] the great thing of the world? A person, a person, a person.",
+      "meaning": "People and relationships matter more than possessions, status or achievements. The threefold repetition gives the answer weight and finality.",
+      "provenance": "Commonly attributed to Meri Ngāroto, a woman of rank of Te Aupōuri in the Far North. These lines are the close of a longer saying that begins 'Hutia te rito o te harakeke, kei hea te kōmako e kō?' (If the centre shoot of the flax is pulled out, where will the bellbird sing?). Accounts of the exact circumstances differ between sources.",
+      "context": "In the longer saying, the rito (centre shoot) of the harakeke stands for the child, protected by the surrounding leaves as parents and grandparents protect a child. Removing it kills the plant. The saying is about the survival of whānau and people across generations.",
+      "usage": "Very widely quoted in speeches, education, health and public-sector settings to emphasise that people come first. Because it is so often quoted on its own, it is worth knowing that it belongs to a longer saying with its own history, and acknowledging that when you can.",
+      "nuances": "Because someone is named as its author it is sometimes called a whakatauākī (a saying with a known originator) rather than a whakataukī. Tangata (no macron) is singular, 'a person'; some published versions use the plural tāngata. This app uses the singular form; either may be met in print.",
+      "components": [
+        { "mi": "He aha", "gloss": "what [is]", "pattern": "questions", "note": "He + aha asks what something is." },
+        { "mi": "te mea nui", "gloss": "the important / great thing", "note": "The describing word nui follows the noun mea." },
+        { "mi": "o te ao", "gloss": "of the world", "note": "o = of, belonging to." },
+        { "mi": "He tangata", "gloss": "[it is] a person / people", "pattern": "he", "note": "A He sentence classifies: it is a person." }
+      ],
+      "structureQs": [
+        { "prompt": "In this whakataukī, what does 'he aha' ask?", "lang": "en", "answers": ["what", "what is", "what is it"], "explain": "He aha …? asks what something is." },
+        { "prompt": "What does 'te mea nui' mean, word for word?", "lang": "en", "answers": ["the (big|great|important|large|main) thing", "the most important thing", "the greatest thing"], "explain": "te (the) + mea (thing) + nui (big, great, important). The describing word follows the noun." },
+        { "prompt": "Which small word here means 'of'?", "lang": "mi", "answers": ["o"], "explain": "o te ao = of the world." },
+        { "prompt": "Does 'tangata' (no macron) mean one person or several?", "lang": "en", "answers": ["one", "one person", "a person", "singular", "person"], "explain": "tangata = person; tāngata = people. The macron marks the plural." }
+      ]
+    },
+    {
+      "id": "whaia-te-iti-kahurangi", "kind": "whakatauki",
+      "title": "Whāia te iti kahurangi",
+      "lines": [
+        { "mi": "Whāia te iti kahurangi,", "en": "Pursue that which is most precious;" },
+        { "mi": "ki te tūohu koe, me he maunga teitei.", "en": "if you must bow your head, let it be to a lofty mountain." }
+      ],
+      "literal": "Pursue the precious small thing; if you bow, [let it be] as to a lofty mountain.",
+      "meaning": "Aim for what you value most and keep going. If you have to yield, yield only to an obstacle that is truly great. It encourages high aspiration and perseverance.",
+      "provenance": "A widely known traditional whakataukī. This app does not attribute it to a named person or iwi because no attribution could be confirmed; if you learn its origin from a reliable source, add it to the content file.",
+      "context": "Often used to encourage learners and anyone setting out on something difficult. The image is of a traveller who lowers their head only before a great mountain, not before small obstacles.",
+      "usage": "Common in education, graduations, farewells and messages of encouragement. Appropriate when acknowledging someone's goals or effort.",
+      "nuances": "Iti kahurangi is an idiom: literally 'small precious thing', it refers to a treasured goal or aspiration. Kahurangi can mean precious, prized, or a prized variety of pounamu. 'Me he' means 'as if, like a', so the last phrase is literally 'as if [to] a lofty mountain'. English renderings vary.",
+      "components": [
+        { "mi": "Whāia", "gloss": "pursue! seek!", "note": "Command form of whai (to follow, pursue). The ending -a marks the passive, which is how commands are given with verbs that take an object." },
+        { "mi": "te iti kahurangi", "gloss": "the precious thing; one's highest aspiration", "note": "An idiom; see the notes on interpretation." },
+        { "mi": "ki te tūohu koe", "gloss": "if you bow your head", "note": "ki te + verb = if. tūohu = to bow the head, stoop." },
+        { "mi": "me he maunga teitei", "gloss": "[let it be] as to a lofty mountain", "note": "me he = as if, like a. teitei = lofty, tall." }
+      ],
+      "structureQs": [
+        { "prompt": "'Whāia' is the command form of which verb?", "lang": "mi", "answers": ["whai"], "explain": "whai = to follow, pursue. Whāia! = Pursue (it)!" },
+        { "prompt": "In 'ki te tūohu koe', what does 'ki te' express?", "lang": "en", "answers": ["if", "if you", "condition", "a condition"], "explain": "ki te + verb introduces a condition: if you bow." },
+        { "prompt": "What does 'teitei' mean?", "lang": "en", "answers": ["lofty", "tall", "high"], "explain": "he maunga teitei = a lofty mountain. The describing word follows the noun." },
+        { "prompt": "What does 'tūohu' mean?", "lang": "en", "answers": ["bow", "bow your head", "bow the head", "stoop", "bow down", "to bow the head"], "explain": "tūohu = to bow the head, stoop." }
+      ]
+    },
+    {
+      "id": "pepeha-tauiwi", "kind": "pepeha",
+      "title": "Introducing yourself (for tauiwi)",
+      "status": "draft",
+      "source": "Sentence frames are standard te reo Māori. The approach of acknowledging rather than claiming landmarks follows publicly available advice for non-Māori, including advice attributed to Keri Opai. Written by AI; check your final wording with a kaiako or mana whenua before using it formally.",
+      "lines": [
+        { "mi": "Nō {origin} ōku tūpuna.", "en": "My ancestors are from {origin}." },
+        { "mi": "I whānau mai au i {born}.", "en": "I was born in {born}." },
+        { "mi": "I tipu ake au i {raised}.", "en": "I grew up in {raised}." },
+        { "mi": "Kei {home} au e noho ana.", "en": "I live in {home}." },
+        { "mi": "E mihi ana ki ngā tohu o nehe, o {acknowledge} e noho nei au.", "en": "I acknowledge the ancient landmarks of {acknowledge}, where I live." },
+        { "mi": "Ko {name} tōku ingoa.", "en": "My name is {name}." },
+        { "mi": "Nō reira, tēnā koutou, tēnā koutou, tēnā tātou katoa.", "en": "Therefore, greetings to you all, greetings to us all." }
+      ],
+      "slots": [
+        { "id": "origin", "label": "Where your ancestors are from", "hint": "A country or region, in Māori if you know the name, e.g. Ingarangi (England), Kōtirana (Scotland), Airani (Ireland). Join several with 'me' (and)." },
+        { "id": "born", "label": "Where you were born", "hint": "Use the Māori place name where one exists, e.g. Ōtautahi, Tāmaki Makaurau." },
+        { "id": "raised", "label": "Where you grew up", "hint": "Leave blank to omit this line.", "optional": true },
+        { "id": "home", "label": "Where you live now", "hint": "e.g. Te Whanganui-a-Tara, Pōneke, Kirikiriroa." },
+        { "id": "acknowledge", "label": "Place whose landmarks you acknowledge", "hint": "Usually the same as where you live. Leave blank to omit this line. Confirm this line with a kaiako before using it.", "optional": true },
+        { "id": "name", "label": "Your name", "hint": "" }
+      ],
+      "literal": "",
+      "meaning": "A short introduction that says where your people come from, where you were born and live, and who you are, and that acknowledges the place you live in without claiming it.",
+      "provenance": "Pepeha is a Māori way of introducing yourself through your connections to people and places. For Māori it expresses whakapapa: the maunga, awa, waka, iwi, hapū and marae a person descends from and belongs to.",
+      "context": "Statements such as 'Ko … tōku maunga' express an ancestral relationship with that mountain. A common view, though not the only one, is that people without that whakapapa should not claim a maunga or awa as theirs simply because they live nearby or feel attached to it. Instead, tauiwi can say where their ancestors come from, where they were born and live, and acknowledge the landmarks and people of the place they live in.",
+      "usage": "Used when introducing yourself in a mihi, for example at the start of a hui or a course. Views on the right form for tauiwi differ between iwi, kaiako and organisations. Ask your kaiako, or mana whenua where you live, and follow their guidance over this app. This module never fills in places or connections for you.",
+      "nuances": "Tūpuna and tīpuna (ancestors) are dialect variants; use whichever is used where you live. Nō indicates belonging to or coming from a place. The acknowledgement line is optional and is the one most worth confirming before use.",
+      "components": [
+        { "mi": "Nō … ōku tūpuna", "gloss": "my ancestors are from …", "note": "nō = from, belonging to. ōku = my (several things). tūpuna = ancestors." },
+        { "mi": "I whānau mai au i …", "gloss": "I was born in …", "pattern": "i-past", "note": "whānau as a verb means to be born. mai = towards the speaker." },
+        { "mi": "I tipu ake au i …", "gloss": "I grew up in …", "pattern": "i-past", "note": "tipu = grow. ake = upwards." },
+        { "mi": "Kei … au e noho ana", "gloss": "I am living in …", "pattern": "locative", "note": "Kei + place = at. e … ana marks an ongoing action." },
+        { "mi": "E mihi ana ki ngā tohu o nehe", "gloss": "[I] acknowledge the landmarks of ancient times", "note": "mihi = greet, acknowledge. tohu = sign, landmark. nehe = ancient times." },
+        { "mi": "Ko … tōku ingoa", "gloss": "my name is …", "pattern": "ko", "note": "Ko identifies a specific name." },
+        { "mi": "Nō reira, tēnā koutou, tēnā koutou, tēnā tātou katoa", "gloss": "therefore, greetings to you all, greetings to us all", "note": "A standard way to close a mihi. katoa = all." }
+      ],
+      "structureQs": [
+        { "prompt": "Which word at the start of a sentence means 'from / belonging to' a place?", "lang": "mi", "answers": ["nō"], "explain": "Nō Ingarangi ōku tūpuna = My ancestors are from England." },
+        { "prompt": "What does 'tōku ingoa' mean?", "lang": "en", "answers": ["my name"], "explain": "Ko … tōku ingoa = My name is …" },
+        { "prompt": "What does 'I whānau mai au i …' say?", "lang": "en", "answers": ["i was born in", "i was born at", "i was born"], "explain": "whānau as a verb = to be born." },
+        { "prompt": "Which word in the closing line means 'all'?", "lang": "mi", "answers": ["katoa"], "explain": "tēnā tātou katoa = greetings to us all." }
+      ]
+    }
+  ]
+}

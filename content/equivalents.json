@@ -1,0 +1,9 @@
+{
+  "_comment": "Interchangeable Māori spellings/variants. A learner's answer using the left form is treated as the right form.",
+  "pairs": {
+    "ahau": "au",
+    "tīpuna": "tūpuna",
+    "tipuna": "tupuna",
+    "āianei": "ināianei"
+  }
+}

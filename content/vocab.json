@@ -1,0 +1,218 @@
+{
+  "defaults": {
+    "status": "cross-checked",
+    "source": "Standard modern te reo Māori; drafted by AI and intended to be checked against Te Aka Māori Dictionary (maoridictionary.co.nz). Not yet reviewed by a fluent speaker."
+  },
+  "topics": [
+    {
+      "id": "greetings", "title": "Greetings and everyday phrases", "order": 10,
+      "items": [
+        { "mi": "kia ora", "en": ["hello", "hi", "thank you", "thanks"], "level": 1, "note": "An all-purpose greeting that also expresses thanks or agreement." },
+        { "mi": "tēnā koe", "en": ["hello (to one person)", "greetings (to one person)"], "level": 1, "note": "More formal than kia ora. Use tēnā kōrua for two people and tēnā koutou for three or more." },
+        { "mi": "tēnā koutou", "en": ["hello (to three or more people)", "greetings (to three or more people)", "hello everyone", "greetings everyone"], "level": 1 },
+        { "mi": "mōrena", "altMi": ["ata mārie"], "en": ["good morning"], "level": 1 },
+        { "mi": "ata mārie", "altMi": ["mōrena"], "en": ["good morning (literally: peaceful morning)"], "level": 2 },
+        { "mi": "pō mārie", "en": ["good night"], "level": 1 },
+        { "mi": "āe", "en": ["yes"], "level": 1 },
+        { "mi": "kāo", "en": ["no"], "level": 1 },
+        { "mi": "haere rā", "en": ["goodbye (to someone leaving)", "farewell (to someone leaving)"], "level": 1, "selfCheck": true, "note": "Said by the person staying to the person who is leaving." },
+        { "mi": "e noho rā", "en": ["goodbye (to someone staying)", "farewell (to someone staying)"], "level": 1, "selfCheck": true, "note": "Said by the person leaving to the person who is staying." },
+        { "mi": "ka kite anō", "en": ["see you again", "see you later", "see you"], "level": 1 },
+        { "mi": "aroha mai", "en": ["sorry", "i am sorry", "excuse me"], "level": 2 },
+        { "mi": "ngā mihi", "en": ["thanks", "thank you", "regards", "acknowledgements", "greetings"], "level": 2, "note": "Common as a sign-off in emails and as a general expression of thanks." },
+        { "mi": "kei te pai", "en": ["it is fine", "that is fine", "that is ok", "it is ok", "all good", "i am good", "i am fine", "fine", "ok"], "level": 1 }
+      ]
+    },
+    {
+      "id": "pronouns", "title": "Pronouns", "order": 20,
+      "items": [
+        { "mi": "au", "altMi": ["ahau"], "en": ["I", "me"], "level": 1, "note": "Au and ahau are interchangeable." },
+        { "mi": "koe", "en": ["you (one person)"], "level": 1 },
+        { "mi": "ia", "en": ["he", "she", "him", "her", "he or she", "he/she"], "level": 1, "note": "Ia is not gendered." },
+        { "mi": "tāua", "en": ["we two (you and I)", "us two (you and me)"], "level": 2, "selfCheck": true, "note": "Includes the person being spoken to." },
+        { "mi": "māua", "en": ["we two (someone else and I, not you)", "us two (not you)"], "level": 2, "selfCheck": true, "note": "Excludes the person being spoken to." },
+        { "mi": "kōrua", "en": ["you two"], "level": 2 },
+        { "mi": "rāua", "en": ["they (two people)", "them (two people)", "those two", "the two of them", "they two"], "level": 2, "selfCheck": true },
+        { "mi": "tātou", "en": ["we (three or more, including you)", "all of us (including you)"], "level": 2, "selfCheck": true, "note": "Includes the person or people being spoken to." },
+        { "mi": "mātou", "en": ["we (three or more, not you)", "us (three or more, not you)"], "level": 2, "selfCheck": true, "note": "Excludes the person or people being spoken to." },
+        { "mi": "koutou", "en": ["you (three or more people)", "you all", "all of you"], "level": 2, "selfCheck": true },
+        { "mi": "rātou", "en": ["they (three or more people)", "them (three or more people)"], "level": 2, "selfCheck": true }
+      ]
+    },
+    {
+      "id": "verbs", "title": "Common verbs", "order": 30,
+      "items": [
+        { "mi": "haere", "en": ["go", "travel"], "level": 1, "note": "Haere mai = come (towards the speaker)." },
+        { "mi": "kai", "en": ["eat", "food"], "level": 1, "note": "Both a verb (eat) and a noun (food)." },
+        { "mi": "inu", "en": ["drink"], "level": 1 },
+        { "mi": "moe", "en": ["sleep"], "level": 1 },
+        { "mi": "noho", "en": ["sit", "stay", "live (dwell)", "live", "dwell"], "level": 1 },
+        { "mi": "tū", "en": ["stand"], "level": 1 },
+        { "mi": "kōrero", "en": ["speak", "talk", "say", "speech", "story"], "level": 1 },
+        { "mi": "titiro", "en": ["look", "look at"], "level": 1, "note": "Takes ki before the thing looked at: titiro ki te manu." },
+        { "mi": "whakarongo", "en": ["listen"], "level": 1, "note": "Takes ki before the thing listened to." },
+        { "mi": "mahi", "en": ["work", "do", "make", "job"], "level": 1 },
+        { "mi": "ako", "en": ["learn", "study", "teach"], "level": 1 },
+        { "mi": "tākaro", "en": ["play"], "level": 1 },
+        { "mi": "oma", "en": ["run"], "level": 1 },
+        { "mi": "hoki", "en": ["return", "go back", "come back"], "level": 1 },
+        { "mi": "kite", "en": ["see", "find"], "level": 1 },
+        { "mi": "tuhi", "en": ["write", "draw"], "level": 2 },
+        { "mi": "pānui", "en": ["read", "announcement", "notice"], "level": 2 },
+        { "mi": "waiata", "en": ["sing", "song"], "level": 2 },
+        { "mi": "hoko", "en": ["buy", "trade"], "level": 2, "note": "Hoko mai = buy; hoko atu = sell." },
+        { "mi": "horoi", "en": ["wash", "clean"], "level": 2 },
+        { "mi": "āwhina", "en": ["help", "assist"], "level": 2 },
+        { "mi": "tatari", "en": ["wait"], "level": 2 },
+        { "mi": "mōhio", "en": ["know", "understand"], "level": 2 },
+        { "mi": "pīrangi", "en": ["want", "desire"], "level": 2 },
+        { "mi": "hīkoi", "en": ["walk"], "level": 2 },
+        { "mi": "tunu", "en": ["cook"], "level": 2 },
+        { "mi": "tae", "en": ["arrive", "reach"], "level": 2 },
+        { "mi": "mutu", "en": ["finish", "end", "finished", "ended"], "level": 2 },
+        { "mi": "hanga", "en": ["build", "make", "create"], "level": 3 },
+        { "mi": "whakaaro", "en": ["think", "thought", "idea"], "level": 3 }
+      ]
+    },
+    {
+      "id": "nouns", "title": "Common nouns", "order": 40,
+      "items": [
+        { "mi": "whare", "en": ["house", "building"], "level": 1 },
+        { "mi": "tangata", "en": ["person", "human"], "level": 1, "note": "Plural: tāngata (people)." },
+        { "mi": "wahine", "en": ["woman", "wife"], "level": 1, "note": "Plural: wāhine (women)." },
+        { "mi": "tāne", "en": ["man", "husband", "male"], "level": 1 },
+        { "mi": "tamaiti", "en": ["child", "kid"], "level": 1, "note": "Plural: tamariki." },
+        { "mi": "tamariki", "en": ["children", "kids"], "level": 1 },
+        { "mi": "kurī", "en": ["dog"], "level": 1 },
+        { "mi": "ngeru", "en": ["cat"], "level": 1 },
+        { "mi": "wai", "en": ["water", "who"], "level": 1, "note": "Two separate words with the same form: wai (water) and wai (who?), as in Ko wai tō ingoa?" },
+        { "mi": "ingoa", "en": ["name"], "level": 1 },
+        { "mi": "hoa", "en": ["friend", "companion", "mate"], "level": 1 },
+        { "mi": "kura", "en": ["school"], "level": 1 },
+        { "mi": "kāinga", "en": ["home", "village"], "level": 1 },
+        { "mi": "manu", "en": ["bird"], "level": 2 },
+        { "mi": "ika", "en": ["fish"], "level": 2 },
+        { "mi": "rākau", "en": ["tree", "stick", "wood"], "level": 2 },
+        { "mi": "maunga", "en": ["mountain"], "level": 2 },
+        { "mi": "awa", "en": ["river"], "level": 2 },
+        { "mi": "moana", "en": ["sea", "ocean"], "level": 2 },
+        { "mi": "waka", "en": ["canoe", "vehicle"], "level": 2 },
+        { "mi": "pukapuka", "en": ["book"], "level": 2 },
+        { "mi": "tēpu", "en": ["table"], "level": 2 },
+        { "mi": "tūru", "en": ["chair", "seat"], "level": 2 },
+        { "mi": "motokā", "en": ["car"], "level": 2 },
+        { "mi": "tāone", "en": ["town", "city"], "level": 2 },
+        { "mi": "kupu", "en": ["word"], "level": 2 },
+        { "mi": "kaiako", "en": ["teacher"], "level": 2 },
+        { "mi": "tauira", "en": ["student", "example"], "level": 2 },
+        { "mi": "mea", "en": ["thing"], "level": 2 },
+        { "mi": "ao", "en": ["world"], "level": 3 },
+        { "mi": "whenua", "en": ["land", "country"], "level": 3 },
+        { "mi": "reo", "en": ["language", "voice"], "level": 2 }
+      ]
+    },
+    {
+      "id": "descriptions", "title": "Descriptions", "order": 50,
+      "items": [
+        { "mi": "pai", "en": ["good", "fine", "well"], "level": 1 },
+        { "mi": "kino", "en": ["bad"], "level": 1 },
+        { "mi": "nui", "en": ["big", "large", "important", "great"], "level": 1, "note": "Also means many or important, depending on context." },
+        { "mi": "iti", "en": ["small", "little"], "level": 1 },
+        { "mi": "roa", "en": ["long", "tall"], "level": 2 },
+        { "mi": "poto", "en": ["short"], "level": 2 },
+        { "mi": "wera", "en": ["hot"], "level": 2 },
+        { "mi": "makariri", "en": ["cold"], "level": 2 },
+        { "mi": "hou", "en": ["new"], "level": 2 },
+        { "mi": "tawhito", "en": ["old (of things)", "ancient"], "level": 2 },
+        { "mi": "tere", "en": ["fast", "quick"], "level": 2 },
+        { "mi": "pōturi", "en": ["slow"], "level": 2 },
+        { "mi": "harikoa", "en": ["happy", "joyful"], "level": 2 },
+        { "mi": "pōuri", "en": ["sad", "dark"], "level": 2 },
+        { "mi": "ngenge", "en": ["tired"], "level": 1 },
+        { "mi": "hiakai", "en": ["hungry"], "level": 2 },
+        { "mi": "hiainu", "en": ["thirsty"], "level": 2 },
+        { "mi": "ātaahua", "en": ["beautiful", "pretty"], "level": 2 },
+        { "mi": "reka", "en": ["tasty", "sweet", "delicious"], "level": 2 },
+        { "mi": "kaha", "en": ["strong", "strength"], "level": 2 },
+        { "mi": "māuiui", "en": ["sick", "unwell", "ill"], "level": 2 },
+        { "mi": "teitei", "en": ["tall", "high", "lofty"], "level": 3 },
+        { "mi": "uaua", "en": ["difficult", "hard"], "level": 3 }
+      ]
+    },
+    {
+      "id": "pointing", "title": "This, that and question words", "order": 60,
+      "items": [
+        { "mi": "tēnei", "en": ["this"], "level": 1, "note": "Near the speaker." },
+        { "mi": "tēnā", "en": ["that (near you)"], "level": 1, "note": "Near the person being spoken to." },
+        { "mi": "tērā", "en": ["that (over there)"], "level": 1, "note": "Away from both speaker and listener." },
+        { "mi": "aha", "en": ["what"], "level": 1 },
+        { "mi": "hea", "en": ["where"], "level": 2 },
+        { "mi": "pēhea", "en": ["how"], "level": 2 }
+      ]
+    },
+    {
+      "id": "numbers-time", "title": "Numbers and time", "order": 70,
+      "items": [
+        { "mi": "tahi", "en": ["one", "1"], "level": 2 },
+        { "mi": "rua", "en": ["two", "2"], "level": 2 },
+        { "mi": "toru", "en": ["three", "3"], "level": 2 },
+        { "mi": "whā", "en": ["four", "4"], "level": 2 },
+        { "mi": "rima", "en": ["five", "5"], "level": 2 },
+        { "mi": "ono", "en": ["six", "6"], "level": 2 },
+        { "mi": "whitu", "en": ["seven", "7"], "level": 2 },
+        { "mi": "waru", "en": ["eight", "8"], "level": 2 },
+        { "mi": "iwa", "en": ["nine", "9"], "level": 2 },
+        { "mi": "tekau", "en": ["ten", "10"], "level": 2 },
+        { "mi": "āpōpō", "en": ["tomorrow"], "level": 2 },
+        { "mi": "inanahi", "en": ["yesterday"], "level": 2 },
+        { "mi": "ināianei", "altMi": ["āianei"], "en": ["now"], "level": 2 },
+        { "mi": "rā", "en": ["day", "sun"], "level": 2 },
+        { "mi": "pō", "en": ["night"], "level": 2 },
+        { "mi": "ata", "en": ["morning"], "level": 2 },
+        { "mi": "ahiahi", "en": ["afternoon", "evening"], "level": 2 },
+        { "mi": "wiki", "en": ["week"], "level": 3 },
+        { "mi": "marama", "en": ["month", "moon"], "level": 3 },
+        { "mi": "tau", "en": ["year"], "level": 3 }
+      ]
+    },
+    {
+      "id": "locations", "title": "Locations and directions", "order": 80,
+      "items": [
+        { "mi": "runga", "en": ["on top", "above", "on", "up", "top", "on top of"], "level": 2 },
+        { "mi": "raro", "en": ["under", "below", "underneath", "beneath", "down", "bottom"], "level": 2 },
+        { "mi": "roto", "en": ["inside", "in"], "level": 2 },
+        { "mi": "waho", "en": ["outside", "out"], "level": 2 },
+        { "mi": "mua", "en": ["in front", "front", "before", "in front of"], "level": 3 },
+        { "mi": "muri", "en": ["behind", "back", "after"], "level": 3 },
+        { "mi": "konei", "en": ["here"], "level": 2 },
+        { "mi": "konā", "en": ["there (near you)"], "level": 3 },
+        { "mi": "korā", "en": ["over there (away from both of us)", "there (over there)"], "level": 3 },
+        { "mi": "tata", "en": ["near", "close"], "level": 3 },
+        { "mi": "tawhiti", "en": ["far", "distant", "far away"], "level": 3 }
+      ]
+    },
+    {
+      "id": "whanau", "title": "Whānau and relationships", "order": 90,
+      "items": [
+        { "mi": "whānau", "en": ["family"], "level": 1 },
+        { "mi": "māmā", "en": ["mum", "mother", "mom"], "level": 1, "note": "The same form, māmā, also means easy or light (not heavy)." },
+        { "mi": "pāpā", "en": ["dad", "father"], "level": 1 },
+        { "mi": "matua", "en": ["parent", "father", "uncle"], "level": 2, "note": "Plural: mātua (parents). The macron marks the plural." },
+        { "mi": "mātua", "en": ["parents"], "level": 2 },
+        { "mi": "whaea", "en": ["mother", "aunt", "aunty"], "level": 2, "note": "Also a respectful term of address for a woman, including a teacher." },
+        { "mi": "tama", "en": ["son", "boy"], "level": 2 },
+        { "mi": "tamāhine", "en": ["daughter"], "level": 2 },
+        { "mi": "kōtiro", "en": ["girl"], "level": 2 },
+        { "mi": "pēpi", "en": ["baby"], "level": 2 },
+        { "mi": "koroua", "en": ["grandfather", "elderly man", "old man"], "level": 3 },
+        { "mi": "kuia", "en": ["grandmother", "elderly woman", "old woman"], "level": 3 },
+        { "mi": "mokopuna", "en": ["grandchild", "grandchildren"], "level": 3 },
+        { "mi": "tupuna", "altMi": ["tipuna"], "en": ["ancestor", "grandparent"], "level": 3, "note": "Tupuna and tipuna are dialect variants. Plural: tūpuna / tīpuna." },
+        { "mi": "tuakana", "en": ["older sibling of the same gender (older brother of a male, older sister of a female)"], "level": 3, "selfCheck": true },
+        { "mi": "teina", "en": ["younger sibling of the same gender (younger brother of a male, younger sister of a female)"], "level": 3, "selfCheck": true },
+        { "mi": "tungāne", "en": ["brother (of a female)"], "level": 3, "selfCheck": true },
+        { "mi": "tuahine", "en": ["sister (of a male)"], "level": 3, "selfCheck": true }
+      ]
+    }
+  ]
+}
