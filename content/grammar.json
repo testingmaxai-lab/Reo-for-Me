@@ -1,0 +1,219 @@
+{
+  "defaults": {
+    "status": "cross-checked",
+    "source": "Standard introductory te reo Māori grammar as taught in beginner courses (e.g. the Te Whanake series). Explanations and example sentences were written by AI for this app, not copied from any course, and have not yet been reviewed by a fluent speaker."
+  },
+  "patterns": [
+    {
+      "id": "articles", "title": "te, ngā, he — the, the (plural), a", "level": 1, "order": 25, "prereqs": [],
+      "structure": "te + one thing · ngā + several things · he + a / some",
+      "explanation": "Most Māori nouns do not change form for the plural. The word in front shows the number: te for one thing, ngā for more than one. He means a, an or some.",
+      "sentences": [
+        { "mi": "te whare", "en": "the house" },
+        { "mi": "ngā whare", "en": "the houses" },
+        { "mi": "he kurī", "en": "(a dog|some dogs)" },
+        { "mi": "ngā tamariki", "en": "the (children|kids)" },
+        { "mi": "te ngeru", "en": "the cat" },
+        { "mi": "ngā manu", "en": "the birds" },
+        { "mi": "he pukapuka", "en": "(a book|some books)" }
+      ],
+      "transforms": [
+        { "from": "te pukapuka", "fromEn": "the book", "instruction": "Make it plural (the books).", "answers": ["ngā pukapuka"] },
+        { "from": "ngā maunga", "fromEn": "the mountains", "instruction": "Make it singular (the mountain).", "answers": ["te maunga"] }
+      ]
+    },
+    {
+      "id": "kei-te", "title": "Kei te … — happening now", "level": 1, "order": 35, "prereqs": ["articles"],
+      "structure": "Kei te + action or state + who",
+      "explanation": "Kei te marks something happening or true right now. The action or state comes first and the person or thing doing it comes after. The same pattern works with describing words: Kei te ngenge au (I am tired).",
+      "sentences": [
+        { "mi": "Kei te haere au.", "en": "I am going." },
+        { "mi": "Kei te kai te kurī.", "en": "The dog is eating." },
+        { "mi": "Kei te moe ngā tamariki.", "en": "The (children|kids) are sleeping." },
+        { "mi": "Kei te ngenge au.", "en": "I am tired." },
+        { "mi": "Kei te mahi ia.", "en": "(She|He) is working." },
+        { "mi": "Kei te tākaro ngā tamariki.", "en": "The (children|kids) are playing." },
+        { "mi": "Kei te kōrero rāua.", "en": "(They|They two|The two of them|Those two) are (talking|speaking).", "hint": "they = two people" },
+        { "mi": "Kei te harikoa mātou.", "en": "We are happy.", "hint": "we = three or more, not including the listener" }
+      ],
+      "transforms": [
+        { "from": "Kei te haere au.", "fromEn": "I am going.", "instruction": "Change the subject to 'they' (two people).", "answers": ["Kei te haere rāua."] },
+        { "from": "Kei te kai au.", "fromEn": "I am eating.", "instruction": "Change the subject to 'we' (three or more, not including the listener).", "answers": ["Kei te kai mātou."] }
+      ]
+    },
+    {
+      "id": "he", "title": "He … — describing and classifying", "level": 1, "order": 45, "prereqs": ["articles"],
+      "structure": "He + what it is / what it is like + the thing",
+      "explanation": "A sentence beginning with He says what something is, or what it is like. There is no word for 'is'. He kurī tēnei = This is a dog. He nui te whare = The house is big.",
+      "sentences": [
+        { "mi": "He kurī tēnei.", "en": "This is a dog." },
+        { "mi": "He pukapuka tēnā.", "en": "That is a book.", "hint": "that = near the listener" },
+        { "mi": "He pai te kai.", "en": "The food is good." },
+        { "mi": "He nui te whare.", "en": "The house is (big|large)." },
+        { "mi": "He ātaahua te maunga.", "en": "The mountain is beautiful." },
+        { "mi": "He kaiako ia.", "en": "(She|He) is a teacher." },
+        { "mi": "He makariri te wai.", "en": "The water is cold." }
+      ],
+      "transforms": [
+        { "from": "He nui te whare.", "fromEn": "The house is big.", "instruction": "Make the subject plural (the houses).", "answers": ["He nui ngā whare."] },
+        { "from": "He kurī tēnei.", "fromEn": "This is a dog.", "instruction": "Change 'this' to 'that' (over there, away from both of you).", "answers": ["He kurī tērā."] }
+      ]
+    },
+    {
+      "id": "ko", "title": "Ko … — identifying", "level": 1, "order": 55, "prereqs": ["he"],
+      "structure": "Ko + a specific person or thing + who / what it is",
+      "explanation": "Ko introduces a specific, named person or thing. He classifies (a teacher); Ko identifies (the teacher, Mere). In these examples tōku and taku mean 'my' and tō means 'your'.",
+      "sentences": [
+        { "mi": "Ko Mere tōku ingoa.", "en": "My name is Mere." },
+        { "mi": "Ko Hēmi ia.", "en": "(He|That|It) is Hēmi." },
+        { "mi": "Ko tēnei taku hoa.", "en": "This is my friend." },
+        { "mi": "Ko au te kaiako.", "en": "I am the teacher." },
+        { "mi": "Ko wai tō ingoa?", "en": "What is your name?" }
+      ],
+      "transforms": [
+        { "from": "He kaiako ia.", "fromEn": "She is a teacher.", "instruction": "Change to 'She is the teacher'.", "answers": ["Ko ia te kaiako."] }
+      ]
+    },
+    {
+      "id": "expansion", "title": "ki and i — adding where to and what", "level": 2, "order": 15, "prereqs": ["kei-te"],
+      "structure": "… + ki (to, towards) + place · … + i + the thing acted on",
+      "explanation": "Add detail after the subject. Ki marks a destination or direction: ki te tāone (to town). I marks the thing an action is done to: Kei te kai au i te ika (I am eating the fish). A few verbs of attention, such as titiro and whakarongo, take ki instead of i.",
+      "sentences": [
+        { "mi": "Kei te haere au ki te tāone.", "en": "I am going to (town|the town)." },
+        { "mi": "Kei te kai au i te ika.", "en": "I am eating the fish." },
+        { "mi": "Kei te titiro ia ki te manu.", "en": "(She|He) is looking at the bird." },
+        { "mi": "Kei te whakarongo mātou ki te waiata.", "en": "We are listening to the song.", "hint": "we = three or more, not including the listener" },
+        { "mi": "Kei te pānui au i te pukapuka.", "en": "I am reading the book." },
+        { "mi": "Kei te horoi ia i te motokā.", "en": "(She|He) is (washing|cleaning) the car." }
+      ],
+      "transforms": [
+        { "from": "Kei te haere au ki te tāone.", "fromEn": "I am going to town.", "instruction": "Change the destination to 'the school'.", "answers": ["Kei te haere au ki te kura."] }
+      ]
+    },
+    {
+      "id": "i-past", "title": "I … — past", "level": 2, "order": 25, "prereqs": ["kei-te"],
+      "structure": "I + action + who",
+      "explanation": "I at the start of a sentence marks a completed action in the past. Swap Kei te for I and the rest of the sentence stays the same.",
+      "sentences": [
+        { "mi": "I haere au ki te kura.", "en": "I went to (school|the school)." },
+        { "mi": "I kai ngā tamariki.", "en": "The (children|kids) ate." },
+        { "mi": "I moe te ngeru.", "en": "The cat slept." },
+        { "mi": "I kite au i te manu.", "en": "I saw the bird." },
+        { "mi": "I hoko ia i te pukapuka.", "en": "(She|He) bought the book." },
+        { "mi": "I mahi mātou inanahi.", "en": "We worked yesterday.", "hint": "we = three or more, not including the listener" }
+      ],
+      "transforms": [
+        { "from": "Kei te haere au.", "fromEn": "I am going.", "instruction": "Change to the past (I went).", "answers": ["I haere au."] },
+        { "from": "Kei te kai au i te ika.", "fromEn": "I am eating the fish.", "instruction": "Change to the past (I ate the fish).", "answers": ["I kai au i te ika."] }
+      ]
+    },
+    {
+      "id": "ka", "title": "Ka … — future and what happens next", "level": 2, "order": 35, "prereqs": ["i-past"],
+      "structure": "Ka + action + who",
+      "explanation": "Ka marks an action that begins or happens. On its own, or with a future time word such as āpōpō, it is usually understood as future. In storytelling it takes its time from the context.",
+      "sentences": [
+        { "mi": "Ka haere au āpōpō.", "en": "I will go tomorrow." },
+        { "mi": "Ka kai tātou.", "en": "We will eat.", "hint": "we = all of us, including the listener" },
+        { "mi": "Ka hoki mai ia āpōpō.", "en": "(She|He) will (return|come back) tomorrow." },
+        { "mi": "Ka tunu au i te kai.", "en": "I will cook the food." },
+        { "mi": "Ka tākaro ngā tamariki.", "en": "The (children|kids) will play." }
+      ],
+      "transforms": [
+        { "from": "Kei te kai te kurī.", "fromEn": "The dog is eating.", "instruction": "Change to the future (will eat).", "answers": ["Ka kai te kurī."] },
+        { "from": "I haere au ki te kura.", "fromEn": "I went to school.", "instruction": "Change to the future (will go).", "answers": ["Ka haere au ki te kura."] }
+      ]
+    },
+    {
+      "id": "kua", "title": "Kua … — has happened", "level": 2, "order": 45, "prereqs": ["i-past"],
+      "structure": "Kua + action + who",
+      "explanation": "Kua marks something that has happened and whose result still matters now, like English 'has / have …'. Kua kai au = I have eaten.",
+      "sentences": [
+        { "mi": "Kua kai au.", "en": "I have eaten." },
+        { "mi": "Kua tae mai rātou.", "en": "They have arrived.", "hint": "they = three or more people" },
+        { "mi": "Kua mutu te mahi.", "en": "The work (has|is) finished." },
+        { "mi": "Kua haere ia.", "en": "(She|He) has (gone|left)." },
+        { "mi": "Kua moe te pēpi.", "en": "The baby (has gone to sleep|has fallen asleep|is asleep)." },
+        { "mi": "Kua pānui au i te pukapuka.", "en": "I have read the book." }
+      ],
+      "transforms": [
+        { "from": "I moe te ngeru.", "fromEn": "The cat slept.", "instruction": "Change to 'has' (has gone to sleep).", "answers": ["Kua moe te ngeru."] }
+      ]
+    },
+    {
+      "id": "questions", "title": "Questions — aha, hea, wai, pēhea", "level": 2, "order": 55, "prereqs": ["kei-te", "he", "ko"],
+      "structure": "Put the question word where the answer would go",
+      "explanation": "A yes/no question keeps the same words as a statement and is shown by intonation or a question mark. For other questions, a question word takes the place of the answer: aha (what), hea (where), wai (who), pēhea (how).",
+      "sentences": [
+        { "mi": "Kei te aha koe?", "en": "What are you doing?" },
+        { "mi": "Kei te pēhea koe?", "en": "How are you?" },
+        { "mi": "Kei te haere koe?", "en": "Are you going?" },
+        { "mi": "He aha tēnei?", "en": "What is this?" },
+        { "mi": "Kei hea te kurī?", "en": "Where is the dog?" },
+        { "mi": "Ko wai ia?", "en": "Who is (she|he|that)?" },
+        { "mi": "I aha koe inanahi?", "en": "What did you do yesterday?" }
+      ],
+      "transforms": [
+        { "from": "Kei te kura te tamaiti.", "fromEn": "The child is at school.", "instruction": "Ask where the child is.", "answers": ["Kei hea te tamaiti?"] },
+        { "from": "He kurī tēnei.", "fromEn": "This is a dog.", "instruction": "Ask what this is.", "answers": ["He aha tēnei?"] }
+      ]
+    },
+    {
+      "id": "locative", "title": "Kei + place — where something is", "level": 2, "order": 65, "prereqs": ["kei-te", "expansion"],
+      "structure": "Kei + place + the thing (+ i + reference point)",
+      "explanation": "Kei followed by a place says where something is now; I followed by a place says where it was. With a position word (runga, raro, roto, waho), the reference point follows i: Kei roto te ngeru i te whare. Do not confuse Kei te kura (at the school) with Kei te + action.",
+      "sentences": [
+        { "mi": "Kei te kura ngā tamariki.", "en": "The (children|kids) are at (school|the school)." },
+        { "mi": "Kei roto te ngeru i te whare.", "en": "The cat is (inside|in) the house." },
+        { "mi": "Kei runga te pukapuka i te tēpu.", "en": "The book is (on|on top of) the table." },
+        { "mi": "Kei raro te kurī i te tēpu.", "en": "The dog is (under|underneath|beneath) the table." },
+        { "mi": "Kei konei au.", "en": "I am here." },
+        { "mi": "Kei waho ngā tamariki.", "en": "The (children|kids) are outside." },
+        { "mi": "I te tāone au inanahi.", "en": "I was (in|at) (town|the town) yesterday." }
+      ],
+      "transforms": [
+        { "from": "Kei roto te ngeru i te whare.", "fromEn": "The cat is inside the house.", "instruction": "Change the position to 'on top of'.", "answers": ["Kei runga te ngeru i te whare."] },
+        { "from": "Kei te kura ngā tamariki.", "fromEn": "The children are at school.", "instruction": "Change to the past (were at school).", "answers": ["I te kura ngā tamariki."] }
+      ]
+    },
+    {
+      "id": "negation", "title": "Kāore … — saying not", "level": 3, "order": 15, "prereqs": ["kei-te", "i-past", "ka", "kua"],
+      "structure": "Kāore + who + i te / i / e / (anō … kia) + action",
+      "explanation": "To negate an action sentence, start with Kāore and move the subject in front of the verb. Kei te becomes i te; past I stays i; future Ka becomes e. Kua is negated with Kāore anō … kia (not yet).",
+      "sentences": [
+        { "mi": "Kāore au i te haere.", "en": "I am not going." },
+        { "mi": "Kāore ia i te mahi.", "en": "(She|He) is not working." },
+        { "mi": "Kāore ngā tamariki i te moe.", "en": "The (children|kids) are not sleeping." },
+        { "mi": "Kāore au i te ngenge.", "en": "I am not tired." },
+        { "mi": "Kāore au i haere.", "en": "I did not go." },
+        { "mi": "Kāore te kurī i kai.", "en": "The dog did not eat." },
+        { "mi": "Kāore au e haere āpōpō.", "en": "I will not go tomorrow." },
+        { "mi": "Kāore anō au kia kai.", "en": "I have not eaten yet." }
+      ],
+      "transforms": [
+        { "from": "Kei te mahi ia.", "fromEn": "She is working.", "instruction": "Make it negative.", "answers": ["Kāore ia i te mahi."] },
+        { "from": "I haere au.", "fromEn": "I went.", "instruction": "Make it negative.", "answers": ["Kāore au i haere."] },
+        { "from": "Kei te tākaro ngā tamariki.", "fromEn": "The children are playing.", "instruction": "Make it negative.", "answers": ["Kāore ngā tamariki i te tākaro."] },
+        { "from": "Ka haere au āpōpō.", "fromEn": "I will go tomorrow.", "instruction": "Make it negative.", "answers": ["Kāore au e haere āpōpō."] },
+        { "from": "Kua kai au.", "fromEn": "I have eaten.", "instruction": "Make it negative (not yet).", "answers": ["Kāore anō au kia kai."] }
+      ]
+    },
+    {
+      "id": "possession", "title": "taku, tō, tana — my, your, his/her", "level": 3, "order": 25, "prereqs": ["articles", "kei-te"],
+      "structure": "taku / tō / tana + one thing · aku / ō / ana + several things",
+      "explanation": "Taku (my), tō (your, one person) and tana (his or her) replace te before a noun. Drop the t for more than one thing: aku, ō, ana. Māori also sorts possession into two categories, a and o (tāku / tōku), depending on the relationship between owner and thing; taku and tana are neutral forms that avoid that choice. The a/o categories are not yet covered in this app.",
+      "sentences": [
+        { "mi": "Kei te moe taku kurī.", "en": "My dog is sleeping." },
+        { "mi": "He nui tō whare.", "en": "Your house is (big|large).", "hint": "your = one person's" },
+        { "mi": "Kei hea tana pukapuka?", "en": "Where is (her|his) book?" },
+        { "mi": "Ko Mere taku hoa.", "en": "(Mere is my friend|My friend is Mere)." },
+        { "mi": "I kite au i tō māmā.", "en": "I saw your (mum|mother|mom).", "hint": "your = one person's" },
+        { "mi": "Kei te tākaro aku tamariki.", "en": "My (children|kids) are playing." },
+        { "mi": "Kei hea ō hoa?", "en": "Where are your friends?", "hint": "your = one person's" }
+      ],
+      "transforms": [
+        { "from": "Kei te moe taku kurī.", "fromEn": "My dog is sleeping.", "instruction": "Change 'my' to 'your' (one person's).", "answers": ["Kei te moe tō kurī."] },
+        { "from": "Kei hea tana pukapuka?", "fromEn": "Where is her book?", "instruction": "Make it plural (her books).", "answers": ["Kei hea ana pukapuka?"] }
+      ]
+    }
+  ]
+}
