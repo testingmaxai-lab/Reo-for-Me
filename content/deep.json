@@ -57,6 +57,104 @@
       ]
     },
     {
+      "id": "ko-te-reo", "kind": "whakatauki",
+      "title": "Ko te reo te mauri o te mana Māori",
+      "lines": [
+        { "mi": "Ko te reo te mauri o te mana Māori.", "en": "The language is the life force of Māori mana." }
+      ],
+      "literal": "The language [is] the life force of the Māori mana.",
+      "meaning": "The Māori language is what gives life to Māori identity, standing and authority. If the language is lost, what makes Māori distinct is lost with it.",
+      "provenance": "Attributed to Tā Hēmi Hēnare (Sir James Hēnare, Ngāti Hine), and widely associated with his evidence in the Waitangi Tribunal's te reo Māori claim in the mid-1980s. Because it has a known author it is a whakatauākī.",
+      "context": "Said in the context of the campaign for recognition and revitalisation of te reo Māori, which led to the language becoming an official language of New Zealand in 1987.",
+      "usage": "Often quoted when speaking about the value of te reo and the reasons for learning and protecting it. Fitting for a learner to know; acknowledge its author when you use it.",
+      "nuances": "Mauri is the life force or vital essence of a being or thing. Mana covers authority, prestige and spiritual standing, and has no single English equivalent. English renderings of this saying vary.",
+      "components": [
+        { "mi": "Ko te reo", "gloss": "the language", "pattern": "ko", "note": "Ko introduces the specific thing being identified." },
+        { "mi": "te mauri", "gloss": "the life force", "note": "The second definite phrase says what the first one is." },
+        { "mi": "o te mana Māori", "gloss": "of Māori mana", "note": "o = of, belonging to. Māori follows mana because describing words follow the noun." }
+      ],
+      "structureQs": [
+        { "prompt": "What does 'te reo' mean?", "lang": "en", "answers": ["the language", "language", "the voice"], "explain": "reo = language, voice." },
+        { "prompt": "Which word in this saying means 'life force'?", "lang": "mi", "answers": ["mauri", "te mauri"], "explain": "mauri = life force, vital essence." },
+        { "prompt": "Which small word begins the sentence and identifies a specific thing?", "lang": "mi", "answers": ["ko"], "explain": "Ko te reo … = The language is …" }
+      ]
+    },
+    {
+      "id": "ehara-taku-toa", "kind": "whakatauki",
+      "title": "Ehara taku toa i te toa takitahi",
+      "lines": [
+        { "mi": "Ehara taku toa i te toa takitahi,", "en": "My strength is not that of one person alone;" },
+        { "mi": "engari he toa takitini.", "en": "it is the strength of many." }
+      ],
+      "literal": "My strength is not the strength of a single one, but a strength of multitudes.",
+      "meaning": "What I achieve is not mine alone. Success comes from the support and effort of many people: whānau, colleagues, community and those who came before.",
+      "provenance": "A widely quoted traditional saying. Published sources commonly attribute it to Paterangi of Ngāti Kahungunu; this attribution has not been independently checked for this app.",
+      "context": "Used to acknowledge that an individual's achievement rests on a collective. It expresses the value placed on working together over individual credit.",
+      "usage": "Common when accepting thanks or recognition, opening a team presentation, or acknowledging the people behind a piece of work.",
+      "nuances": "Toa means bravery, strength or success, and also warrior. Taki- before a number word describes grouping: takitahi, singly; takitini, in multitudes. Some versions have 'taku toa takitini' in the second half.",
+      "components": [
+        { "mi": "Ehara taku toa", "gloss": "my strength is not", "note": "Ehara … i … negates a sentence that says what something is (a Ko or He sentence)." },
+        { "mi": "i te toa takitahi", "gloss": "the strength of one alone", "note": "takitahi = singly, individual." },
+        { "mi": "engari", "gloss": "but, rather" },
+        { "mi": "he toa takitini", "gloss": "a strength of many", "pattern": "he", "note": "takitini = many, in multitudes." }
+      ],
+      "structureQs": [
+        { "prompt": "Which word at the start makes the statement negative?", "lang": "mi", "answers": ["ehara"], "explain": "Ehara … i … = is not …" },
+        { "prompt": "What does 'engari' mean?", "lang": "en", "answers": ["but", "rather", "but rather", "however"], "explain": "engari = but, rather." },
+        { "prompt": "What does 'taku toa' mean?", "lang": "en", "answers": ["my (strength|bravery|success|courage)"], "explain": "taku = my; toa = strength, bravery, success." },
+        { "prompt": "Which word means 'singly, as one alone'?", "lang": "mi", "answers": ["takitahi"], "explain": "tahi = one; takitahi = singly." }
+      ]
+    },
+    {
+      "id": "nau-te-rourou", "kind": "whakatauki",
+      "title": "Nāu te rourou, nāku te rourou",
+      "lines": [
+        { "mi": "Nāu te rourou, nāku te rourou,", "en": "With your food basket and my food basket," },
+        { "mi": "ka ora ai te iwi.", "en": "the people will thrive." }
+      ],
+      "literal": "Yours the food basket, mine the food basket; by that the people will live.",
+      "meaning": "When each person contributes what they have, everyone is sustained. It is about cooperation and pooling resources for the good of all.",
+      "provenance": "A widely known traditional whakataukī. This app does not attribute it to a named person or iwi because no attribution could be confirmed.",
+      "context": "The rourou is a small woven basket for cooked food. The image is of people each bringing their basket so that the whole group can eat.",
+      "usage": "Used to encourage collaboration, to acknowledge contributions to a shared effort, and when thanking people who have each given something.",
+      "nuances": "Nāu and nāku mean 'yours' and 'mine' in the a category, here with a sense of 'what you bring' and 'what I bring'. Ka … ai marks a result that follows from what was just said. Ora means life, health and wellbeing, so 'live', 'be well' and 'thrive' are all used in translation.",
+      "components": [
+        { "mi": "Nāu te rourou", "gloss": "yours is the food basket", "pattern": "a-o", "note": "nāu = yours (one person)." },
+        { "mi": "nāku te rourou", "gloss": "mine is the food basket", "pattern": "a-o", "note": "nāku = mine." },
+        { "mi": "ka ora ai", "gloss": "will thereby live, thrive", "pattern": "ka", "note": "ai points back to the cause: as a result of that." },
+        { "mi": "te iwi", "gloss": "the people" }
+      ],
+      "structureQs": [
+        { "prompt": "What does 'nāku' mean?", "lang": "en", "answers": ["mine", "my", "belonging to me", "it is mine"], "explain": "nāku = mine; nāu = yours." },
+        { "prompt": "What is a 'rourou'?", "lang": "en", "answers": ["food basket", "basket", "a food basket", "small food basket", "a basket"], "explain": "A small woven basket for cooked food." },
+        { "prompt": "What does 'te iwi' mean here?", "lang": "en", "answers": ["the people", "people", "the tribe", "the nation"], "explain": "iwi = tribe, people, nation." },
+        { "prompt": "Which word means 'live, be well, thrive'?", "lang": "mi", "answers": ["ora"], "explain": "ora = life, health, wellbeing." }
+      ]
+    },
+    {
+      "id": "he-waka-eke-noa", "kind": "whakatauki",
+      "title": "He waka eke noa",
+      "lines": [
+        { "mi": "He waka eke noa.", "en": "A canoe that all may board; we are all in this together." }
+      ],
+      "literal": "A canoe [to be] boarded without restriction.",
+      "meaning": "Commonly used to mean that everyone is in the same boat and shares the journey and its outcome, so everyone should pull together.",
+      "provenance": "A well-known whakataukī of uncertain origin. This app does not attribute it to a named person or iwi.",
+      "context": "The waka is a frequent image for a shared undertaking: everyone aboard depends on everyone else.",
+      "usage": "Used widely for team efforts and shared challenges. Because its original sense is debated, it is worth being a little careful about leaning on one fixed English slogan for it.",
+      "nuances": "Noa means free from restriction, ordinary, without conditions. Eke means to board, embark or mount. Some speakers explain the saying as a canoe that anyone may board without ceremony, which is not quite the same idea as 'we are all in this together'. Interpretations differ.",
+      "components": [
+        { "mi": "He waka", "gloss": "a canoe", "pattern": "he" },
+        { "mi": "eke", "gloss": "to board, embark" },
+        { "mi": "noa", "gloss": "freely, without restriction", "note": "Follows the verb and modifies it." }
+      ],
+      "structureQs": [
+        { "prompt": "What does 'waka' mean?", "lang": "en", "answers": ["canoe", "vehicle", "a canoe", "boat"], "explain": "waka = canoe, vehicle." },
+        { "prompt": "Which word means 'to board or embark'?", "lang": "mi", "answers": ["eke"], "explain": "eke = board, embark, mount." },
+        { "prompt": "Which word means 'freely, without restriction'?", "lang": "mi", "answers": ["noa"], "explain": "noa = free from restriction, ordinary." }
+      ]
+    },
+    {
       "id": "pepeha-tauiwi", "kind": "pepeha",
       "title": "Introducing yourself (for tauiwi)",
       "status": "draft",

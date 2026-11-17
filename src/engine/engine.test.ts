@@ -18,7 +18,7 @@ describe('content', () => {
   it('meets the initial content targets', () => {
     expect(content.vocab.length).toBeGreaterThanOrEqual(100);
     expect(content.patterns.length).toBeGreaterThanOrEqual(10);
-    expect(content.deep.filter((d) => d.kind === 'whakatauki').length).toBe(2);
+    expect(content.deep.filter((d) => d.kind === 'whakatauki').length).toBeGreaterThanOrEqual(2);
     expect(content.deep.filter((d) => d.kind === 'pepeha').length).toBe(1);
     expect(content.deep.filter((d) => d.kind === 'karakia').length).toBe(0); // deliberately empty
   });
@@ -34,11 +34,30 @@ describe('content', () => {
   it('every word used in sentences and transforms is spelled consistently with the vocabulary', () => {
     // a sentence word that differs from a vocab word only by macrons is almost certainly a typo
     const bare = new Map(content.vocab.filter((v) => !v.mi.includes(' ')).map((v) => [v.mi.normalize('NFD').replace(/̄/g, ''), v.mi]));
-    const allowed = new Set(['tō', 'to', 'ō', 'o', 'ana', 'tana', 'kia', 'ka', 'ki', 'i', 'e', 'he', 'te', 'ko', 'mai', 'anō', 'matua', 'mātua']);
+    const allowed = new Set(['tō', 'to', 'ō', 'o', 'ana', 'tana', 'kia', 'ka', 'ki', 'i', 'e', 'he', 'te', 'ko', 'mai', 'anō', 'matua', 'mātua', 'tāu', 'tau', 'ā', 'a', 'mā', 'wā']);
     for (const p of content.patterns) for (const s of p.sentences) for (const w of normMi(s.mi).split(' ')) {
       const b = w.normalize('NFD').replace(/̄/g, '');
       if (bare.has(b) && !allowed.has(w)) expect(w, `${s.mi}`).toBe(bare.get(b));
     }
+  });
+  it('gives every production exercise a prompt that points to one answer', () => {
+    // two words with the same English prompt would make "Type the Māori" ambiguous
+    const seen = new Map<string, string>();
+    for (const v of content.vocab) {
+      const prompt = v.en.slice(0, 3).join('; ');
+      const other = seen.get(prompt);
+      if (other) expect(v.altMi, `"${prompt}" prompts both ${other} and ${v.mi}`).toContain(other);
+      seen.set(prompt, v.mi);
+    }
+    const sentencePrompts = content.patterns.flatMap((p) => p.sentences.map((s) => firstEn(s.en)));
+    expect(new Set(sentencePrompts).size).toBe(sentencePrompts.length);
+  });
+  it('every transformation answer differs from its starting sentence', () => {
+    for (const p of content.patterns) for (const t of p.transforms) expect(normMi(t.answers[0]), t.from).not.toBe(normMi(t.from));
+  });
+  it('accepts every structure question by its own first answer', () => {
+    for (const d of content.deep) for (const q of d.structureQs)
+      expect(checkAnswer(firstEn(q.answers[0]), q.answers, q.lang, { ...opts, looseEn: q.lang === 'en' }).verdict, q.prompt).toBe('correct');
   });
   it('detects problems in bad content', () => {
     const bad = buildContent({ vocab: { topics: [{ id: 't', title: 'T', items: [{ mi: 'kai', en: [] }, { mi: 'kai', en: ['food'] }] }] }, grammar: { patterns: [{ id: 'x', title: 'X', prereqs: ['nope'] }] }, deep: { items: [] }, equivalents: {} });
@@ -110,6 +129,8 @@ describe('answer validation', () => {
     expect(normEn("I'm not going")).toBe('i am not going');
     expect(normEn("It's fine.")).toBe('it is fine');
     expect(checkAnswer("I didn't go", ['I did not go.'], 'en').verdict).toBe('correct');
+    expect(checkAnswer("Let's go", ['(We should go|Let us go).'], 'en').verdict).toBe('alternative');
+    expect(checkAnswer("Don't cry", ['Do not cry.'], 'en').verdict).toBe('correct');
     expect(checkAnswer('that', ['that (near you)'], 'en', { looseEn: true }).verdict).toBe('correct');
     expect(checkAnswer('to eat', ['eat', 'food'], 'en', { looseEn: true }).verdict).toBe('correct');
     expect(checkAnswer('a dog', ['dog'], 'en', { looseEn: true }).verdict).toBe('correct');

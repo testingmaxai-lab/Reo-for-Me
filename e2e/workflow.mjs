@@ -160,7 +160,7 @@ const progressText = async (p) => { await p.goto(URL0 + '#/progress'); await p.g
 const before = await progressText(page);
 await shot(page, '06-progress');
 await noOverflow(page, 'progress');
-assert.match(before, /\d+ of 165 started/);
+assert.match(before, new RegExp(`\\d+ of ${vocab.length} started`));
 await page.close();
 page = await ctx.newPage(); watch(page);
 const after = await progressText(page);
@@ -211,7 +211,7 @@ assert.ok(backup.cards.length > 10 && backup.kv.deep['d:he-tangata'].stage === 4
 const beforeReset = await progressText(page);
 await page.getByRole('button', { name: 'Reset all progress' }).click();
 await page.getByRole('button', { name: 'Delete everything' }).click();
-await page.getByText('0 of 165 started').first().waitFor();
+await page.getByText(`0 of ${vocab.length} started`).first().waitFor();
 await page.getByLabel('Backup file to import').setInputFiles(file);
 await page.getByText(`Restored ${backup.cards.length} learning records.`).waitFor();
 assert.equal((await progressText(page)).split('BACKUP')[0], beforeReset.split('BACKUP')[0]);

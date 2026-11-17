@@ -31,15 +31,15 @@ Double vowels (`kurii`) are accepted for macrons. `au`/`ahau` and `tūpuna`/`tī
 
 | | Count | Status |
 |---|---|---|
-| Vocabulary | 165 words in 9 topics | Cross-checked |
-| Sentence patterns | 12, with 79 sentences and 24 transformations | Cross-checked |
-| Whakataukī | 2 | Cross-checked |
+| Vocabulary | 369 words in 16 topics | Cross-checked |
+| Sentence patterns | 19, with 123 sentences and 37 transformations | Cross-checked |
+| Whakataukī | 6 | Cross-checked |
 | Pepeha (for tauiwi) | 1 template you fill in | Draft |
 | Karakia | 0 | Supported, deliberately empty |
 
 **None of this has been reviewed by a fluent speaker.** "Cross-checked" means written by AI from standard references. "Verified" is reserved for items you or a fluent speaker have reviewed: change `"status"` in the content file once that happens. Every item shows its status and source in the app.
 
-Things most worth a kaiako's eye: the pepeha acknowledgement line, the provenance notes on the two whakataukī, and the negation and possession patterns.
+Things most worth a kaiako's eye: the pepeha acknowledgement line; the provenance and attribution notes on the whakataukī (Meri Ngāroto, Tā Hēmi Hēnare, Paterangi); the negation, a/o possession, counting and time-phrase patterns; and the work and te ao Māori vocabulary, where short English glosses are necessarily rough.
 
 ## Run it locally
 
@@ -120,14 +120,13 @@ The scheduler sits behind a small `Scheduler` interface (`src/engine/srs.ts`), s
 - No audio. There is no licensed audio to bundle and iOS has no te reo Māori voice.
 - Typed sentences are matched against listed answers, so a correct but unlisted wording is marked wrong. Use "I was right".
 - No sync between devices.
-- Possession covers only the neutral forms (taku, tō, tana), not the a/o categories.
 - Meaning and context for whakataukī are self-assessed.
 - Not yet tested on a physical iPhone, only in an emulated iPhone-sized browser.
 
 ## Sensible next steps
 
 1. Have a kaiako review the content and mark items verified.
-2. Add content: a/o possession, passives, numbers above ten, more whakataukī, a sourced karakia.
+2. Add content: passives, more on numbers and telling the time, more whakataukī, a sourced karakia.
 3. Licensed or self-recorded audio.
 4. FSRS scheduling once there is enough review history.
 5. Optional sync (for example a file in iCloud Drive).

@@ -75,7 +75,7 @@ export function validateContent(c: Content): string[] {
     if (!v.mi?.trim()) errs.push(`${v.id}: missing Māori text`);
     if (!v.en.length) errs.push(`${v.id}: needs at least one English meaning`);
     if (!v.source) errs.push(`${v.id}: missing source`);
-    if (/aa|ee|ii|oo|uu/.test(v.mi) && !/whakaaro|ātaahua/.test(v.mi)) errs.push(`${v.id}: double vowel — use a macron?`);
+    if (/aa|ee|ii|oo|uu/.test(v.mi) && !/whakaaro|ātaahua|manaaki|whakaako|whakaata/.test(v.mi)) errs.push(`${v.id}: double vowel — use a macron?`);
   }
   for (const p of c.patterns) {
     uniq(p.id); status(p.id, p.status);

@@ -200,7 +200,7 @@
     {
       "id": "possession", "title": "taku, tō, tana — my, your, his/her", "level": 3, "order": 25, "prereqs": ["articles", "kei-te"],
       "structure": "taku / tō / tana + one thing · aku / ō / ana + several things",
-      "explanation": "Taku (my), tō (your, one person) and tana (his or her) replace te before a noun. Drop the t for more than one thing: aku, ō, ana. Māori also sorts possession into two categories, a and o (tāku / tōku), depending on the relationship between owner and thing; taku and tana are neutral forms that avoid that choice. The a/o categories are not yet covered in this app.",
+      "explanation": "Taku (my), tō (your, one person) and tana (his or her) replace te before a noun. Drop the t for more than one thing: aku, ō, ana. Māori also sorts possession into two categories, a and o (tāku / tōku), depending on the relationship between owner and thing; taku and tana are neutral forms that avoid that choice. The a/o categories have their own pattern: tāku and tōku.",
       "sentences": [
         { "mi": "Kei te moe taku kurī.", "en": "My dog is sleeping." },
         { "mi": "He nui tō whare.", "en": "Your house is (big|large).", "hint": "your = one person's" },
@@ -213,6 +213,126 @@
       "transforms": [
         { "from": "Kei te moe taku kurī.", "fromEn": "My dog is sleeping.", "instruction": "Change 'my' to 'your' (one person's).", "answers": ["Kei te moe tō kurī."] },
         { "from": "Kei hea tana pukapuka?", "fromEn": "Where is her book?", "instruction": "Make it plural (her books).", "answers": ["Kei hea ana pukapuka?"] }
+      ]
+    },
+    {
+      "id": "describing", "title": "Describing things — word order and tino", "level": 2, "order": 68, "prereqs": ["articles", "he"],
+      "structure": "te / he + thing + describing word · tino + describing word = very",
+      "explanation": "A describing word follows the thing it describes: te whare nui (the big house). Tino in front of a describing word means very: tino pai (very good).",
+      "sentences": [
+        { "mi": "te whare nui", "en": "the (big|large) house" },
+        { "mi": "he kurī iti", "en": "a (small|little) dog" },
+        { "mi": "te ngeru pango", "en": "the black cat" },
+        { "mi": "ngā putiputi whero", "en": "the red flowers" },
+        { "mi": "He whare hou tēnei.", "en": "This is a new house." },
+        { "mi": "He tino pai te kai.", "en": "The food is (very|really) good." },
+        { "mi": "Kei te tino ngenge au.", "en": "I am (very|really) tired." }
+      ],
+      "transforms": [
+        { "from": "te whare nui", "fromEn": "the big house", "instruction": "Change 'big' to 'new'.", "answers": ["te whare hou"] },
+        { "from": "He pai te kai.", "fromEn": "The food is good.", "instruction": "Make it 'very good'.", "answers": ["He tino pai te kai."] }
+      ]
+    },
+    {
+      "id": "commands", "title": "Commands — E noho! Haere mai! Kaua e …", "level": 2, "order": 72, "prereqs": ["kei-te"],
+      "structure": "E + short verb · longer verb on its own · Kaua e + verb = don't",
+      "explanation": "To tell someone to do something, use the verb on its own. Short verbs (one or two vowels long, such as noho, tū, moe, kai) take E in front: E noho! Longer verbs do not: Haere! Titiro! Mai adds 'towards me'. For 'don't', use Kaua e before any verb.",
+      "sentences": [
+        { "mi": "E noho.", "en": "(Sit down|Sit)." },
+        { "mi": "E tū.", "en": "(Stand up|Stand)." },
+        { "mi": "Haere mai.", "en": "(Come here|Come)." },
+        { "mi": "Whakarongo mai.", "en": "(Listen to me|Listen|Listen here)." },
+        { "mi": "Titiro mai.", "en": "(Look here|Look at me|Look this way|Look over here)." },
+        { "mi": "Kaua e tangi.", "en": "Do not cry." },
+        { "mi": "Kaua e oma.", "en": "Do not run." }
+      ],
+      "transforms": [
+        { "from": "E noho.", "fromEn": "Sit down.", "instruction": "Make it a negative command (don't sit).", "answers": ["Kaua e noho."] },
+        { "from": "Haere mai.", "fromEn": "Come here.", "instruction": "Make it a negative command (don't come here).", "answers": ["Kaua e haere mai."] }
+      ]
+    },
+    {
+      "id": "a-o", "title": "tāku and tōku — the a and o categories, and having", "level": 3, "order": 30, "prereqs": ["possession", "he"],
+      "structure": "He + thing + tāku / tōku = I have a … · tāu / tōu (your) · tāna / tōna (his, her)",
+      "explanation": "Possession is sorted into two categories. The a forms (tāku, tāu, tāna) are used for things you have control over or responsibility for: food, pets, your children, your spouse, your work, movable belongings. The o forms (tōku, tōu, tōna) are used for things you are part of or that shelter, carry or stand above you: houses, vehicles, clothing, parts of the body, feelings, names, parents, siblings and friends. He kurī tāku = I have a dog. He whare tōku = I have a house. For several things, drop the t: āku, ōku.",
+      "sentences": [
+        { "mi": "He kurī tāku.", "en": "I have a dog." },
+        { "mi": "He whare tōku.", "en": "I have a house." },
+        { "mi": "He pukapuka tāu?", "en": "Do you have a book?", "hint": "you = one person" },
+        { "mi": "He motokā tōna.", "en": "(She|He) has a car." },
+        { "mi": "He ngeru tāna.", "en": "(She|He) has a cat." },
+        { "mi": "He tamariki āku.", "en": "I have (children|kids)." },
+        { "mi": "Ko tōku māmā tēnei.", "en": "This is my (mum|mother|mom)." }
+      ],
+      "transforms": [
+        { "from": "He kurī tāku.", "fromEn": "I have a dog.", "instruction": "Change to 'You (one person) have a dog'.", "answers": ["He kurī tāu."] },
+        { "from": "He whare tōku.", "fromEn": "I have a house.", "instruction": "Change to 'She has a house'.", "answers": ["He whare tōna."] },
+        { "from": "He kurī tāku.", "fromEn": "I have a dog.", "instruction": "Change 'dog' to 'car'. Mind the category.", "answers": ["He motokā tōku."], "explain": "A vehicle carries you, so it takes the o form: tōku." }
+      ]
+    },
+    {
+      "id": "me", "title": "Me … — should, let's", "level": 3, "order": 35, "prereqs": ["kei-te"],
+      "structure": "Me + action + who",
+      "explanation": "Me before a verb makes a mild instruction or suggestion: should, had better, or (with tātou) let's. Me haere tātou = We should go / Let's go.",
+      "sentences": [
+        { "mi": "Me haere tātou.", "en": "(We should go|Let us go|We had better go).", "hint": "we = all of us, including the listener" },
+        { "mi": "Me kai koe.", "en": "You (should|had better) eat." },
+        { "mi": "Me moe ngā tamariki.", "en": "The (children|kids) (should|had better) (sleep|go to sleep)." },
+        { "mi": "Me whakarongo koe ki te kaiako.", "en": "You (should|had better) listen to the teacher." },
+        { "mi": "Me hoki au ki te kāinga.", "en": "I (should|had better) (go home|return home|go back home)." }
+      ],
+      "transforms": [
+        { "from": "Kei te whakatā tātou.", "fromEn": "We are resting.", "instruction": "Change to 'We should rest'.", "answers": ["Me whakatā tātou."] }
+      ]
+    },
+    {
+      "id": "ki-te", "title": "ki te + verb — wanting to do something", "level": 3, "order": 40, "prereqs": ["kei-te", "expansion", "negation"],
+      "structure": "Kei te pīrangi + who + ki te + action",
+      "explanation": "After a verb of wanting (pīrangi, hiahia), ki te introduces the thing you want to do: Kei te pīrangi au ki te kai (I want to eat).",
+      "sentences": [
+        { "mi": "Kei te pīrangi au ki te kai.", "en": "I want to eat." },
+        { "mi": "Kei te pīrangi ia ki te moe.", "en": "(She|He) wants to sleep." },
+        { "mi": "Kei te pīrangi ngā tamariki ki te tākaro.", "en": "The (children|kids) want to play." },
+        { "mi": "Kei te pīrangi koe ki te haere?", "en": "Do you want to go?" },
+        { "mi": "Kei te hiahia au ki te ako.", "en": "I want to learn.", "hint": "use hiahia" },
+        { "mi": "Kāore au i te pīrangi ki te haere.", "en": "I do not want to go." }
+      ],
+      "transforms": [
+        { "from": "Kei te pīrangi au ki te kai.", "fromEn": "I want to eat.", "instruction": "Make it negative.", "answers": ["Kāore au i te pīrangi ki te kai."] },
+        { "from": "Kei te pīrangi au ki te kai.", "fromEn": "I want to eat.", "instruction": "Change 'eat' to 'rest'.", "answers": ["Kei te pīrangi au ki te whakatā."] }
+      ]
+    },
+    {
+      "id": "counting", "title": "E hia? — counting things and people", "level": 3, "order": 45, "prereqs": ["articles", "questions"],
+      "structure": "E + number (2–9) + ngā … · Kotahi te … · Toko- + number for people",
+      "explanation": "To say how many, put the number first. Numbers two to nine take E: E rua ngā ngeru (there are two cats). One is kotahi. When counting people, two to nine take the prefix toko- instead: tokotoru ngā tamariki (three children). E hia? asks how many things; Tokohia? asks how many people.",
+      "sentences": [
+        { "mi": "E hia ngā pukapuka?", "en": "How many books are there?" },
+        { "mi": "E rua ngā ngeru.", "en": "There are two cats." },
+        { "mi": "Kotahi te kurī.", "en": "There is one dog." },
+        { "mi": "E toru ngā whare.", "en": "There are three houses." },
+        { "mi": "Tokohia ngā tamariki?", "en": "How many (children|kids) are there?" },
+        { "mi": "Tokotoru ngā tamariki.", "en": "There are three (children|kids)." },
+        { "mi": "Tokorua ngā kaiako.", "en": "There are two teachers." }
+      ],
+      "transforms": [
+        { "from": "E rua ngā ngeru.", "fromEn": "There are two cats.", "instruction": "Change the number to five.", "answers": ["E rima ngā ngeru."] },
+        { "from": "E toru ngā whare.", "fromEn": "There are three houses.", "instruction": "Change 'houses' to 'teachers'. Mind how people are counted.", "answers": ["Tokotoru ngā kaiako."] }
+      ]
+    },
+    {
+      "id": "time-phrases", "title": "ā and i — saying when", "level": 3, "order": 50, "prereqs": ["i-past", "ka"],
+      "structure": "ā + time (future) · i + time (past)",
+      "explanation": "A time phrase usually goes at the end. Use ā before a time that is still to come and i before a time that has passed: ā te Rāhina (on Monday, coming), i te Rāhina (on Monday, gone). Tērā wiki means that week: ā tērā wiki is next week, i tērā wiki is last week.",
+      "sentences": [
+        { "mi": "Ka haere au ā te Rāhina.", "en": "I will go on Monday." },
+        { "mi": "I mahi au i te Rātū.", "en": "I worked on Tuesday." },
+        { "mi": "Ka hoki mai rātou ā tērā wiki.", "en": "They will (return|come back) next week.", "hint": "they = three or more people" },
+        { "mi": "I tae mai ia i tērā wiki.", "en": "(She|He) arrived last week." },
+        { "mi": "Ka tīmata te hui ā te Rāmere.", "en": "The meeting will (start|begin) on Friday." }
+      ],
+      "transforms": [
+        { "from": "Ka haere au ā te Rāhina.", "fromEn": "I will go on Monday.", "instruction": "Change to the past (I went on Monday).", "answers": ["I haere au i te Rāhina."] }
       ]
     }
   ]
