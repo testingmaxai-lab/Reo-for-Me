@@ -92,8 +92,9 @@ const noOverflow = async (page, where) => assert.ok(await page.evaluate(() => do
 const shot = (page, name) => page.screenshot({ path: path.join(out, name + '.png') });
 const step = (s) => console.log('✓', s);
 
-const browser = await chromium.launch();
-const ctx = await browser.newContext({ ...devices['iPhone 13'], acceptDownloads: true });
+// a fake microphone lets the voice recorder be exercised for real
+const browser = await chromium.launch({ args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream'] });
+const ctx = await browser.newContext({ ...devices['iPhone 13'], acceptDownloads: true, permissions: ['microphone'] });
 const errors = [];
 let page = await ctx.newPage();
 const watch = (p) => { p.on('dialog', (d) => d.accept()); p.on('pageerror', (e) => errors.push(String(e))); p.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); }); };
@@ -220,6 +221,69 @@ await page.getByLabel('Backup file to import').setInputFiles(path.join(out, 'bad
 await page.getByText('This is not a progress backup from this app.').waitFor();
 step('export -> reset -> import restores everything; an invalid file is rejected');
 
+// Hear yourself: record twice, compare, delete
+await page.goto(URL0 + '#/explore/item/' + encodeURIComponent('v:kia-ora'));
+const voice = page.getByRole('region', { name: 'Hear yourself' });
+for (let n = 1; n <= 2; n++) {
+  await voice.getByRole('button', { name: 'Record', exact: true }).click();
+  await voice.getByRole('button', { name: 'Stop recording' }).waitFor();
+  await page.waitForTimeout(700);
+  await voice.getByRole('button', { name: 'Stop recording' }).click();
+  await voice.getByRole('listitem').nth(n - 1).waitFor();
+}
+await voice.getByRole('button', { name: 'Compare: earliest, then latest' }).click();
+await voice.getByRole('button', { name: /^Stop recording from/ }).first().waitFor(); // it is playing
+await shot(page, '18-voice');
+await noOverflow(page, 'voice');
+await page.reload();
+await voice.getByRole('listitem').nth(1).waitFor(); // recordings survive a reopen
+await voice.getByRole('button', { name: /^Delete recording/ }).first().click();
+await voice.getByRole('listitem').nth(1).waitFor({ state: 'detached' });
+assert.equal(await voice.getByRole('listitem').count(), 1);
+assert.ok(!fs.readFileSync(file, 'utf8').includes('audio'), 'recordings must not be in backups');
+step('voice: recorded twice, compared, survived a reopen, deleted one');
+
+// Report a problem from a question, then the content check
+await page.getByRole('button', { name: 'Practise' }).click();
+await page.getByRole('button', { name: 'Don’t know' }).click();
+await page.getByRole('button', { name: 'Report a problem with this question' }).click();
+await page.getByRole('radio', { name: 'The expected answer looks wrong' }).click();
+await page.getByLabel('Note about the problem').fill('testing');
+await page.keyboard.press('Enter'); // must not skip on to the next question
+await page.getByRole('button', { name: 'Save report' }).click();
+await page.getByText('Saved. It will be included').waitFor();
+await page.getByRole('button', { name: 'End session' }).click();
+await page.goto(URL0 + '#/check');
+await page.getByTestId('check-summary').waitFor();
+const total = vocab.length + patterns.length + sentences.length + transforms.length + deep.length;
+assert.match(await page.getByTestId('check-summary').innerText(), new RegExp(`^0 of ${total} checked`));
+await shot(page, '19-check');
+await noOverflow(page, 'check');
+await page.getByRole('button', { name: 'Correct', exact: true }).click();
+await page.getByLabel('Note').fill('Tēnā koe is more formal');
+await page.getByRole('button', { name: 'Needs fixing' }).first().click();
+assert.match(await page.getByTestId('check-summary').innerText(), /^2 of \d+ checked · 1 need fixing/);
+await page.goto(URL0 + '#/progress');
+await page.getByText('1 problem report from your own sessions.').waitFor();
+const [fb] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Export feedback' }).click()]);
+const fbFile = path.join(out, 'feedback.json');
+await fb.saveAs(fbFile);
+const feedback = JSON.parse(fs.readFileSync(fbFile, 'utf8'));
+assert.equal(feedback.checked.length, 2);
+assert.equal(feedback.checked[1].note, 'Tēnā koe is more formal');
+assert.equal(feedback.reports[0].note, 'testing');
+// a marked item shows its local status to the learner
+await page.goto(URL0 + '#/explore/item/' + encodeURIComponent('v:kia-ora'));
+await page.getByText('Marked correct in the content check on this device.').waitFor();
+// feedback from another device can be merged in
+feedback.checked.push({ id: 'v:āe', verdict: 'ok', note: '', checkedAt: Date.now() });
+fs.writeFileSync(fbFile, JSON.stringify(feedback));
+await page.goto(URL0 + '#/progress');
+await page.getByLabel('Feedback file to import').setInputFiles(fbFile);
+await page.getByText('Added 3 checked items and 1 reports.').waitFor();
+assert.match(await page.getByTestId('check-progress').innerText(), /^3 of/);
+step('problem report saved; content check marks items, exports and merges feedback');
+
 // Offline
 await page.evaluate(() => navigator.serviceWorker.ready);
 await page.waitForTimeout(1500);
@@ -236,10 +300,10 @@ await answer(page, 'right');
 await ctx.setOffline(false);
 step('offline: app loads from cache and a lesson runs with the network off');
 
-// Spaced review: three days later, learned items are due and reviewing them clears the queue
+// Spaced review: six days later, learned items are due and reviewing them clears the queue
 await page.close();
 page = await ctx.newPage(); watch(page);
-await page.clock.install({ time: Date.now() + 3 * 86400000 });
+await page.clock.install({ time: Date.now() + 6 * 86400000 });
 await page.goto(URL0);
 await page.getByTestId('due-count').waitFor();
 const due = Number(await page.getByTestId('due-count').innerText());
@@ -262,7 +326,7 @@ if (left > 0) {
 }
 await shot(page, '13-review');
 await noOverflow(page, 'review');
-step(`three days later: ${due} reviews due, ${left} left after one review session`);
+step(`six days later: ${due} reviews due, ${left} left after one review session`);
 
 // One-tap daily session mixes what is due with new material
 await page.goto(URL0);

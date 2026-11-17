@@ -5,6 +5,8 @@ import { checkAnswer, diffExpected, hintFor, normMi, type CheckResult, type Verd
 import { primaryAnswer } from '../engine/exercises';
 import { classifyError, type ErrorKind } from '../engine/insights';
 import type { Grade } from '../engine/srs';
+import { FLAG_REASONS } from '../engine/audit';
+import { getState, setKV } from '../store/state';
 import { AnswerInput, Button, Reo } from './components';
 
 export interface Outcome { grade: Grade; verdict: Verdict | 'self' | 'override' | 'skipped'; answer?: string; error?: ErrorKind }
@@ -31,6 +33,9 @@ export function ExerciseView({ ex, onDone, allowEasy = true }: { ex: Exercise; o
   const [result, setResult] = useState<CheckResult | null>(null);
   const [revealed, setRevealed] = useState(false);
   const [hinted, setHinted] = useState(false);
+  const [report, setReport] = useState<'closed' | 'open' | 'saved'>('closed');
+  const [reason, setReason] = useState('');
+  const [reportNote, setReportNote] = useState('');
 
   const answer = ex.mode === 'tiles' ? picked.map((i) => ex.tiles![i]).join(' ') : value;
   const check = (text: string) => setResult(checkAnswer(text, ex.answers, ex.answerLang, { equivalents: content.equivalents, lexicon: content.lexicon, looseEn: ex.looseEn }));
@@ -124,6 +129,25 @@ export function ExerciseView({ ex, onDone, allowEasy = true }: { ex: Exercise; o
             {ex.explain && (!right || ex.concept?.route.includes('deep')) && <p className="mt-2 text-sm text-ink"><Reo>{ex.explain}</Reo></p>}
             {ex.concept && !right && <a href={ex.concept.route} className="mt-2 inline-block text-sm font-semibold underline">Open: {ex.concept.label}</a>}
           </div>
+          {report === 'closed' && <button type="button" className="mt-2 text-sm text-muted underline" onClick={() => setReport('open')}>Report a problem with this question</button>}
+          {report === 'saved' && <p className="mt-2 text-sm text-good">Saved. It will be included when you export feedback from the Progress page.</p>}
+          {report === 'open' && (
+            <div className="rise mt-3 rounded-xl border border-line bg-surface p-3">
+              <p className="text-sm font-medium">What is the problem?</p>
+              <div className="mt-2 flex flex-wrap gap-2" role="radiogroup" aria-label="Problem">
+                {FLAG_REASONS.map((r) => <button key={r} type="button" role="radio" aria-checked={reason === r} onClick={() => setReason(r)} className={`min-h-10 rounded-full border px-3 text-sm ${reason === r ? 'border-accent bg-accent-soft font-semibold text-accent' : 'border-line'}`}>{r}</button>)}
+              </div>
+              <input type="text" value={reportNote} onChange={(e) => setReportNote(e.target.value)} placeholder="Add a note (optional)" aria-label="Note about the problem" lang="mi"
+                onKeyDown={(e) => { if (e.key === 'Enter') e.preventDefault(); }} className="mt-2 w-full rounded-lg border border-line bg-surface px-3 py-2 outline-none focus:border-accent" />
+              <div className="mt-2 flex gap-2">
+                <Button variant="secondary" className="!min-h-10 text-sm" onClick={() => setReport('closed')}>Cancel</Button>
+                <Button className="!min-h-10 flex-1 text-sm" disabled={!reason} onClick={() => {
+                  setKV('flags', [...getState().kv.flags, { t: Date.now(), key: ex.key, prompt: `${ex.instruction} — ${ex.prompt}`, expected: result.expected, answer: answer.trim(), reason, ...(reportNote.trim() ? { note: reportNote.trim() } : {}) }]);
+                  setReport('saved');
+                }}>Save report</Button>
+              </div>
+            </div>
+          )}
           <div className="mt-3 flex gap-2">
             {right && allowEasy && !hinted && <Button variant="secondary" onClick={() => finish({ grade: 'easy', verdict: result.verdict })}>Too easy</Button>}
             {!right && answer.trim() && <Button variant="secondary" onClick={() => finish({ grade: 'good', verdict: 'override' })}>I was right</Button>}

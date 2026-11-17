@@ -7,7 +7,9 @@ import { isIntroduced } from '../engine/recommend';
 import { strength } from '../engine/srs';
 import { getState, review, setKV, useAppState } from '../store/state';
 import { startPractice } from './actions';
-import { AnswerInput, Button, Card, Dot, H2, List, Muted, Reo, Row, StatusBadge } from './components';
+import { AnswerInput, Button, Card, Dot, H2, List, Muted, Reo, Row } from './components';
+import { ItemStatus } from './ItemStatus';
+import { Voice } from './Voice';
 import { ExerciseView, type Outcome } from './ExerciseView';
 import { go } from './router';
 
@@ -97,8 +99,8 @@ export function Deep({ id }: { id: string }) {
       <Section label="Background" text={item.provenance} />
       <Section label="Context" text={item.context} />
       <Section label="Appropriate use" text={item.usage} />
-      <div className="mt-4"><StatusBadge status={item.status} source={item.source} /></div>
-      <Muted className="mt-3">No audio is included: there is no properly licensed recording to bundle. Ask a fluent speaker or kaiako to model the pronunciation.</Muted>
+      <div className="mt-4"><ItemStatus id={item.id} status={item.status} source={item.source} /></div>
+      <Muted className="mt-3">No model audio is included: there is no properly licensed recording to bundle. Ask a fluent speaker or kaiako to model the pronunciation.</Muted>
       <Button full className="mt-6" disabled={needsDetails} onClick={() => complete(0)}>{needsDetails ? 'Fill in your details to continue' : 'Continue to Understand'}</Button>
     </div>
   );
@@ -149,8 +151,9 @@ export function Deep({ id }: { id: string }) {
     <div>{head}
       <h1 lang="mi" className="reo mb-4 text-2xl font-bold">{item.title}</h1>
       <Card><Text r={r} /></Card>
-      <div className="mt-3"><StatusBadge status={item.status} source={item.source} /></div>
+      <div className="mt-3"><ItemStatus id={item.id} status={item.status} source={item.source} /></div>
       {needsDetails && <Muted className="mt-3">Add your own details in stage 1 to unlock the recall stages.</Muted>}
+      {r.ready && <div className="mt-4"><Voice itemId={item.id} text={r.text} /></div>}
       <H2>Stages</H2>
       <List>
         {DEEP_STAGES.slice(0, 4).map((s, i) => (

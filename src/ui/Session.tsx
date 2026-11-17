@@ -4,7 +4,8 @@ import { generate, keyOf, parseKey } from '../engine/exercises';
 import { unmetPrereqs } from '../engine/recommend';
 import { dueCards, requeue, type Step } from '../engine/session';
 import { getState, review, useAppState } from '../store/state';
-import { Button, Card, Muted, Reo, StatusBadge } from './components';
+import { Button, Card, Muted, Reo } from './components';
+import { ItemStatus } from './ItemStatus';
 import { ExerciseView, type Outcome } from './ExerciseView';
 import { startLearn, startReview } from './actions';
 import { go, takeSession } from './router';
@@ -23,7 +24,7 @@ export function Intro({ itemId, onNext, onKnown }: { itemId: string; onNext: () 
         <p className="mt-3 text-xl">{v.en.join('; ')}</p>
         {v.note && <Muted className="mt-3">{v.note}</Muted>}
         {ex.length > 0 && <div className="mt-4 space-y-2 rounded-xl bg-accent-soft p-4">{ex.map((e) => <p key={e.mi}><Reo className="font-semibold">{e.mi}</Reo><br /><span className="text-sm text-muted">{e.en}</span></p>)}</div>}
-        <div className="mt-4"><StatusBadge status={v.status} source={v.source} /></div>
+        <div className="mt-4"><ItemStatus id={v.id} status={v.status} source={v.source} /></div>
         <div className="mt-6 flex gap-2">
           {onKnown && <Button variant="secondary" onClick={onKnown}>I know this</Button>}
           <Button className="flex-1" autoFocus onClick={onNext}>Test me</Button>
@@ -41,7 +42,7 @@ export function Intro({ itemId, onNext, onKnown }: { itemId: string; onNext: () 
         <p className="mt-3 leading-relaxed"><Reo>{p.explanation}</Reo></p>
         <div className="mt-4 space-y-2">{p.sentences.slice(0, 2).map((s) => <p key={s.id}><Reo className="text-lg font-semibold">{s.mi}</Reo><br /><span className="text-sm text-muted">{firstEn(s.en)}</span></p>)}</div>
         {pre.length > 0 && <Muted className="mt-4">Usually learned after: {pre.map((id) => content.patternById.get(id)!.title).join('; ')}. You can carry on regardless.</Muted>}
-        <div className="mt-4"><StatusBadge status={p.status} source={p.source} /></div>
+        <div className="mt-4"><ItemStatus id={p.id} status={p.status} source={p.source} /></div>
         <div className="mt-6 flex gap-2">
           {onKnown && <Button variant="secondary" onClick={onKnown}>I know this</Button>}
           <Button className="flex-1" autoFocus onClick={onNext}>Test me</Button>

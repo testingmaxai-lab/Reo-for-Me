@@ -1,5 +1,6 @@
 /** Export / import format, validation and schema migration. */
 import type { Intensity } from '../engine/exercises';
+import type { Audit, Flag } from '../engine/audit';
 import type { ReviewLog } from '../engine/progress';
 import type { DiagnosticResult } from '../engine/recommend';
 import type { Card } from '../engine/srs';
@@ -16,10 +17,13 @@ export interface KV {
   deep: Record<string, DeepProgress>;
   slots: Record<string, Record<string, string>>;
   queue: string[];
+  /** content checks made on this device, and problems reported while learning */
+  audit: Audit;
+  flags: Flag[];
 }
 export const defaultKV = (): KV => ({
   settings: { intensity: 'standard', startLevel: 1, onboarded: false, lastBackup: 0, theme: 'auto' },
-  diagnostic: null, deep: {}, slots: {}, queue: [],
+  diagnostic: null, deep: {}, slots: {}, queue: [], audit: {}, flags: [],
 });
 
 export interface Backup { format: typeof FORMAT; schemaVersion: number; exportedAt: number; cards: Card[]; reviews: ReviewLog[]; kv: KV }
@@ -70,6 +74,8 @@ export function parseBackup(text: string): ParseResult {
     diagnostic: data.kv.diagnostic ?? null,
     deep: data.kv.deep ?? {}, slots: data.kv.slots ?? {},
     queue: Array.isArray(data.kv.queue) ? data.kv.queue.filter((x: unknown) => typeof x === 'string') : [],
+    audit: data.kv.audit && typeof data.kv.audit === 'object' ? data.kv.audit : {},
+    flags: Array.isArray(data.kv.flags) ? data.kv.flags : [],
   };
   if (!['light', 'standard', 'intensive'].includes(kv.settings.intensity)) kv.settings.intensity = 'standard';
   if (!['auto', 'light', 'dark'].includes(kv.settings.theme)) kv.settings.theme = 'auto';

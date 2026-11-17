@@ -1,5 +1,6 @@
 import { useLayoutEffect } from 'react';
 import { useAppState } from '../store/state';
+import { Check } from './Check';
 import { Deep } from './Deep';
 import { Diagnostic } from './Diagnostic';
 import { Explore, ItemPage, TopicPage } from './Explore';
@@ -38,8 +39,9 @@ export function App() {
     top === 'explore' ? (a === 'topic' && b ? <TopicPage id={b} /> : a === 'item' && b ? <ItemPage id={b} /> : <Explore />) :
     top === 'deep' && a ? <Deep key={a} id={a} /> :
     top === 'progress' ? <Progress /> :
+    top === 'check' ? <Check /> :
     <Home />;
-  const active = top === 'deep' ? 'explore' : top ?? '';
+  const active = top === 'deep' ? 'explore' : top === 'check' ? 'progress' : top ?? '';
 
   return (
     <div className="mx-auto flex min-h-full max-w-xl flex-col">

@@ -6,7 +6,7 @@ import { defaultKV, type Backup, type KV } from './backup';
 
 const DB_NAME = 'reo-for-max';
 /** Raise when stores change, and add a branch to upgrade(); existing data is kept across upgrades. */
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 export type DB = IDBPDatabase<any>;
 
@@ -17,6 +17,10 @@ export function open(name = DB_NAME): Promise<DB> {
         db.createObjectStore('cards', { keyPath: 'key' });
         db.createObjectStore('reviews', { autoIncrement: true });
         db.createObjectStore('kv');
+      }
+      if (oldVersion < 2) {
+        // short-lived voice recordings; kept apart from learning data and never exported
+        db.createObjectStore('audio', { keyPath: 'id', autoIncrement: true }).createIndex('itemId', 'itemId');
       }
     },
   });

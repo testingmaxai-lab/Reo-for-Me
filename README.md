@@ -12,6 +12,9 @@ It runs entirely in the browser, installs to an iPhone home screen, works offlin
 - **Explore**: every topic, pattern, whakataukī and the pepeha module is open from the start. Nothing is locked. "Test out" skips the teaching.
 - **Deep learning**: whakataukī and pepeha go through five stages (encounter, understand, reconstruct, full recall, long-term mastery) with mastery tracked on four dimensions.
 - **Progress**: coarse, honest indicators, 14-day activity and a 7-day review forecast, plus export and import of all progress.
+- **Hear yourself**: record yourself saying a word or whakataukī, play it back, and compare an earlier take with a later one. This is your own voice, not a model pronunciation. Recordings stay on the device, are left out of backups, and are deleted after 14 days.
+- **Content check**: a fluent speaker can step through every word, sentence and whakataukī, mark each correct or needing a fix, and export the result (Progress → Content check). They can do this on their own device and send you the file to import.
+- **Report a problem**: flag any question mid-session; reports are included in the same export.
 - **Search**: find any word in Explore by Māori (macrons optional) or English.
 - **Feedback**: a wrong sentence shows which words were missing or different. A **Hint** gives the first word or letter; a correct answer after a hint counts as a near miss.
 - **Appearance**: light, dark, or match the device (Progress → Appearance). Home shows the date in te reo.
@@ -112,12 +115,12 @@ src/ui/             screens
 e2e/                end-to-end workflow script
 ```
 
-The scheduler sits behind a small `Scheduler` interface (`src/engine/srs.ts`), so FSRS can replace it without touching anything else. It is SM-2 style: 1 day, 3 days, then roughly ×2.5; a lapse quarters the interval; "Too easy" and testing out jump ahead.
+Scheduling uses FSRS-4.5 with its published default parameters (`src/engine/srs.ts`). Each learning record has a stability and a difficulty; a review is scheduled for when predicted recall falls to 90%. A new item answered correctly comes back in about 4 days, a near miss in 1, and one you already knew in about 14. Records created by the earlier SM-2-style scheduler are converted on their next review. The parameters are not yet fitted to your own history.
 
 ## Known limitations
 
 - Content has not been reviewed by a fluent speaker.
-- No audio. There is no licensed audio to bundle and iOS has no te reo Māori voice.
+- No model audio. There is no licensed audio to bundle and iOS has no te reo Māori voice. "Hear yourself" plays back only your own voice, and has not been tested on a physical iPhone.
 - Typed sentences are matched against listed answers, so a correct but unlisted wording is marked wrong. Use "I was right".
 - No sync between devices.
 - Meaning and context for whakataukī are self-assessed.
@@ -125,8 +128,8 @@ The scheduler sits behind a small `Scheduler` interface (`src/engine/srs.ts`), s
 
 ## Sensible next steps
 
-1. Have a kaiako review the content and mark items verified.
+1. Have a kaiako work through the content check, then apply their exported feedback to the content files.
 2. Add content: telling the time, more on numbers, relative clauses, a sourced karakia.
-3. Licensed or self-recorded audio.
-4. FSRS scheduling once there is enough review history.
+3. Licensed model audio.
+4. Fit the FSRS parameters to your own review history.
 5. Optional sync (for example a file in iCloud Drive).
