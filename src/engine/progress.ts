@@ -4,7 +4,8 @@ import { keyOf, parseKey, type Skill } from './exercises';
 import { dueCards, itemExists } from './session';
 import { DAY, retrievability, startOfDay, strength, type Card, type Grade, type Strength } from './srs';
 
-export interface ReviewLog { t: number; key: string; grade: Grade; verdict: string }
+/** a = what the learner typed (kept only for answers that were not correct); e = the kind of error */
+export interface ReviewLog { t: number; key: string; grade: Grade; verdict: string; a?: string; e?: 'macron' | 'typo' | 'order' | 'confusion' | 'blank' | 'other' }
 export type Buckets = Record<Strength, number> & { total: number };
 
 export function skillBuckets(itemIds: string[], skill: Skill, cards: Record<string, Card>): Buckets {

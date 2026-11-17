@@ -252,7 +252,16 @@ await page.goto(URL0 + '#/review');
 await page.getByRole('heading', { name: 'Review' }).waitFor();
 const left = await page.getByText('due now').count() ? Number(await page.locator('main p').first().innerText()) : 0;
 assert.ok(left < due, 'reviewing should reduce what is due');
+await page.getByRole('heading', { name: 'Trouble list' }).waitFor();
+await page.getByText('Your mistake patterns').waitFor();
+if (left > 0) {
+  await page.getByRole('radio', { name: 'Sentences' }).click();
+  const focused = Number(await page.getByTestId('review-due').innerText());
+  assert.ok(focused <= left, 'a focus can only narrow what is due');
+  await page.getByRole('radio', { name: 'Everything' }).click();
+}
 await shot(page, '13-review');
+await noOverflow(page, 'review');
 step(`three days later: ${due} reviews due, ${left} left after one review session`);
 
 // One-tap daily session mixes what is due with new material

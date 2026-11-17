@@ -77,7 +77,7 @@ export function Session() {
     if (step?.t !== 'ex' || !current) return;
     // Someone who gets an untaught item right first time already knows it: skip ahead.
     const grade = step.fresh && current.isNew && o.grade === 'good' ? 'easy' : o.grade;
-    review(step.key, grade, o.verdict);
+    review(step.key, grade, o.verdict, Date.now(), { a: o.answer, e: o.error });
     setTally((t) => {
       const missed = new Set(t.missed);
       if (grade === 'again') missed.add(parseKey(step.key).itemId);

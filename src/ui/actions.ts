@@ -16,9 +16,9 @@ export function startLearn(opts: { within?: string[]; testOut?: boolean; title?:
   return true;
 }
 
-export function startReview(back?: string): void {
+export function startReview(back?: string, only?: (key: string) => boolean): void {
   const { cards, kv } = getState();
-  startSession({ title: 'Review', mode: 'review', back, steps: buildReviewSteps(cards, content, Date.now(), PACE[kv.settings.intensity].reviews) });
+  startSession({ title: 'Review', mode: 'review', back, steps: buildReviewSteps(cards, content, Date.now(), PACE[kv.settings.intensity].reviews, only) });
 }
 
 export function startPractice(itemIds: string[], back?: string): void {

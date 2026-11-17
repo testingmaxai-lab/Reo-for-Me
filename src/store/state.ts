@@ -30,9 +30,11 @@ export async function init(dbName?: string): Promise<void> {
 }
 
 /** Record one review: updates the schedule for that skill and appends to the history. */
-export function review(key: string, grade: Grade, verdict: string, now = Date.now()): Card {
+export function review(key: string, grade: Grade, verdict: string, now = Date.now(), detail: Pick<ReviewLog, 'a' | 'e'> = {}): Card {
   const card = applyReview(state.cards[key], key, grade, now);
   const log: ReviewLog = { t: now, key, grade, verdict };
+  if (detail.a) log.a = detail.a.slice(0, 300);
+  if (detail.e) log.e = detail.e;
   set({ ...state, cards: { ...state.cards, [key]: card }, reviews: [...state.reviews, log] });
   if (handle) void db.saveReview(handle, card, log).catch(console.error);
   return card;

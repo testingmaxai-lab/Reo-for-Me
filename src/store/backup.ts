@@ -38,6 +38,14 @@ function migrate(data: any): any {
 const isNum = (x: unknown): x is number => typeof x === 'number' && Number.isFinite(x);
 const GRADES = ['again', 'hard', 'good', 'easy'];
 
+const KINDS = ['macron', 'typo', 'order', 'confusion', 'blank', 'other'];
+function cleanReview(r: any): ReviewLog {
+  const out: ReviewLog = { t: r.t, key: r.key, grade: r.grade, verdict: String(r.verdict ?? '') };
+  if (typeof r.a === 'string' && r.a) out.a = r.a.slice(0, 300);
+  if (KINDS.includes(r.e)) out.e = r.e;
+  return out;
+}
+
 export type ParseResult = { ok: true; backup: Backup } | { ok: false; error: string };
 
 /** Validates untrusted JSON text before anything is written to storage. */
@@ -65,5 +73,5 @@ export function parseBackup(text: string): ParseResult {
   };
   if (!['light', 'standard', 'intensive'].includes(kv.settings.intensity)) kv.settings.intensity = 'standard';
   if (!['auto', 'light', 'dark'].includes(kv.settings.theme)) kv.settings.theme = 'auto';
-  return { ok: true, backup: { format: FORMAT, schemaVersion: SCHEMA_VERSION, exportedAt: isNum(data.exportedAt) ? data.exportedAt : 0, cards: data.cards, reviews: data.reviews.map((r: any) => ({ t: r.t, key: r.key, grade: r.grade, verdict: String(r.verdict ?? '') })), kv } };
+  return { ok: true, backup: { format: FORMAT, schemaVersion: SCHEMA_VERSION, exportedAt: isNum(data.exportedAt) ? data.exportedAt : 0, cards: data.cards, reviews: data.reviews.map(cleanReview), kv } };
 }

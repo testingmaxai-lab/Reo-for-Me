@@ -49,8 +49,8 @@ export function dueCards(cards: Record<string, Card>, content: Content, now: num
     .sort((a, b) => a.due - b.due);
 }
 
-export function buildReviewSteps(cards: Record<string, Card>, content: Content, now: number, limit: number): Step[] {
-  return dueCards(cards, content, now).slice(0, limit).map((c) => ({ t: 'ex', key: c.key }));
+export function buildReviewSteps(cards: Record<string, Card>, content: Content, now: number, limit: number, only: (key: string) => boolean = () => true): Step[] {
+  return dueCards(cards, content, now).filter((c) => only(c.key)).slice(0, limit).map((c) => ({ t: 'ex', key: c.key }));
 }
 
 /** Practise specific items regardless of schedule (free exploration). */

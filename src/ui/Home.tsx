@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { content } from '../content';
 import { DEEP_STAGES } from '../engine/deep';
 import type { Intensity } from '../engine/exercises';
 import { greeting, maoriDate, shortDay } from '../engine/dates';
 import { activity, doneToday, summary, roughPercent } from '../engine/progress';
-import { isIntroduced, nextNew, units, weakAreas } from '../engine/recommend';
+import { ERROR_LABEL, ERROR_TIP, FOCUS_LABEL, focusFilter, mistakeSummary, troubleList, type Focus } from '../engine/insights';
+import { isIntroduced, nextNew, units } from '../engine/recommend';
 import { dueCards, PACE } from '../engine/session';
 import { DAY } from '../engine/srs';
 import { updateSettings, useAppState } from '../store/state';
@@ -167,22 +169,47 @@ export function Learn() {
   );
 }
 
+const SKILL_GROUP = { recognise: 'Māori → English', produce: 'English → Māori', sentences: 'Sentences' };
+const SKILL_NAME: Record<string, string> = { recognise: 'recognising', produce: 'producing', understand: 'understanding', apply: 'building sentences', recall: 'recall', meaning: 'meaning', structure: 'structure', context: 'context' };
+
 export function Review() {
-  const { cards } = useAppState();
+  const { cards, reviews } = useAppState();
+  const [focus, setFocus] = useState<Focus>('all');
+  const [topic, setTopic] = useState('');
   const now = Date.now();
-  const due = dueCards(cards, content, now);
+  const only = focusFilter(content, focus, topic);
+  const dueAll = dueCards(cards, content, now);
+  const due = dueAll.filter((c) => only(c.key));
   const upcoming = Object.values(cards).filter((c) => c.due > now).sort((a, b) => a.due - b.due);
-  const weak = weakAreas(content, cards);
+  const trouble = troubleList(content, reviews, now);
+  const mistakes = mistakeSummary(reviews, now);
   const inDays = (n: number) => upcoming.filter((c) => c.due <= now + n * DAY).length;
+  const chip = (on: boolean) => `min-h-10 rounded-full border px-3 text-sm font-semibold ${on ? 'border-accent bg-accent-soft text-accent' : 'border-line bg-surface'}`;
+  const topicsWithDue = content.topics.filter((t) => dueAll.some((c) => focusFilter(content, 'all', t.id)(c.key)));
   return (
     <div>
       <H1>Review</H1>
       <Card>
-        {due.length > 0 ? (
+        {dueAll.length > 0 ? (
           <>
-            <p className="text-3xl font-bold tabular-nums">{due.length}</p>
-            <Muted>due now, most overdue first</Muted>
-            <Button full className="mt-3" onClick={() => startReview('/review')}>Start review</Button>
+            <p data-testid="review-due" className="text-3xl font-bold tabular-nums">{due.length}</p>
+            <Muted>{focus === 'all' && !topic ? 'due now, most overdue first' : `due now in this focus, of ${dueAll.length} in total`}</Muted>
+            <div className="mt-3 flex flex-wrap gap-2" role="radiogroup" aria-label="Review focus">
+              {(Object.keys(FOCUS_LABEL) as Focus[]).map((f) => (
+                <button key={f} type="button" role="radio" aria-checked={focus === f} className={chip(focus === f)} onClick={() => { setFocus(f); if (f === 'sentences' || f === 'deep') setTopic(''); }}>
+                  <span lang={f === 'deep' ? 'mi' : undefined}>{FOCUS_LABEL[f]}</span>
+                </button>
+              ))}
+            </div>
+            {topicsWithDue.length > 1 && focus !== 'sentences' && focus !== 'deep' && (
+              <label className="mt-3 block text-sm text-muted">Topic
+                <select value={topic} onChange={(e) => setTopic(e.target.value)} className="mt-1 block w-full rounded-xl border border-line bg-surface px-3 py-2.5 text-ink">
+                  <option value="">All topics</option>
+                  {topicsWithDue.map((t) => <option key={t.id} value={t.id}>{t.title}</option>)}
+                </select>
+              </label>
+            )}
+            <Button full className="mt-3" disabled={!due.length} onClick={() => startReview('/review', only)}>{due.length ? 'Start review' : 'Nothing due in this focus'}</Button>
           </>
         ) : (
           <>
@@ -193,13 +220,42 @@ export function Review() {
         )}
       </Card>
       {upcoming.length > 0 && <><H2>Coming up</H2><Card><p>{inDays(1)} within a day · {inDays(7)} within a week · {upcoming.length} scheduled in total</p></Card></>}
-      {weak.length > 0 && (
+
+      <H2>Trouble list</H2>
+      {trouble.length === 0 ? <Card><Muted>Nothing yet. Items you miss twice or more in 30 days appear here, with what you typed instead.</Muted></Card> : (
         <>
-          <H2>Needs attention</H2>
-          <List>{weak.map((w) => <Row key={w.itemId + w.skill} lang="mi" title={<Reo>{w.label}</Reo>} sub={`${w.skill} · missed ${w.lapses} time${w.lapses === 1 ? '' : 's'}`} />)}</List>
-          <Button full variant="secondary" className="mt-3" onClick={() => startPractice([...new Set(weak.map((w) => w.itemId))], '/review')}>Practise these now</Button>
+          <List>
+            {trouble.map((t) => (
+              <Row key={t.key} lang="mi" title={<Reo>{t.label}</Reo>} onClick={() => go(`/explore/item/${encodeURIComponent(t.itemId)}`)}
+                right={<span className="rounded-full bg-bad-soft px-2 py-0.5 text-xs font-semibold tabular-nums text-bad">×{t.misses}</span>}
+                sub={<span lang="en">{SKILL_NAME[t.skill]}{t.expected && t.skill !== 'produce' ? ` · ${t.expected}` : ''}{t.wrote.length > 0 && <> · you wrote: <span lang={t.skill === 'recognise' || t.skill === 'understand' ? 'en' : 'mi'} className="font-medium text-ink">{t.wrote.join(', ')}</span></>}</span>} />
+            ))}
+          </List>
+          <Button full variant="secondary" className="mt-3" onClick={() => startPractice([...new Set(trouble.map((t) => t.itemId))], '/review')}>Practise these now</Button>
         </>
       )}
+
+      <H2>Your mistake patterns — last 30 days</H2>
+      <Card>
+        {mistakes.answers < 20 ? <Muted>This fills in once you have answered at least 20 questions. So far: {mistakes.answers}.</Muted> : (
+          <>
+            {mistakes.skills.map((g) => (
+              <div key={g.group} className="py-1.5">
+                <div className="mb-1 flex justify-between text-sm"><span className="font-medium">{SKILL_GROUP[g.group]}</span><span className="text-muted">{g.right} of {g.total} right</span></div>
+                <div className="h-2 overflow-hidden rounded-full bg-line"><div className="h-full bg-accent" style={{ width: `${(g.right / g.total) * 100}%` }} /></div>
+              </div>
+            ))}
+            {mistakes.kinds.length > 0 ? (
+              <div className="mt-3 border-t border-line pt-3">
+                <p className="text-sm font-medium">Most common in your {mistakes.misses} typed misses</p>
+                <ul className="mt-1 space-y-2">
+                  {mistakes.kinds.slice(0, 3).map((k) => <li key={k.kind} className="text-sm"><span className="font-semibold">{ERROR_LABEL[k.kind]} · {k.count}</span><br /><span className="text-muted">{ERROR_TIP[k.kind]}</span></li>)}
+                </ul>
+              </div>
+            ) : <Muted className="mt-2">No typed misses in this period.</Muted>}
+          </>
+        )}
+      </Card>
     </div>
   );
 }
