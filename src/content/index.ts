@@ -3,7 +3,7 @@ import vocabJson from '../../content/vocab.json';
 import grammarJson from '../../content/grammar.json';
 import deepJson from '../../content/deep.json';
 import equivalentsJson from '../../content/equivalents.json';
-import { normMi } from '../engine/normalize';
+import { normMi, stripMacrons } from '../engine/normalize';
 import type { Content, DeepItem, Pattern, Status, Topic, VocabItem } from './types';
 
 interface Raw { vocab: any; grammar: any; deep: any; equivalents: any }
@@ -125,4 +125,22 @@ export function firstEn(s: string): string {
   let t = s;
   for (let i = 0; i < 10 && /\([^()]*\|[^()]*\)/.test(t); i++) t = t.replace(/\(([^()|]*)\|[^()]*\)/, '$1');
   return t.replace(/\s+/g, ' ').trim();
+}
+
+/** Search words (Māori or English, macrons optional) and sentence patterns. Best matches first. */
+export function searchContent(query: string, c: Content = content, limit = 40): { vocab: VocabItem[]; patterns: Pattern[] } {
+  const q = stripMacrons(normMi(query));
+  if (!q) return { vocab: [], patterns: [] };
+  const fold = (s: string) => stripMacrons(normMi(s));
+  const scored: { v: VocabItem; score: number }[] = [];
+  for (const v of c.vocab) {
+    const mi = [v.mi, ...v.altMi].map(fold);
+    const en = v.en.map(fold);
+    const score = mi.includes(q) || en.includes(q) ? 0 : mi.some((m) => m.startsWith(q)) || en.some((e) => e.startsWith(q)) ? 1 : mi.some((m) => m.includes(q)) || en.some((e) => e.includes(q)) ? 2 : -1;
+    if (score >= 0) scored.push({ v, score });
+  }
+  return {
+    vocab: scored.sort((a, b) => a.score - b.score).slice(0, limit).map((x) => x.v),
+    patterns: c.patterns.filter((p) => fold(p.title + ' ' + p.structure).includes(q)),
+  };
 }

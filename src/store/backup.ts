@@ -7,7 +7,8 @@ import type { Card } from '../engine/srs';
 export const SCHEMA_VERSION = 1;
 export const FORMAT = 'reo-progress';
 
-export interface Settings { intensity: Intensity; startLevel: number; onboarded: boolean; lastBackup: number }
+export type Theme = 'auto' | 'light' | 'dark';
+export interface Settings { intensity: Intensity; startLevel: number; onboarded: boolean; lastBackup: number; theme: Theme }
 export interface DeepProgress { stage: number; startedAt: number; completedAt?: number }
 export interface KV {
   settings: Settings;
@@ -17,7 +18,7 @@ export interface KV {
   queue: string[];
 }
 export const defaultKV = (): KV => ({
-  settings: { intensity: 'standard', startLevel: 1, onboarded: false, lastBackup: 0 },
+  settings: { intensity: 'standard', startLevel: 1, onboarded: false, lastBackup: 0, theme: 'auto' },
   diagnostic: null, deep: {}, slots: {}, queue: [],
 });
 
@@ -63,5 +64,6 @@ export function parseBackup(text: string): ParseResult {
     queue: Array.isArray(data.kv.queue) ? data.kv.queue.filter((x: unknown) => typeof x === 'string') : [],
   };
   if (!['light', 'standard', 'intensive'].includes(kv.settings.intensity)) kv.settings.intensity = 'standard';
+  if (!['auto', 'light', 'dark'].includes(kv.settings.theme)) kv.settings.theme = 'auto';
   return { ok: true, backup: { format: FORMAT, schemaVersion: SCHEMA_VERSION, exportedAt: isNum(data.exportedAt) ? data.exportedAt : 0, cards: data.cards, reviews: data.reviews.map((r: any) => ({ t: r.t, key: r.key, grade: r.grade, verdict: String(r.verdict ?? '') })), kv } };
 }

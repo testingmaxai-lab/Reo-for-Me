@@ -138,3 +138,30 @@ export function checkAnswer(input: string, answers: string[], lang: Lang, opts: 
     return result('wrong', 'Right words, but check the word order.');
   return result('wrong');
 }
+
+/**
+ * For feedback: each word of the expected answer, marked by whether the learner produced it
+ * in the right relative order (longest common subsequence). Macron slips count as not matched.
+ */
+export function diffExpected(input: string, expected: string, lang: Lang, equivalents: Record<string, string> = {}): { word: string; ok: boolean }[] {
+  const norm = lang === 'mi' ? (s: string) => normMi(s, equivalents) : normEn;
+  const a = norm(input).split(' ').filter(Boolean);
+  const words = expected.split(/\s+/).filter(Boolean);
+  const b = words.map(norm);
+  const L: number[][] = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+  for (let i = a.length - 1; i >= 0; i--)
+    for (let j = b.length - 1; j >= 0; j--) L[i][j] = a[i] === b[j] ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
+  const ok = new Set<number>();
+  for (let i = 0, j = 0; i < a.length && j < b.length; ) {
+    if (a[i] === b[j]) { ok.add(j); i++; j++; } else if (L[i + 1][j] >= L[i][j + 1]) i++; else j++;
+  }
+  return words.map((word, j) => ({ word, ok: ok.has(j) }));
+}
+
+/** A nudge without the answer: the first word of a sentence, or the first letter and length of a word. */
+export function hintFor(answer: string): string {
+  const words = answer.replace(/[.,!?;:]/g, '').split(/\s+/).filter(Boolean);
+  if (words.length > 1) return `${words[0]} … (${words.length} words)`;
+  const chars = [...(words[0] ?? '')];
+  return chars.map((ch, i) => (i === 0 ? ch : '·')).join(' ');
+}

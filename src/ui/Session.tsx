@@ -110,11 +110,13 @@ export function Session() {
       {finished ? (
         <div>
           <h1 className="text-2xl font-bold">Ka pai — session complete</h1>
-          <Card className="mt-4">
-            <p>{tally.right} correct{tally.near ? ` · ${tally.near} near miss${tally.near > 1 ? 'es' : ''}` : ''}{tally.missed.size ? ` · ${tally.missed.size} to revisit` : ''}</p>
-            {tally.missed.size > 0 && <Muted className="mt-2">Coming back sooner: <Reo>{[...tally.missed].map((id) => content.vocabById.get(id)?.mi ?? content.patternById.get(id)?.title ?? content.deepById.get(id)?.title).join(', ')}</Reo></Muted>}
-            {steps.length === 0 && <Muted>There was nothing to do in this session.</Muted>}
-          </Card>
+          <div className="rise mt-4 grid grid-cols-3 gap-2">
+            {[['Correct', tally.right, 'text-good'], ['Near miss', tally.near, 'text-warn'], ['To revisit', tally.missed.size, 'text-bad']].map(([l, n, tone]) => (
+              <div key={l} className="rounded-2xl border border-line bg-surface p-3 text-center"><p className={`text-2xl font-bold tabular-nums ${n ? tone : 'text-muted'}`}>{n}</p><p className="text-xs text-muted">{l}</p></div>
+            ))}
+          </div>
+          {tally.missed.size > 0 && <Card className="mt-3"><Muted>Coming back sooner: <Reo>{[...tally.missed].map((id) => content.vocabById.get(id)?.mi ?? content.patternById.get(id)?.title ?? content.deepById.get(id)?.title).join(', ')}</Reo></Muted></Card>}
+          {steps.length === 0 && <Card className="mt-3"><Muted>There was nothing to do in this session.</Muted></Card>}
           <div className="mt-6 space-y-2">
             <Button full onClick={() => startLearn()}>Learn more new material</Button>
             {due > 0 && <Button full variant="secondary" onClick={() => startReview()}>Review {due} due</Button>}

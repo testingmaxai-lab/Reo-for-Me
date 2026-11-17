@@ -1,7 +1,8 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { content } from '../content';
 import type { Exercise } from '../engine/exercises';
-import { checkAnswer, normMi, type CheckResult, type Verdict } from '../engine/normalize';
+import { checkAnswer, diffExpected, hintFor, normMi, type CheckResult, type Verdict } from '../engine/normalize';
+import { primaryAnswer } from '../engine/exercises';
 import type { Grade } from '../engine/srs';
 import { AnswerInput, Button, Reo } from './components';
 
@@ -28,10 +29,15 @@ export function ExerciseView({ ex, onDone, allowEasy = true }: { ex: Exercise; o
   const [picked, setPicked] = useState<number[]>([]);
   const [result, setResult] = useState<CheckResult | null>(null);
   const [revealed, setRevealed] = useState(false);
+  const [hinted, setHinted] = useState(false);
 
   const answer = ex.mode === 'tiles' ? picked.map((i) => ex.tiles![i]).join(' ') : value;
   const check = (text: string) => setResult(checkAnswer(text, ex.answers, ex.answerLang, { equivalents: content.equivalents, lexicon: content.lexicon, looseEn: ex.looseEn }));
-  const finish = (o?: Outcome) => onDone(o ?? { grade: VERDICT[result!.verdict].grade, verdict: result!.verdict });
+  // A correct answer after a hint counts as a near miss: it was not unaided recall.
+  const finish = (o?: Outcome) => {
+    const out = o ?? { grade: VERDICT[result!.verdict].grade, verdict: result!.verdict };
+    onDone(hinted && (out.grade === 'good' || out.grade === 'easy') ? { ...out, grade: 'hard' } : out);
+  };
   const submit = (e: FormEvent) => { e.preventDefault(); if (result) finish(); else if (answer.trim()) check(answer); };
 
   // Enter continues after tile and self-check exercises too (no text field holds focus there).
@@ -74,6 +80,8 @@ export function ExerciseView({ ex, onDone, allowEasy = true }: { ex: Exercise; o
   const v = result && VERDICT[result.verdict];
   const right = result && (result.verdict === 'correct' || result.verdict === 'alternative');
   const used = new Set(picked);
+  const canHint = ex.mode === 'type' && ex.answerLang === 'mi' && !ex.long && allowEasy;
+  const diff = result && !right && answer.trim() && result.expected.trim().includes(' ') ? diffExpected(answer, result.expected, ex.answerLang, content.equivalents) : null;
   return (
     <form onSubmit={submit} data-testid="exercise" data-mode={ex.mode}>
       {prompt}
@@ -91,17 +99,21 @@ export function ExerciseView({ ex, onDone, allowEasy = true }: { ex: Exercise; o
       ) : (
         <AnswerInput value={value} onChange={setValue} lang={ex.answerLang} long={ex.long} readOnly={!!result} />
       )}
+      {hinted && !result && <p data-testid="hint" className="rise mt-2 text-sm text-muted">Hint: <span lang="mi" className="reo font-semibold text-ink">{hintFor(primaryAnswer(ex))}</span></p>}
 
       {!result ? (
         <div className="mt-4 flex gap-2">
           <Button variant="secondary" onClick={() => check('')}>Don’t know</Button>
+          {canHint && !hinted && <Button variant="secondary" onClick={() => setHinted(true)}>Hint</Button>}
           <Button type="submit" className="flex-1" disabled={!answer.trim()}>Check</Button>
         </div>
       ) : (
-        <div className="mt-4" role="status" aria-live="polite">
+        <div className="rise mt-4" role="status" aria-live="polite">
           <div data-testid="feedback" data-verdict={result.verdict} className={`rounded-xl p-4 ${v!.tone}`}>
             <p className="font-bold">{v!.label}</p>
-            {(!right || result.verdict === 'alternative') && <p className="mt-1 text-ink"><span className="text-sm text-muted">Expected: </span><span lang={ex.answerLang} className="reo text-lg font-semibold">{result.expected}</span></p>}
+            {(!right || result.verdict === 'alternative') && <p className="mt-1 text-ink"><span className="text-sm text-muted">Expected: </span><span lang={ex.answerLang} className="reo text-lg font-semibold">{diff ? diff.map((d, i) => <span key={i} className={d.ok ? '' : 'underline decoration-2 underline-offset-4'}>{d.word}{' '}</span>) : result.expected}</span></p>}
+            {diff && diff.some((d) => !d.ok) && diff.some((d) => d.ok) && <p className="mt-1 text-xs text-muted">Underlined words were missing or different in your answer.</p>}
+            {hinted && right && <p className="mt-1 text-sm text-ink">Hint used, so this counts as a near miss.</p>}
             {result.alternatives.length > 0 && <p className="mt-1 text-sm text-ink"><span className="text-muted">Also accepted: </span><span lang={ex.answerLang}>{result.alternatives.slice(0, 5).join(' · ')}</span></p>}
             {result.note && <p className="mt-2 text-sm text-ink">{result.note}</p>}
             {result.verdict === 'wrong' && knownWordNote(answer, ex) && <p className="mt-2 text-sm text-ink">{knownWordNote(answer, ex)}</p>}
@@ -109,7 +121,7 @@ export function ExerciseView({ ex, onDone, allowEasy = true }: { ex: Exercise; o
             {ex.concept && !right && <a href={ex.concept.route} className="mt-2 inline-block text-sm font-semibold underline">Open: {ex.concept.label}</a>}
           </div>
           <div className="mt-3 flex gap-2">
-            {right && allowEasy && <Button variant="secondary" onClick={() => finish({ grade: 'easy', verdict: result.verdict })}>Too easy</Button>}
+            {right && allowEasy && !hinted && <Button variant="secondary" onClick={() => finish({ grade: 'easy', verdict: result.verdict })}>Too easy</Button>}
             {!right && answer.trim() && <Button variant="secondary" onClick={() => finish({ grade: 'good', verdict: 'override' })}>I was right</Button>}
             <Button type="submit" className="flex-1" autoFocus={ex.mode === 'tiles'}>Continue</Button>
           </div>

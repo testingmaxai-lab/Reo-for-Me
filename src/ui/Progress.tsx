@@ -2,11 +2,13 @@ import { useRef, useState } from 'react';
 import { content } from '../content';
 import { STATUS_HELP, STATUS_LABEL, type Status } from '../content/types';
 import { deepMastery } from '../engine/deep';
-import { roughPercent, summary } from '../engine/progress';
+import { shortDay } from '../engine/dates';
+import { activity, forecast, roughPercent, summary } from '../engine/progress';
+import { DAY } from '../engine/srs';
 import { weakAreas } from '../engine/recommend';
 import { parseBackup } from '../store/backup';
 import { exportJson, importJson, resetAll, updateSettings, useAppState } from '../store/state';
-import { BucketBar, Button, Card, H1, H2, List, Muted, Reo, Row } from './components';
+import { Bars, BucketBar, Button, Card, H1, H2, List, Muted, Reo, Row, Segmented } from './components';
 import { DiagnosticSummary, LevelPicker } from './Diagnostic';
 import { PacePicker } from './Home';
 import { go } from './router';
@@ -70,6 +72,15 @@ export function Progress() {
         </Muted>
       </Card>
 
+      <H2>Activity — last 14 days</H2>
+      <Card><Bars title="Answers per day, last 14 days" values={activity(reviews, now, 14)} emphasise={13} labels={Array.from({ length: 14 }, (_, i) => String(new Date(now - (13 - i) * DAY).getDate()))} /></Card>
+
+      <H2>Reviews coming up</H2>
+      <Card>
+        <Bars title="Reviews due per day, next 7 days" values={forecast(content, cards, now, 7)} emphasise={0} labels={Array.from({ length: 7 }, (_, i) => (i === 0 ? 'Today' : shortDay(now + i * DAY)))} />
+        <Muted className="mt-2">Today includes anything overdue. Days are in te reo, shortened: Rāhina (Monday), Rātū, Rāapa, Rāpare, Rāmere, Rāhoroi, Rātapu.</Muted>
+      </Card>
+
       <H2>Deep learning</H2>
       <List>
         {content.deep.map((d) => {
@@ -83,6 +94,9 @@ export function Progress() {
 
       <H2>Pace</H2>
       <PacePicker />
+
+      <H2>Appearance</H2>
+      <Segmented label="Appearance" value={kv.settings.theme} onChange={(theme) => updateSettings({ theme })} options={[{ value: 'auto', label: 'Match device' }, { value: 'light', label: 'Light' }, { value: 'dark', label: 'Dark' }]} />
 
       <H2>Starting level</H2>
       <LevelPicker />
