@@ -24,3 +24,15 @@ export function startReview(back?: string): void {
 export function startPractice(itemIds: string[], back?: string): void {
   startSession({ title: 'Practice', mode: 'practice', back, steps: buildPracticeSteps(itemIds, content, getState().cards) });
 }
+
+/** One tap: everything due, then the next new material. */
+export function startToday(): boolean {
+  const { cards, kv } = getState();
+  const pace = PACE[kv.settings.intensity];
+  const reviews = buildReviewSteps(cards, content, Date.now(), pace.reviews);
+  const next = nextNew(content, cards, { count: pace.newItems, startLevel: kv.settings.startLevel, queue: kv.queue });
+  if (!reviews.length && !next.itemIds.length) return false;
+  if (kv.queue.length) setKV('queue', kv.queue.filter((id) => !next.itemIds.includes(id)));
+  startSession({ title: 'Today', mode: 'learn', steps: [...reviews, ...buildLearnSteps(next.itemIds, content, !next.testOut)] });
+  return true;
+}

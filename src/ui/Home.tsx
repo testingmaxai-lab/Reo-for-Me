@@ -1,13 +1,14 @@
 import { content } from '../content';
 import { DEEP_STAGES } from '../engine/deep';
 import type { Intensity } from '../engine/exercises';
-import { summary, roughPercent } from '../engine/progress';
+import { greeting, maoriDate, shortDay } from '../engine/dates';
+import { activity, doneToday, summary, roughPercent } from '../engine/progress';
 import { isIntroduced, nextNew, units, weakAreas } from '../engine/recommend';
 import { dueCards, PACE } from '../engine/session';
 import { DAY } from '../engine/srs';
 import { updateSettings, useAppState } from '../store/state';
-import { startLearn, startPractice, startReview } from './actions';
-import { Button, Card, H1, H2, List, Muted, Reo, Row } from './components';
+import { startLearn, startPractice, startReview, startToday } from './actions';
+import { Bars, Button, Card, H1, H2, List, Muted, Reo, Row } from './components';
 import { go } from './router';
 
 const label = (id: string) => content.vocabById.get(id)?.mi ?? content.patternById.get(id)?.title ?? id;
@@ -31,17 +32,24 @@ function NextNewCard() {
 
 export function Home() {
   const { cards, reviews, kv } = useAppState();
+  const next = useNext();
   const now = Date.now();
   const due = dueCards(cards, content, now).length;
   const s = summary(content, cards, reviews, now);
+  const done = doneToday(reviews, now);
   const started = Object.keys(cards).length > 0;
   const deepActive = content.deep.filter((d) => kv.deep[d.id]);
   const suggestDeep = !deepActive.length && s.recognise.total - s.recognise.new >= 15 ? content.deep[0] : null;
   const backupStale = started && now - kv.settings.lastBackup > 14 * DAY;
+  const nothing = !due && !next.itemIds.length;
+  const week = activity(reviews, now, 7);
 
   return (
     <div className="space-y-4">
-      <H1>Kia ora</H1>
+      <header>
+        <p lang="mi" className="reo text-sm font-medium text-muted">{maoriDate(now)}</p>
+        <h1 lang="mi" className="reo text-3xl font-bold tracking-tight">{greeting(now)}</h1>
+      </header>
       {!kv.settings.onboarded && !started && (
         <Card>
           <p className="font-semibold">Where should you start?</p>
@@ -52,14 +60,26 @@ export function Home() {
           </div>
         </Card>
       )}
-      {due > 0 && (
-        <Card>
-          <p className="text-sm font-medium text-muted">Reviews due</p>
-          <p className="mt-1 text-3xl font-bold tabular-nums">{due}</p>
-          <Button full className="mt-3" onClick={() => startReview()}>Start review</Button>
-        </Card>
-      )}
-      <NextNewCard />
+
+      <section aria-label="Today" className="rounded-3xl bg-hero p-5 text-on-hero">
+        <p className="text-sm font-semibold uppercase tracking-wide opacity-80">Today</p>
+        <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+          {[['Due', due, 'due-count'], [next.testOut ? 'To check' : 'New', next.itemIds.length, 'new-count'], ['Done today', done, 'done-count']].map(([l, n, id]) => (
+            <div key={id} className="rounded-2xl bg-on-hero/10 py-3"><p data-testid={id as string} className="text-3xl font-bold tabular-nums">{n}</p><p className="text-xs opacity-80">{l}</p></div>
+          ))}
+        </div>
+        {next.itemIds.length > 0 && <p className="mt-3 text-sm opacity-90">{next.testOut ? 'Quick check' : 'New'}{next.unit ? ` · ${next.unit.title}` : ''}: <span lang="mi" className="reo font-semibold">{next.itemIds.map(label).join(' · ')}</span></p>}
+        {nothing
+          ? <p className="mt-3 text-sm opacity-90">Nothing is due and you have started everything available. Explore, or practise a topic.</p>
+          : <Button full variant="inverse" className="mt-4" onClick={() => startToday()}>Start today’s session</Button>}
+        {due > 0 && next.itemIds.length > 0 && (
+          <div className="mt-2 grid grid-cols-2 gap-2">
+            <Button variant="onAccent" className="!min-h-11 text-sm" onClick={() => startReview()}>Review only</Button>
+            <Button variant="onAccent" className="!min-h-11 text-sm" onClick={() => startLearn()}>New only</Button>
+          </div>
+        )}
+      </section>
+
       {(deepActive.length > 0 || suggestDeep) && (
         <div>
           <H2>Deep learning</H2>
@@ -71,10 +91,11 @@ export function Home() {
       )}
       {started && (
         <div>
-          <H2>Progress</H2>
+          <H2>This week</H2>
           <Card>
-            <p>{s.recognise.total - s.recognise.new} of {s.recognise.total} words started · {s.understand.total - s.understand.new} of {s.understand.total} patterns</p>
-            <Muted className="mt-1">{s.reviewsThisWeek} answers in the last 7 days{s.retention !== null ? ` · estimated retention ${roughPercent(s.retention)}` : ''}</Muted>
+            <Bars title="Answers per day" values={week} emphasise={6} labels={week.map((_, i) => shortDay(now - (6 - i) * DAY))} />
+            <p className="mt-3 text-sm">{s.recognise.total - s.recognise.new} of {s.recognise.total} words started · {s.understand.total - s.understand.new} of {s.understand.total} patterns</p>
+            {s.retention !== null && <Muted>Estimated retention {roughPercent(s.retention)}</Muted>}
           </Card>
         </div>
       )}

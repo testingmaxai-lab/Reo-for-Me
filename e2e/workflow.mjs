@@ -196,7 +196,8 @@ await page.getByText('Wording and recall').waitFor();
 step('whakataukī: encounter -> understand -> reconstruct -> full recall; four dimensions tracked and persisted');
 // words queued from the whakataukī are offered first
 await page.goto(URL0);
-assert.match(await page.locator('main').innerText(), /New learning[\s\S]*(mea|ao)/);
+await page.getByTestId('new-count').waitFor();
+assert.match(await page.locator('main').innerText(), /New: .*(mea|ao)/);
 step('words from the whakataukī are queued as the next lesson');
 
 // Export, reset, import
@@ -240,11 +241,11 @@ await page.close();
 page = await ctx.newPage(); watch(page);
 await page.clock.install({ time: Date.now() + 3 * 86400000 });
 await page.goto(URL0);
-await page.getByText('Reviews due').waitFor();
-const due = Number(await page.locator('section', { hasText: 'Reviews due' }).locator('p').nth(1).innerText());
+await page.getByTestId('due-count').waitFor();
+const due = Number(await page.getByTestId('due-count').innerText());
 assert.ok(due >= 10, `expected reviews due, got ${due}`);
 await shot(page, '12-home-reviews-due');
-await page.getByRole('button', { name: 'Start review' }).click();
+await page.getByRole('button', { name: 'Review only' }).click();
 for (let guard = 0; guard < 120; guard++) { if (await page.getByText('session complete').count()) break; await answer(page, 'right'); }
 await page.getByText('session complete').waitFor();
 await page.goto(URL0 + '#/review');
@@ -253,6 +254,43 @@ const left = await page.getByText('due now').count() ? Number(await page.locator
 assert.ok(left < due, 'reviewing should reduce what is due');
 await shot(page, '13-review');
 step(`three days later: ${due} reviews due, ${left} left after one review session`);
+
+// One-tap daily session mixes what is due with new material
+await page.goto(URL0);
+await page.getByRole('button', { name: 'Start today’s session' }).click();
+await page.getByTestId('exercise').or(page.getByRole('button', { name: 'Test me' })).first().waitFor();
+await page.getByRole('button', { name: 'End session' }).click();
+step('one-tap daily session starts');
+
+// Search, hint, appearance
+await page.goto(URL0 + '#/explore');
+await page.getByLabel('Search words').fill('kuri');
+await page.getByRole('button', { name: /kurī/ }).waitFor();
+await page.getByLabel('Search words').fill('thank');
+await page.getByRole('button', { name: /kia ora/ }).first().click();
+await page.getByRole('button', { name: 'Practise' }).click();
+await answer(page, 'right');
+await page.getByRole('button', { name: 'Hint' }).click();
+assert.equal(await page.getByTestId('hint').innerText(), 'Hint: kia … (2 words)');
+await page.getByLabel('Your answer').fill('kia ora');
+await page.keyboard.press('Enter');
+await page.getByText('Hint used').waitFor();
+await shot(page, '15-hint');
+await page.keyboard.press('Enter');
+step('search finds words without macrons and by English; a hint downgrades the answer');
+await page.goto(URL0 + '#/progress');
+await page.getByRole('radio', { name: 'Dark' }).click();
+assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), 'dark');
+await page.getByText('Reviews coming up').waitFor();
+await shot(page, '16-progress-dark');
+await noOverflow(page, 'progress dark');
+await page.goto(URL0);
+await page.getByTestId('due-count').waitFor();
+await shot(page, '17-home-dark');
+await page.reload();
+await page.getByTestId('due-count').waitFor();
+assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), 'dark');
+step('dark appearance applies and persists');
 
 // Desktop layout
 const desk = await browser.newContext({ viewport: { width: 1280, height: 800 } });

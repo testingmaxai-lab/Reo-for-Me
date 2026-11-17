@@ -1,3 +1,4 @@
+import { useLayoutEffect } from 'react';
 import { useAppState } from '../store/state';
 import { Deep } from './Deep';
 import { Diagnostic } from './Diagnostic';
@@ -18,7 +19,14 @@ const TABS = [
 export function App() {
   const route = useRoute();
   const sessionId = useSessionId();
-  const { ready, error } = useAppState();
+  const { ready, error, kv } = useAppState();
+  const theme = kv.settings.theme;
+  useLayoutEffect(() => {
+    if (!ready) return;
+    if (theme === 'auto') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = theme;
+    // remembered outside the database so the right colours are used from the very first paint
+    try { localStorage.setItem('reo-theme', theme); } catch { /* storage unavailable: harmless */ }
+  }, [theme, ready]);
   const [top, a, b] = route;
   if (!ready) return <div className="grid h-full place-items-center text-muted">Loading…</div>;
   if (top === 'session') return <Session key={sessionId} />;

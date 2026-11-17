@@ -6,11 +6,15 @@ It runs entirely in the browser, installs to an iPhone home screen, works offlin
 
 ## What it does
 
+- **Today**: one tap on Home runs everything due, then the next new material.
 - **Learn**: new words and sentence patterns are introduced briefly, then tested straight away (recognise, produce, build a sentence, transform a sentence).
 - **Review**: spaced repetition. Each skill is scheduled separately, so failing a sentence does not undo what you know about a word.
 - **Explore**: every topic, pattern, whakataukī and the pepeha module is open from the start. Nothing is locked. "Test out" skips the teaching.
 - **Deep learning**: whakataukī and pepeha go through five stages (encounter, understand, reconstruct, full recall, long-term mastery) with mastery tracked on four dimensions.
-- **Progress**: coarse, honest indicators, plus export and import of all progress.
+- **Progress**: coarse, honest indicators, 14-day activity and a 7-day review forecast, plus export and import of all progress.
+- **Search**: find any word in Explore by Māori (macrons optional) or English.
+- **Feedback**: a wrong sentence shows which words were missing or different. A **Hint** gives the first word or letter; a correct answer after a hint counts as a near miss.
+- **Appearance**: light, dark, or match the device (Progress → Appearance). Home shows the date in te reo.
 
 Answers are checked against curated answer lists with explicit rules. No AI grades anything.
 

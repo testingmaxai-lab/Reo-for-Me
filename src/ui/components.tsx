@@ -3,13 +3,15 @@ import { STATUS_HELP, STATUS_LABEL, type Lang, type Status } from '../content/ty
 import type { Buckets } from '../engine/progress';
 import type { Strength } from '../engine/srs';
 
-type BtnProps = ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'ghost' | 'danger'; full?: boolean };
+type BtnProps = ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'inverse' | 'onAccent'; full?: boolean };
 export function Button({ variant = 'primary', full, className = '', ...rest }: BtnProps) {
   const styles = {
     primary: 'bg-accent text-on-accent',
     secondary: 'bg-surface text-ink border border-line',
     ghost: 'text-accent',
     danger: 'bg-surface text-bad border border-bad',
+    inverse: 'bg-surface text-accent',
+    onAccent: 'text-on-hero border border-on-hero/40',
   }[variant];
   return <button type="button" {...rest} className={`min-h-12 rounded-xl px-4 text-base font-semibold disabled:opacity-40 active:opacity-80 ${styles} ${full ? 'w-full' : ''} ${className}`} />;
 }
@@ -95,6 +97,35 @@ export function AnswerInput({ value, onChange, lang, long, readOnly, placeholder
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+/** Small bar chart. Values are also given in the accessible label, so it is not colour- or sight-dependent. */
+export function Bars({ values, labels, title, emphasise }: { values: number[]; labels: string[]; title: string; emphasise?: number }) {
+  const max = Math.max(1, ...values);
+  return (
+    <div role="img" aria-label={`${title}: ${values.map((v, i) => `${labels[i]} ${v}`).join(', ')}`}>
+      <div className="flex h-24 items-end gap-1.5">
+        {values.map((v, i) => (
+          <div key={i} className="flex h-full flex-1 flex-col items-center justify-end">
+            {v > 0 && <span className="mb-0.5 text-[11px] tabular-nums text-muted">{v}</span>}
+            <span className={`w-full rounded-t ${v ? (i === emphasise ? 'bg-accent' : 'bg-accent opacity-50') : 'bg-line'}`} style={{ height: v ? `${Math.max(6, (v / max) * 70)}%` : 2 }} />
+          </div>
+        ))}
+      </div>
+      <div className="mt-1 flex gap-1.5">{labels.map((l, i) => <span key={i} className={`flex-1 text-center text-[11px] ${i === emphasise ? 'font-semibold text-ink' : 'text-muted'}`}>{l}</span>)}</div>
+    </div>
+  );
+}
+
+export function Segmented<T extends string | number>({ label, value, options, onChange }: { label: string; value: T; options: { value: T; label: string }[]; onChange: (v: T) => void }) {
+  return (
+    <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }} role="radiogroup" aria-label={label}>
+      {options.map((o) => (
+        <button key={String(o.value)} type="button" role="radio" aria-checked={value === o.value} onClick={() => onChange(o.value)}
+          className={`min-h-11 rounded-xl border text-sm font-semibold ${value === o.value ? 'border-accent bg-accent-soft text-accent' : 'border-line bg-surface'}`}>{o.label}</button>
+      ))}
     </div>
   );
 }

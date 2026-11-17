@@ -1,8 +1,8 @@
 /** Progress indicators. Deliberately coarse: buckets and rounded estimates, no invented precision. */
 import type { Content } from '../content/types';
-import { keyOf, type Skill } from './exercises';
-import { dueCards } from './session';
-import { DAY, retrievability, strength, type Card, type Grade, type Strength } from './srs';
+import { keyOf, parseKey, type Skill } from './exercises';
+import { dueCards, itemExists } from './session';
+import { DAY, retrievability, startOfDay, strength, type Card, type Grade, type Strength } from './srs';
 
 export interface ReviewLog { t: number; key: string; grade: Grade; verdict: string }
 export type Buckets = Record<Strength, number> & { total: number };
@@ -34,3 +34,28 @@ export function summary(c: Content, cards: Record<string, Card>, reviews: Review
 }
 
 export const roughPercent = (x: number) => (x >= 0.95 ? 'over 95%' : `about ${Math.round((x * 100) / 5) * 5}%`);
+
+const dayIndex = (t: number, now: number) => Math.round((startOfDay(t) - startOfDay(now)) / DAY);
+
+/** Reviews falling due per day. Index 0 is today and includes anything overdue. */
+export function forecast(c: Content, cards: Record<string, Card>, now: number, days = 7): number[] {
+  const out = Array<number>(days).fill(0);
+  for (const card of Object.values(cards)) {
+    if (!itemExists(parseKey(card.key).itemId, c)) continue;
+    const d = Math.max(0, dayIndex(card.due, now));
+    if (d < days) out[d]++;
+  }
+  return out;
+}
+
+/** Answers given per day, oldest first, ending today. */
+export function activity(reviews: ReviewLog[], now: number, days = 14): number[] {
+  const out = Array<number>(days).fill(0);
+  for (const r of reviews) {
+    const d = days - 1 + dayIndex(r.t, now);
+    if (d >= 0 && d < days) out[d]++;
+  }
+  return out;
+}
+
+export const doneToday = (reviews: ReviewLog[], now: number) => reviews.filter((r) => r.t >= startOfDay(now)).length;

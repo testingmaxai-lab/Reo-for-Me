@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { buildContent, content, examplesFor, firstEn, validateContent, vocabIn } from '../content';
+import { buildContent, content, examplesFor, firstEn, searchContent, validateContent, vocabIn } from '../content';
+import { greeting, maoriDate, shortDay } from './dates';
 import { deepMastery, makeClozes, orderTiles, resolveDeep, seeded } from './deep';
 import { generate, keyOf, type GenContext } from './exercises';
-import { checkAnswer, editDistance, expandAlternatives, normEn, normMi } from './normalize';
-import { summary } from './progress';
+import { checkAnswer, diffExpected, editDistance, expandAlternatives, hintFor, normEn, normMi } from './normalize';
+import { activity, doneToday, forecast, summary } from './progress';
 import { buildDiagnostic, nextNew, scoreDiagnostic, units, unmetPrereqs, weakAreas } from './recommend';
 import { buildLearnSteps, buildReviewSteps, requeue } from './session';
 import { applyReview, DAY, isDue, MIN, retrievability, sm2, strength, type Card } from './srs';
@@ -379,5 +380,69 @@ describe('deep learning', () => {
     const text = resolveDeep(content.deepById.get('d:whaia-te-iti-kahurangi')!).text;
     expect(checkAnswer('whāia te iti kahurangi ki te tūohu koe me he maunga teitei', [text], 'mi', opts).verdict).toBe('correct');
     expect(checkAnswer('whaia te iti kahurangi ki te tuohu koe me he maunga teitei', [text], 'mi', opts).verdict).toBe('macron');
+  });
+});
+
+describe('feedback helpers', () => {
+  it('marks which words of the expected answer were missing or wrong', () => {
+    const d = diffExpected('Kei te moe au', 'Kei te haere au.', 'mi', content.equivalents);
+    expect(d.map((x) => x.ok)).toEqual([true, true, false, true]);
+    expect(d[2].word).toBe('haere');
+    // a macron slip is highlighted on the word concerned
+    expect(diffExpected('Kaore ahau i te haere', 'Kāore au i te haere.', 'mi', content.equivalents).map((x) => x.ok)).toEqual([false, true, true, true, true]);
+    // word order: only words in the right relative order count
+    expect(diffExpected('au haere', 'haere au', 'mi').filter((x) => x.ok)).toHaveLength(1);
+    expect(diffExpected('', 'haere au', 'mi').every((x) => !x.ok)).toBe(true);
+  });
+  it('gives a hint that does not reveal the answer', () => {
+    expect(hintFor('kurī')).toBe('k · · ·');
+    expect(hintFor('Kei te haere au.')).toBe('Kei … (4 words)');
+  });
+});
+
+describe('search', () => {
+  it('finds words by Māori with or without macrons, and by English', () => {
+    expect(searchContent('kuri').vocab[0].mi).toBe('kurī');
+    expect(searchContent('KURĪ').vocab[0].mi).toBe('kurī');
+    expect(searchContent('dog').vocab[0].mi).toBe('kurī');
+    expect(searchContent('wha').vocab.map((v) => v.mi)).toEqual(expect.arrayContaining(['whā', 'whare', 'whānau', 'whaea']));
+    expect(searchContent('zzz').vocab).toEqual([]);
+    expect(searchContent('  ').vocab).toEqual([]);
+  });
+  it('puts exact matches first and finds patterns', () => {
+    expect(searchContent('kai').vocab[0].mi).toBe('kai');
+    expect(searchContent('kāore').patterns[0].id).toBe('p:negation');
+  });
+});
+
+describe('forecast and activity', () => {
+  it('counts reviews falling due per day, with overdue items under today', () => {
+    const cards: Record<string, Card> = {};
+    const add = (k: string, t: number, g: 'good' | 'easy') => { cards[k] = sm2.next(undefined, k, g, t); };
+    add('v:kurī|recognise', NOW - 5 * DAY, 'good'); // overdue
+    add('v:ngeru|recognise', NOW, 'good');          // tomorrow
+    add('v:whare|recognise', NOW, 'easy');          // in 7 days: outside a 7-day window
+    add('v:gone|recognise', NOW, 'good');           // no longer in the content
+    expect(forecast(content, cards, NOW, 7)).toEqual([1, 1, 0, 0, 0, 0, 0]);
+    expect(forecast(content, cards, NOW, 8)[7]).toBe(1);
+  });
+  it('counts answers per day, ending today', () => {
+    const r = (t: number) => ({ t, key: 'k|x', grade: 'good' as const, verdict: 'correct' });
+    const a = activity([r(NOW), r(NOW - 1000), r(NOW - DAY), r(NOW - 20 * DAY)], NOW, 14);
+    expect(a).toHaveLength(14);
+    expect(a[13]).toBe(2);
+    expect(a[12]).toBe(1);
+    expect(a.reduce((x, y) => x + y)).toBe(3);
+    expect(doneToday([r(NOW), r(NOW - DAY)], NOW)).toBe(1);
+  });
+});
+
+describe('dates in te reo', () => {
+  it('names the day and month', () => {
+    expect(maoriDate(new Date(2026, 10, 17).getTime())).toBe('Rātū, 17 Whiringa-ā-rangi'); // Tuesday 17 November
+    expect(maoriDate(new Date(2027, 0, 3).getTime())).toBe('Rātapu, 3 Kohitātea');        // Sunday 3 January
+    expect(shortDay(new Date(2026, 10, 16).getTime())).toBe('Hina');
+    expect(greeting(new Date(2026, 10, 17, 8).getTime())).toBe('Ata mārie');
+    expect(greeting(new Date(2026, 10, 17, 15).getTime())).toBe('Kia ora');
   });
 });

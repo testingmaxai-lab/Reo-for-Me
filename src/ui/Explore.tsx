@@ -1,4 +1,5 @@
-import { content, examplesFor, firstEn, vocabIn } from '../content';
+import { useState } from 'react';
+import { content, examplesFor, firstEn, searchContent, vocabIn } from '../content';
 import { keyOf } from '../engine/exercises';
 import { isIntroduced, unmetPrereqs } from '../engine/recommend';
 import { strength } from '../engine/srs';
@@ -17,10 +18,27 @@ export function Explore() {
     { kind: 'karakia', title: 'Karakia', empty: 'No karakia are loaded. Karakia differ in purpose and are not interchangeable, so none are included until one can be properly sourced and checked. The app supports them: see “Adding content” in the README.' },
     { kind: 'pepeha', title: 'Pepeha', empty: '' },
   ] as const;
+  const [q, setQ] = useState('');
+  const found = searchContent(q);
+  const search = (
+    <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search words, Māori or English" aria-label="Search words"
+      autoCapitalize="none" autoCorrect="off" spellCheck={false} className="mt-3 w-full rounded-xl border border-line bg-surface px-4 py-3 outline-none focus:border-accent" />
+  );
+  if (q.trim()) return (
+    <div>
+      <H1>Explore</H1>
+      {search}
+      <Muted className="mt-2">Macrons are optional when searching.</Muted>
+      {found.vocab.length + found.patterns.length === 0 && <Card className="mt-4"><Muted>Nothing matches “{q.trim()}”. This app has {content.vocab.length} words so far.</Muted></Card>}
+      {found.vocab.length > 0 && <><H2>Words</H2><List>{found.vocab.map((v) => <Row key={v.id} lang="mi" title={v.mi} sub={<span lang="en">{v.en.slice(0, 3).join('; ')}</span>} right={<Dot s={strength(cards[keyOf(v.id, 'recognise')])} />} onClick={() => go(`/explore/item/${enc(v.id)}`)} />)}</List></>}
+      {found.patterns.length > 0 && <><H2>Sentence patterns</H2><List>{found.patterns.map((p) => <Row key={p.id} lang="mi" title={p.title} sub={`Level ${p.level}`} onClick={() => go(`/explore/item/${enc(p.id)}`)} />)}</List></>}
+    </div>
+  );
   return (
     <div>
       <H1>Explore</H1>
       <Muted>Everything is open. Start anywhere.</Muted>
+      {search}
       <H2>Vocabulary</H2>
       <List>
         {content.topics.map((t) => {
