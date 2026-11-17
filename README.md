@@ -8,7 +8,7 @@ It runs entirely in the browser, installs to an iPhone home screen, works offlin
 
 - **Today**: one tap on Home runs everything due, then the next new material.
 - **Learn**: new words and sentence patterns are introduced briefly, then tested straight away (recognise, produce, build a sentence, transform a sentence).
-- **Review**: spaced repetition. Each skill is scheduled separately, so failing a sentence does not undo what you know about a word.
+- **Review**: spaced repetition. Each skill is scheduled separately, so failing a sentence does not undo what you know about a word. You can narrow a review to a focus (Māori → English, English → Māori, sentences, whakataukī) or a topic. A trouble list shows what you miss most and what you typed instead, and a summary shows your commonest kinds of error.
 - **Explore**: every topic, pattern, whakataukī and the pepeha module is open from the start. Nothing is locked. "Test out" skips the teaching.
 - **Deep learning**: whakataukī and pepeha go through five stages (encounter, understand, reconstruct, full recall, long-term mastery) with mastery tracked on four dimensions.
 - **Progress**: coarse, honest indicators, 14-day activity and a 7-day review forecast, plus export and import of all progress.
@@ -31,15 +31,15 @@ Double vowels (`kurii`) are accepted for macrons. `au`/`ahau` and `tūpuna`/`tī
 
 | | Count | Status |
 |---|---|---|
-| Vocabulary | 165 words in 9 topics | Cross-checked |
-| Sentence patterns | 12, with 79 sentences and 24 transformations | Cross-checked |
-| Whakataukī | 2 | Cross-checked |
+| Vocabulary | 787 words in 20 topics | Cross-checked |
+| Sentence patterns | 39, with 225 sentences and 72 transformations | Cross-checked |
+| Whakataukī | 12 | Cross-checked |
 | Pepeha (for tauiwi) | 1 template you fill in | Draft |
 | Karakia | 0 | Supported, deliberately empty |
 
 **None of this has been reviewed by a fluent speaker.** "Cross-checked" means written by AI from standard references. "Verified" is reserved for items you or a fluent speaker have reviewed: change `"status"` in the content file once that happens. Every item shows its status and source in the app.
 
-Things most worth a kaiako's eye: the pepeha acknowledgement line, the provenance notes on the two whakataukī, and the negation and possession patterns.
+Things most worth a kaiako's eye: the pepeha acknowledgement line; the provenance and attribution notes on the whakataukī (Meri Ngāroto, Tā Hēmi Hēnare, Paterangi); the negation, a/o possession, counting, time-phrase, passive, actor-emphatic (Nā … i … / Mā … e …), ability (taea) and comparison patterns; and the work and te ao Māori vocabulary, where short English glosses are necessarily rough.
 
 ## Run it locally
 
@@ -120,14 +120,13 @@ The scheduler sits behind a small `Scheduler` interface (`src/engine/srs.ts`), s
 - No audio. There is no licensed audio to bundle and iOS has no te reo Māori voice.
 - Typed sentences are matched against listed answers, so a correct but unlisted wording is marked wrong. Use "I was right".
 - No sync between devices.
-- Possession covers only the neutral forms (taku, tō, tana), not the a/o categories.
 - Meaning and context for whakataukī are self-assessed.
 - Not yet tested on a physical iPhone, only in an emulated iPhone-sized browser.
 
 ## Sensible next steps
 
 1. Have a kaiako review the content and mark items verified.
-2. Add content: a/o possession, passives, numbers above ten, more whakataukī, a sourced karakia.
+2. Add content: telling the time, more on numbers, relative clauses, a sourced karakia.
 3. Licensed or self-recorded audio.
 4. FSRS scheduling once there is enough review history.
 5. Optional sync (for example a file in iCloud Drive).

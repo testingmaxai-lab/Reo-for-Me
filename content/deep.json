@@ -57,6 +57,511 @@
       ]
     },
     {
+      "id": "ko-te-reo", "kind": "whakatauki",
+      "title": "Ko te reo te mauri o te mana Māori",
+      "lines": [
+        { "mi": "Ko te reo te mauri o te mana Māori.", "en": "The language is the life force of Māori mana." }
+      ],
+      "literal": "The language [is] the life force of the Māori mana.",
+      "meaning": "The Māori language is what gives life to Māori identity, standing and authority. If the language is lost, what makes Māori distinct is lost with it.",
+      "provenance": "Attributed to Tā Hēmi Hēnare (Sir James Hēnare, Ngāti Hine), and widely associated with his evidence in the Waitangi Tribunal's te reo Māori claim in the mid-1980s. Because it has a known author it is a whakatauākī.",
+      "context": "Said in the context of the campaign for recognition and revitalisation of te reo Māori, which led to the language becoming an official language of New Zealand in 1987.",
+      "usage": "Often quoted when speaking about the value of te reo and the reasons for learning and protecting it. Fitting for a learner to know; acknowledge its author when you use it.",
+      "nuances": "Mauri is the life force or vital essence of a being or thing. Mana covers authority, prestige and spiritual standing, and has no single English equivalent. English renderings of this saying vary.",
+      "components": [
+        { "mi": "Ko te reo", "gloss": "the language", "pattern": "ko", "note": "Ko introduces the specific thing being identified." },
+        { "mi": "te mauri", "gloss": "the life force", "note": "The second definite phrase says what the first one is." },
+        { "mi": "o te mana Māori", "gloss": "of Māori mana", "note": "o = of, belonging to. Māori follows mana because describing words follow the noun." }
+      ],
+      "structureQs": [
+        { "prompt": "What does 'te reo' mean?", "lang": "en", "answers": ["the language", "language", "the voice"], "explain": "reo = language, voice." },
+        { "prompt": "Which word in this saying means 'life force'?", "lang": "mi", "answers": ["mauri", "te mauri"], "explain": "mauri = life force, vital essence." },
+        { "prompt": "Which small word begins the sentence and identifies a specific thing?", "lang": "mi", "answers": ["ko"], "explain": "Ko te reo … = The language is …" }
+      ]
+    },
+    {
+      "id": "ehara-taku-toa", "kind": "whakatauki",
+      "title": "Ehara taku toa i te toa takitahi",
+      "lines": [
+        { "mi": "Ehara taku toa i te toa takitahi,", "en": "My strength is not that of one person alone;" },
+        { "mi": "engari he toa takitini.", "en": "it is the strength of many." }
+      ],
+      "literal": "My strength is not the strength of a single one, but a strength of multitudes.",
+      "meaning": "What I achieve is not mine alone. Success comes from the support and effort of many people: whānau, colleagues, community and those who came before.",
+      "provenance": "A widely quoted traditional saying. Published sources commonly attribute it to Paterangi of Ngāti Kahungunu; this attribution has not been independently checked for this app.",
+      "context": "Used to acknowledge that an individual's achievement rests on a collective. It expresses the value placed on working together over individual credit.",
+      "usage": "Common when accepting thanks or recognition, opening a team presentation, or acknowledging the people behind a piece of work.",
+      "nuances": "Toa means bravery, strength or success, and also warrior. Taki- before a number word describes grouping: takitahi, singly; takitini, in multitudes. Some versions have 'taku toa takitini' in the second half.",
+      "components": [
+        { "mi": "Ehara taku toa", "gloss": "my strength is not", "note": "Ehara … i … negates a sentence that says what something is (a Ko or He sentence)." },
+        { "mi": "i te toa takitahi", "gloss": "the strength of one alone", "note": "takitahi = singly, individual." },
+        { "mi": "engari", "gloss": "but, rather" },
+        { "mi": "he toa takitini", "gloss": "a strength of many", "pattern": "he", "note": "takitini = many, in multitudes." }
+      ],
+      "structureQs": [
+        { "prompt": "Which word at the start makes the statement negative?", "lang": "mi", "answers": ["ehara"], "explain": "Ehara … i … = is not …" },
+        { "prompt": "What does 'engari' mean?", "lang": "en", "answers": ["but", "rather", "but rather", "however"], "explain": "engari = but, rather." },
+        { "prompt": "What does 'taku toa' mean?", "lang": "en", "answers": ["my (strength|bravery|success|courage)"], "explain": "taku = my; toa = strength, bravery, success." },
+        { "prompt": "Which word means 'singly, as one alone'?", "lang": "mi", "answers": ["takitahi"], "explain": "tahi = one; takitahi = singly." }
+      ]
+    },
+    {
+      "id": "nau-te-rourou", "kind": "whakatauki",
+      "title": "Nāu te rourou, nāku te rourou",
+      "lines": [
+        { "mi": "Nāu te rourou, nāku te rourou,", "en": "With your food basket and my food basket," },
+        { "mi": "ka ora ai te iwi.", "en": "the people will thrive." }
+      ],
+      "literal": "Yours the food basket, mine the food basket; by that the people will live.",
+      "meaning": "When each person contributes what they have, everyone is sustained. It is about cooperation and pooling resources for the good of all.",
+      "provenance": "A widely known traditional whakataukī. This app does not attribute it to a named person or iwi because no attribution could be confirmed.",
+      "context": "The rourou is a small woven basket for cooked food. The image is of people each bringing their basket so that the whole group can eat.",
+      "usage": "Used to encourage collaboration, to acknowledge contributions to a shared effort, and when thanking people who have each given something.",
+      "nuances": "Nāu and nāku mean 'yours' and 'mine' in the a category, here with a sense of 'what you bring' and 'what I bring'. Ka … ai marks a result that follows from what was just said. Ora means life, health and wellbeing, so 'live', 'be well' and 'thrive' are all used in translation.",
+      "components": [
+        { "mi": "Nāu te rourou", "gloss": "yours is the food basket", "pattern": "a-o", "note": "nāu = yours (one person)." },
+        { "mi": "nāku te rourou", "gloss": "mine is the food basket", "pattern": "a-o", "note": "nāku = mine." },
+        { "mi": "ka ora ai", "gloss": "will thereby live, thrive", "pattern": "ka", "note": "ai points back to the cause: as a result of that." },
+        { "mi": "te iwi", "gloss": "the people" }
+      ],
+      "structureQs": [
+        { "prompt": "What does 'nāku' mean?", "lang": "en", "answers": ["mine", "my", "belonging to me", "it is mine"], "explain": "nāku = mine; nāu = yours." },
+        { "prompt": "What is a 'rourou'?", "lang": "en", "answers": ["food basket", "basket", "a food basket", "small food basket", "a basket"], "explain": "A small woven basket for cooked food." },
+        { "prompt": "What does 'te iwi' mean here?", "lang": "en", "answers": ["the people", "people", "the tribe", "the nation"], "explain": "iwi = tribe, people, nation." },
+        { "prompt": "Which word means 'live, be well, thrive'?", "lang": "mi", "answers": ["ora"], "explain": "ora = life, health, wellbeing." }
+      ]
+    },
+    {
+      "id": "he-waka-eke-noa", "kind": "whakatauki",
+      "title": "He waka eke noa",
+      "lines": [
+        { "mi": "He waka eke noa.", "en": "A canoe that all may board; we are all in this together." }
+      ],
+      "literal": "A canoe [to be] boarded without restriction.",
+      "meaning": "Commonly used to mean that everyone is in the same boat and shares the journey and its outcome, so everyone should pull together.",
+      "provenance": "A well-known whakataukī of uncertain origin. This app does not attribute it to a named person or iwi.",
+      "context": "The waka is a frequent image for a shared undertaking: everyone aboard depends on everyone else.",
+      "usage": "Used widely for team efforts and shared challenges. Because its original sense is debated, it is worth being a little careful about leaning on one fixed English slogan for it.",
+      "nuances": "Noa means free from restriction, ordinary, without conditions. Eke means to board, embark or mount. Some speakers explain the saying as a canoe that anyone may board without ceremony, which is not quite the same idea as 'we are all in this together'. Interpretations differ.",
+      "components": [
+        { "mi": "He waka", "gloss": "a canoe", "pattern": "he" },
+        { "mi": "eke", "gloss": "to board, embark" },
+        { "mi": "noa", "gloss": "freely, without restriction", "note": "Follows the verb and modifies it." }
+      ],
+      "structureQs": [
+        { "prompt": "What does 'waka' mean?", "lang": "en", "answers": ["canoe", "vehicle", "a canoe", "boat"], "explain": "waka = canoe, vehicle." },
+        { "prompt": "Which word means 'to board or embark'?", "lang": "mi", "answers": ["eke"], "explain": "eke = board, embark, mount." },
+        { "prompt": "Which word means 'freely, without restriction'?", "lang": "mi", "answers": ["noa"], "explain": "noa = free from restriction, ordinary." }
+      ]
+    },
+    {
+      "id": "ma-te-huruhuru",
+      "kind": "whakatauki",
+      "title": "Mā te huruhuru ka rere te manu",
+      "lines": [
+        {
+          "mi": "Mā te huruhuru ka rere te manu.",
+          "en": "It is by feathers that the bird flies."
+        }
+      ],
+      "literal": "By means of the feathers the bird will fly.",
+      "meaning": "No one succeeds without the right support and resources. Give people what they need (skills, backing, funding, encouragement) and they can take flight.",
+      "provenance": "A widely known traditional whakataukī. This app does not attribute it to a named person or iwi because no attribution could be confirmed.",
+      "context": "The image is of a bird that cannot leave the ground until it is fully feathered. It is often rendered in English as 'Adorn the bird with feathers so it may soar'.",
+      "usage": "Used when asking for or acknowledging support for a person or a project, in education, and when resourcing a piece of work.",
+      "nuances": "Mā here marks the means by which something will come about. The same mā … ka shape is used in other sayings to say 'through X, Y will happen'.",
+      "components": [
+        {
+          "mi": "Mā te huruhuru",
+          "gloss": "by means of the feathers",
+          "note": "mā = by means of, through. huruhuru = feathers, hair."
+        },
+        {
+          "mi": "ka rere",
+          "gloss": "will fly",
+          "pattern": "ka",
+          "note": "rere = fly, flow."
+        },
+        {
+          "mi": "te manu",
+          "gloss": "the bird"
+        }
+      ],
+      "structureQs": [
+        {
+          "prompt": "What does 'huruhuru' mean in this saying?",
+          "lang": "en",
+          "answers": [
+            "feathers",
+            "feather",
+            "the feathers"
+          ],
+          "explain": "huruhuru = feathers (also hair, fur)."
+        },
+        {
+          "prompt": "Which word means 'fly'?",
+          "lang": "mi",
+          "answers": [
+            "rere"
+          ],
+          "explain": "rere = fly, flow."
+        },
+        {
+          "prompt": "What does 'te manu' mean?",
+          "lang": "en",
+          "answers": [
+            "the bird",
+            "bird"
+          ],
+          "explain": "manu = bird."
+        },
+        {
+          "prompt": "Which small word at the start means 'by means of'?",
+          "lang": "mi",
+          "answers": [
+            "mā"
+          ],
+          "explain": "Mā te huruhuru = by means of the feathers."
+        }
+      ]
+    },
+    {
+      "id": "he-kai-kei-aku-ringa",
+      "kind": "whakatauki",
+      "title": "He kai kei aku ringa",
+      "lines": [
+        {
+          "mi": "He kai kei aku ringa.",
+          "en": "There is food at the end of my hands."
+        }
+      ],
+      "literal": "[There is] food at my hands.",
+      "meaning": "I can provide for myself by my own effort and skill. It expresses self-reliance, resilience and confidence in one's own abilities.",
+      "provenance": "A widely known traditional whakataukī. This app does not attribute it to a named person or iwi because no attribution could be confirmed.",
+      "context": "The hands stand for work and skill: whoever can use their hands will not go hungry.",
+      "usage": "Used to encourage people to back their own abilities, and to acknowledge someone who has made their own way through hard work.",
+      "nuances": "Kei marks present location, so the food is 'at' the hands. Aku is the neutral plural 'my'. English versions usually add 'at the end of' to make the image clear.",
+      "components": [
+        {
+          "mi": "He kai",
+          "gloss": "[there is] food",
+          "pattern": "he"
+        },
+        {
+          "mi": "kei",
+          "gloss": "at (present location)",
+          "pattern": "locative"
+        },
+        {
+          "mi": "aku ringa",
+          "gloss": "my hands",
+          "pattern": "possession",
+          "note": "aku = my (several things)."
+        }
+      ],
+      "structureQs": [
+        {
+          "prompt": "What does 'aku ringa' mean?",
+          "lang": "en",
+          "answers": [
+            "my hands",
+            "my arms",
+            "my hand"
+          ],
+          "explain": "aku = my (plural); ringa = hand, arm."
+        },
+        {
+          "prompt": "Which word here marks where something is now?",
+          "lang": "mi",
+          "answers": [
+            "kei"
+          ],
+          "explain": "kei + place = at."
+        },
+        {
+          "prompt": "What does 'kai' mean here?",
+          "lang": "en",
+          "answers": [
+            "food",
+            "sustenance"
+          ],
+          "explain": "kai = food."
+        }
+      ]
+    },
+    {
+      "id": "ka-mua-ka-muri",
+      "kind": "whakatauki",
+      "title": "Ka mua, ka muri",
+      "lines": [
+        {
+          "mi": "Ka mua, ka muri.",
+          "en": "Looking back in order to move forward."
+        }
+      ],
+      "literal": "The front, the back.",
+      "meaning": "We move into the future with our eyes on the past. What has gone before is what guides what comes next.",
+      "provenance": "A widely known traditional whakataukī. This app does not attribute it to a named person or iwi because no attribution could be confirmed.",
+      "context": "In Māori thought the past lies in front, where it can be seen, and the future lies behind, unseen. Mua means both 'in front' and 'before in time'; muri means both 'behind' and 'afterwards'. The saying is often explained as walking backwards into the future.",
+      "usage": "Used when acknowledging history, tūpuna or earlier work before setting out plans, and in strategy and education settings.",
+      "nuances": "The English versions are explanations, not translations: the Māori is only four words. Its force depends on the double meaning of mua and muri.",
+      "components": [
+        {
+          "mi": "Ka mua",
+          "gloss": "the front; what came before",
+          "note": "mua = in front, before."
+        },
+        {
+          "mi": "ka muri",
+          "gloss": "the back; what comes after",
+          "note": "muri = behind, after."
+        }
+      ],
+      "structureQs": [
+        {
+          "prompt": "'Mua' means 'in front'. What does it mean when speaking about time?",
+          "lang": "en",
+          "answers": [
+            "before",
+            "the past",
+            "past",
+            "earlier",
+            "formerly"
+          ],
+          "explain": "mua = in front, and before in time: the past is in front of us."
+        },
+        {
+          "prompt": "Which word means 'behind' and also 'afterwards'?",
+          "lang": "mi",
+          "answers": [
+            "muri"
+          ],
+          "explain": "muri = behind, after."
+        },
+        {
+          "prompt": "In this way of seeing time, is the future in front of us or behind us?",
+          "lang": "en",
+          "answers": [
+            "behind",
+            "behind us",
+            "at the back",
+            "the back"
+          ],
+          "explain": "The future is behind, unseen; the past is in front, visible."
+        }
+      ]
+    },
+    {
+      "id": "whaowhia-te-kete",
+      "kind": "whakatauki",
+      "title": "Whaowhia te kete mātauranga",
+      "lines": [
+        {
+          "mi": "Whaowhia te kete mātauranga.",
+          "en": "Fill the basket of knowledge."
+        }
+      ],
+      "literal": "Let the knowledge basket be filled.",
+      "meaning": "Keep learning. Gather knowledge at every opportunity, as you would fill a basket.",
+      "provenance": "A widely known traditional whakataukī. This app does not attribute it to a named person or iwi because no attribution could be confirmed.",
+      "context": "The kete (woven basket) is a common image for holding knowledge. In well-known traditions, three baskets of knowledge were brought from the heavens for people.",
+      "usage": "Very common in schools, training and anywhere learning is being encouraged or celebrated.",
+      "nuances": "Whaowhia is the command form of whao (to fill, to put into a container): commands with verbs that act on something use the passive ending. Mātauranga follows kete and describes it: the knowledge basket.",
+      "components": [
+        {
+          "mi": "Whaowhia",
+          "gloss": "fill! let it be filled",
+          "pattern": "passive",
+          "note": "From whao, to fill. The passive ending gives a command."
+        },
+        {
+          "mi": "te kete",
+          "gloss": "the basket"
+        },
+        {
+          "mi": "mātauranga",
+          "gloss": "knowledge",
+          "note": "Describes the basket: the basket of knowledge."
+        }
+      ],
+      "structureQs": [
+        {
+          "prompt": "What is a 'kete'?",
+          "lang": "en",
+          "answers": [
+            "basket",
+            "a basket",
+            "woven basket",
+            "kit",
+            "bag"
+          ],
+          "explain": "kete = woven basket."
+        },
+        {
+          "prompt": "What does 'mātauranga' mean?",
+          "lang": "en",
+          "answers": [
+            "knowledge",
+            "education",
+            "wisdom"
+          ],
+          "explain": "mātauranga = knowledge."
+        },
+        {
+          "prompt": "'Whaowhia' is the command form of which verb?",
+          "lang": "mi",
+          "answers": [
+            "whao"
+          ],
+          "explain": "whao = to fill, to put into."
+        }
+      ]
+    },
+    {
+      "id": "poipoia-te-kakano",
+      "kind": "whakatauki",
+      "title": "Poipoia te kākano kia puāwai",
+      "lines": [
+        {
+          "mi": "Poipoia te kākano kia puāwai.",
+          "en": "Nurture the seed and it will blossom."
+        }
+      ],
+      "literal": "Let the seed be nurtured so that it may bloom.",
+      "meaning": "With care and encouragement, potential is realised. It is most often said of children and learners, and of ideas in their early stages.",
+      "provenance": "A widely known traditional whakataukī. This app does not attribute it to a named person or iwi because no attribution could be confirmed.",
+      "context": "The seed stands for a child, a learner or a beginning; the blossom for what they can become when they are looked after.",
+      "usage": "Common in early childhood, education and mentoring, and when launching something new that will need looking after.",
+      "nuances": "Poipoia is the command form of poipoi (to nurture, to rock gently). Kia before puāwai expresses purpose or hoped-for result: so that it blossoms.",
+      "components": [
+        {
+          "mi": "Poipoia",
+          "gloss": "nurture! let it be nurtured",
+          "pattern": "passive",
+          "note": "From poipoi, to nurture."
+        },
+        {
+          "mi": "te kākano",
+          "gloss": "the seed"
+        },
+        {
+          "mi": "kia puāwai",
+          "gloss": "so that it may blossom",
+          "pattern": "kia",
+          "note": "kia = so that, in order that. puāwai = to bloom."
+        }
+      ],
+      "structureQs": [
+        {
+          "prompt": "What does 'kākano' mean?",
+          "lang": "en",
+          "answers": [
+            "seed",
+            "the seed",
+            "a seed"
+          ],
+          "explain": "kākano = seed."
+        },
+        {
+          "prompt": "Which word means 'blossom, bloom'?",
+          "lang": "mi",
+          "answers": [
+            "puāwai"
+          ],
+          "explain": "puāwai = to bloom, blossom."
+        },
+        {
+          "prompt": "What does 'kia' express before 'puāwai'?",
+          "lang": "en",
+          "answers": [
+            "so that",
+            "purpose",
+            "in order that",
+            "a purpose",
+            "result",
+            "so that it may",
+            "in order to"
+          ],
+          "explain": "kia + verb = so that …"
+        }
+      ]
+    },
+    {
+      "id": "kaore-te-kumara",
+      "kind": "whakatauki",
+      "title": "Kāore te kūmara e kōrero mō tōna ake reka",
+      "lines": [
+        {
+          "mi": "Kāore te kūmara e kōrero mō tōna ake reka.",
+          "en": "The kūmara does not speak of its own sweetness."
+        }
+      ],
+      "literal": "The kūmara does not talk about its own sweetness.",
+      "meaning": "Be humble. Let others speak of your qualities and achievements; do not praise yourself.",
+      "provenance": "A widely known traditional whakataukī. This app does not attribute it to a named person or iwi because no attribution could be confirmed.",
+      "context": "The kūmara was a prized food, valued for its sweetness. It has no need to announce what everyone already knows.",
+      "usage": "Used to remind people of the value of humility, and often said lightly when someone is uncomfortable being praised or asked to talk about themselves. Understanding it helps explain why people may be reluctant to promote themselves.",
+      "nuances": "Kāore … e … negates a general or future action. Mō means about or concerning. Ake after tōna gives 'its own'. Reka is usually a describing word (sweet); here it is used as a noun, sweetness.",
+      "components": [
+        {
+          "mi": "Kāore te kūmara e kōrero",
+          "gloss": "the kūmara does not speak",
+          "pattern": "negation",
+          "note": "Kāore + subject + e + verb."
+        },
+        {
+          "mi": "mō",
+          "gloss": "about, concerning"
+        },
+        {
+          "mi": "tōna ake reka",
+          "gloss": "its own sweetness",
+          "pattern": "a-o",
+          "note": "tōna = its; ake = own."
+        }
+      ],
+      "structureQs": [
+        {
+          "prompt": "Which word begins the sentence and makes it negative?",
+          "lang": "mi",
+          "answers": [
+            "kāore"
+          ],
+          "explain": "Kāore … e kōrero = does not speak."
+        },
+        {
+          "prompt": "What does 'reka' mean here?",
+          "lang": "en",
+          "answers": [
+            "sweetness",
+            "sweet",
+            "sweet taste",
+            "tastiness"
+          ],
+          "explain": "reka = sweet, tasty; here, sweetness."
+        },
+        {
+          "prompt": "Which word means 'about, concerning'?",
+          "lang": "mi",
+          "answers": [
+            "mō"
+          ],
+          "explain": "mō tōna ake reka = about its own sweetness."
+        },
+        {
+          "prompt": "What does 'ake' add to 'tōna'?",
+          "lang": "en",
+          "answers": [
+            "own",
+            "its own",
+            "the sense of own",
+            "emphasis"
+          ],
+          "explain": "tōna ake = its own."
+        }
+      ]
+    },
+    {
       "id": "pepeha-tauiwi", "kind": "pepeha",
       "title": "Introducing yourself (for tauiwi)",
       "status": "draft",

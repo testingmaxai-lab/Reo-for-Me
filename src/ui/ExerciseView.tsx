@@ -3,10 +3,11 @@ import { content } from '../content';
 import type { Exercise } from '../engine/exercises';
 import { checkAnswer, diffExpected, hintFor, normMi, type CheckResult, type Verdict } from '../engine/normalize';
 import { primaryAnswer } from '../engine/exercises';
+import { classifyError, type ErrorKind } from '../engine/insights';
 import type { Grade } from '../engine/srs';
 import { AnswerInput, Button, Reo } from './components';
 
-export interface Outcome { grade: Grade; verdict: Verdict | 'self' | 'override' | 'skipped' }
+export interface Outcome { grade: Grade; verdict: Verdict | 'self' | 'override' | 'skipped'; answer?: string; error?: ErrorKind }
 
 const VERDICT: Record<Verdict, { label: string; tone: string; grade: Grade }> = {
   correct: { label: 'Correct', tone: 'bg-good-soft text-good', grade: 'good' },
@@ -35,7 +36,10 @@ export function ExerciseView({ ex, onDone, allowEasy = true }: { ex: Exercise; o
   const check = (text: string) => setResult(checkAnswer(text, ex.answers, ex.answerLang, { equivalents: content.equivalents, lexicon: content.lexicon, looseEn: ex.looseEn }));
   // A correct answer after a hint counts as a near miss: it was not unaided recall.
   const finish = (o?: Outcome) => {
-    const out = o ?? { grade: VERDICT[result!.verdict].grade, verdict: result!.verdict };
+    let out: Outcome = o ?? { grade: VERDICT[result!.verdict].grade, verdict: result!.verdict };
+    // keep what was typed for answers that were not right, so the Review tab can show patterns
+    if (result && out.verdict !== 'override' && result.verdict !== 'correct' && result.verdict !== 'alternative')
+      out = { ...out, answer: answer.trim(), error: classifyError(result.verdict, answer, !!result.note?.includes('word order'), !!knownWordNote(answer, ex)) };
     onDone(hinted && (out.grade === 'good' || out.grade === 'easy') ? { ...out, grade: 'hard' } : out);
   };
   const submit = (e: FormEvent) => { e.preventDefault(); if (result) finish(); else if (answer.trim()) check(answer); };

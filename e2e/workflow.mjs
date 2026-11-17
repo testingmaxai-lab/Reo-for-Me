@@ -160,7 +160,7 @@ const progressText = async (p) => { await p.goto(URL0 + '#/progress'); await p.g
 const before = await progressText(page);
 await shot(page, '06-progress');
 await noOverflow(page, 'progress');
-assert.match(before, /\d+ of 165 started/);
+assert.match(before, new RegExp(`\\d+ of ${vocab.length} started`));
 await page.close();
 page = await ctx.newPage(); watch(page);
 const after = await progressText(page);
@@ -211,7 +211,7 @@ assert.ok(backup.cards.length > 10 && backup.kv.deep['d:he-tangata'].stage === 4
 const beforeReset = await progressText(page);
 await page.getByRole('button', { name: 'Reset all progress' }).click();
 await page.getByRole('button', { name: 'Delete everything' }).click();
-await page.getByText('0 of 165 started').first().waitFor();
+await page.getByText(`0 of ${vocab.length} started`).first().waitFor();
 await page.getByLabel('Backup file to import').setInputFiles(file);
 await page.getByText(`Restored ${backup.cards.length} learning records.`).waitFor();
 assert.equal((await progressText(page)).split('BACKUP')[0], beforeReset.split('BACKUP')[0]);
@@ -252,7 +252,16 @@ await page.goto(URL0 + '#/review');
 await page.getByRole('heading', { name: 'Review' }).waitFor();
 const left = await page.getByText('due now').count() ? Number(await page.locator('main p').first().innerText()) : 0;
 assert.ok(left < due, 'reviewing should reduce what is due');
+await page.getByRole('heading', { name: 'Trouble list' }).waitFor();
+await page.getByText('Your mistake patterns').waitFor();
+if (left > 0) {
+  await page.getByRole('radio', { name: 'Sentences' }).click();
+  const focused = Number(await page.getByTestId('review-due').innerText());
+  assert.ok(focused <= left, 'a focus can only narrow what is due');
+  await page.getByRole('radio', { name: 'Everything' }).click();
+}
 await shot(page, '13-review');
+await noOverflow(page, 'review');
 step(`three days later: ${due} reviews due, ${left} left after one review session`);
 
 // One-tap daily session mixes what is due with new material

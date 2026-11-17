@@ -3,6 +3,7 @@ import { buildContent, content, examplesFor, firstEn, searchContent, validateCon
 import { greeting, maoriDate, shortDay } from './dates';
 import { deepMastery, makeClozes, orderTiles, resolveDeep, seeded } from './deep';
 import { generate, keyOf, type GenContext } from './exercises';
+import { classifyError, focusFilter, mistakeSummary, troubleList } from './insights';
 import { checkAnswer, diffExpected, editDistance, expandAlternatives, hintFor, normEn, normMi } from './normalize';
 import { activity, doneToday, forecast, summary } from './progress';
 import { buildDiagnostic, nextNew, scoreDiagnostic, units, unmetPrereqs, weakAreas } from './recommend';
@@ -18,7 +19,7 @@ describe('content', () => {
   it('meets the initial content targets', () => {
     expect(content.vocab.length).toBeGreaterThanOrEqual(100);
     expect(content.patterns.length).toBeGreaterThanOrEqual(10);
-    expect(content.deep.filter((d) => d.kind === 'whakatauki').length).toBe(2);
+    expect(content.deep.filter((d) => d.kind === 'whakatauki').length).toBeGreaterThanOrEqual(2);
     expect(content.deep.filter((d) => d.kind === 'pepeha').length).toBe(1);
     expect(content.deep.filter((d) => d.kind === 'karakia').length).toBe(0); // deliberately empty
   });
@@ -34,11 +35,30 @@ describe('content', () => {
   it('every word used in sentences and transforms is spelled consistently with the vocabulary', () => {
     // a sentence word that differs from a vocab word only by macrons is almost certainly a typo
     const bare = new Map(content.vocab.filter((v) => !v.mi.includes(' ')).map((v) => [v.mi.normalize('NFD').replace(/̄/g, ''), v.mi]));
-    const allowed = new Set(['tō', 'to', 'ō', 'o', 'ana', 'tana', 'kia', 'ka', 'ki', 'i', 'e', 'he', 'te', 'ko', 'mai', 'anō', 'matua', 'mātua']);
+    const allowed = new Set(['tō', 'to', 'ō', 'o', 'ana', 'tana', 'kia', 'ka', 'ki', 'i', 'e', 'he', 'te', 'ko', 'mai', 'anō', 'matua', 'mātua', 'tāu', 'tau', 'ā', 'a', 'mā', 'wā', 'tūpuna', 'nā', 'rā', 'kē', 'mā', 'pā', 'kī', 'ana', 'tātari', 'tatari', 'kainga', 'kāinga', 'māku', 'mākū', 'nāku', 'nāu', 'nāna', 'māu', 'māna', 'mana']);
     for (const p of content.patterns) for (const s of p.sentences) for (const w of normMi(s.mi).split(' ')) {
       const b = w.normalize('NFD').replace(/̄/g, '');
       if (bare.has(b) && !allowed.has(w)) expect(w, `${s.mi}`).toBe(bare.get(b));
     }
+  });
+  it('gives every production exercise a prompt that points to one answer', () => {
+    // two words with the same English prompt would make "Type the Māori" ambiguous
+    const seen = new Map<string, string>();
+    for (const v of content.vocab) {
+      const prompt = v.en.slice(0, 3).join('; ');
+      const other = seen.get(prompt);
+      if (other) expect(v.altMi, `"${prompt}" prompts both ${other} and ${v.mi}`).toContain(other);
+      seen.set(prompt, v.mi);
+    }
+    const sentencePrompts = content.patterns.flatMap((p) => p.sentences.map((s) => firstEn(s.en)));
+    expect(new Set(sentencePrompts).size).toBe(sentencePrompts.length);
+  });
+  it('every transformation answer differs from its starting sentence', () => {
+    for (const p of content.patterns) for (const t of p.transforms) expect(normMi(t.answers[0]), t.from).not.toBe(normMi(t.from));
+  });
+  it('accepts every structure question by its own first answer', () => {
+    for (const d of content.deep) for (const q of d.structureQs)
+      expect(checkAnswer(firstEn(q.answers[0]), q.answers, q.lang, { ...opts, looseEn: q.lang === 'en' }).verdict, q.prompt).toBe('correct');
   });
   it('detects problems in bad content', () => {
     const bad = buildContent({ vocab: { topics: [{ id: 't', title: 'T', items: [{ mi: 'kai', en: [] }, { mi: 'kai', en: ['food'] }] }] }, grammar: { patterns: [{ id: 'x', title: 'X', prereqs: ['nope'] }] }, deep: { items: [] }, equivalents: {} });
@@ -110,6 +130,8 @@ describe('answer validation', () => {
     expect(normEn("I'm not going")).toBe('i am not going');
     expect(normEn("It's fine.")).toBe('it is fine');
     expect(checkAnswer("I didn't go", ['I did not go.'], 'en').verdict).toBe('correct');
+    expect(checkAnswer("Let's go", ['(We should go|Let us go).'], 'en').verdict).toBe('alternative');
+    expect(checkAnswer("Don't cry", ['Do not cry.'], 'en').verdict).toBe('correct');
     expect(checkAnswer('that', ['that (near you)'], 'en', { looseEn: true }).verdict).toBe('correct');
     expect(checkAnswer('to eat', ['eat', 'food'], 'en', { looseEn: true }).verdict).toBe('correct');
     expect(checkAnswer('a dog', ['dog'], 'en', { looseEn: true }).verdict).toBe('correct');
@@ -444,5 +466,60 @@ describe('dates in te reo', () => {
     expect(shortDay(new Date(2026, 10, 16).getTime())).toBe('Hina');
     expect(greeting(new Date(2026, 10, 17, 8).getTime())).toBe('Ata mārie');
     expect(greeting(new Date(2026, 10, 17, 15).getTime())).toBe('Kia ora');
+  });
+});
+
+describe('review insights', () => {
+  const log = (key: string, grade: 'again' | 'hard' | 'good', verdict: string, extra: object = {}, t = NOW) => ({ t, key, grade, verdict, ...extra });
+  it('classifies what kind of error an answer was', () => {
+    expect(classifyError('macron', 'kuri', false, false)).toBe('macron');
+    expect(classifyError('typo', 'whakarogno', false, false)).toBe('typo');
+    expect(classifyError('wrong', '', false, false)).toBe('blank');
+    expect(classifyError('wrong', 'kei te au haere', true, false)).toBe('order');
+    expect(classifyError('wrong', 'māua', false, true)).toBe('confusion');
+    expect(classifyError('wrong', 'xyz', false, false)).toBe('other');
+  });
+  it('lists the items missed most, with what was typed instead', () => {
+    const reviews = [
+      log('v:tāua|produce', 'again', 'wrong', { a: 'māua', e: 'confusion' }, NOW - 3 * DAY),
+      log('v:tāua|produce', 'again', 'wrong', { a: 'māua', e: 'confusion' }, NOW - 2 * DAY),
+      log('v:tāua|produce', 'hard', 'macron', { a: 'taua', e: 'macron' }, NOW - DAY),
+      log('v:kurī|produce', 'hard', 'macron', { a: 'kuri', e: 'macron' }),
+      log('v:kurī|produce', 'again', 'wrong', { a: '', e: 'blank' }),
+      log('v:ngeru|produce', 'again', 'wrong', { a: 'kurī' }),                       // only once: not listed
+      log('v:whare|produce', 'again', 'wrong', {}, NOW - 60 * DAY),                  // too old
+      log('v:whare|produce', 'again', 'wrong', {}, NOW - 61 * DAY),
+      log('v:gone|produce', 'again', 'wrong'), log('v:gone|produce', 'again', 'wrong'), // no longer in content
+      log('v:kurī|recognise', 'good', 'correct'),
+    ];
+    const t = troubleList(content, reviews, NOW);
+    expect(t.map((x) => x.key)).toEqual(['v:tāua|produce', 'v:kurī|produce']);
+    expect(t[0]).toMatchObject({ label: 'tāua', misses: 3, wrote: ['māua', 'taua'], expected: 'tāua' });
+    expect(t[1].wrote).toEqual(['kuri']);
+  });
+  it('summarises error types and accuracy by task, ignoring self-rated and skipped answers', () => {
+    const reviews = [
+      log('v:kurī|produce', 'hard', 'macron', { e: 'macron' }), log('v:ngeru|produce', 'hard', 'macron'), // old log without e: falls back to the verdict
+      log('v:whare|produce', 'again', 'wrong', { e: 'blank' }), log('v:whare|produce', 'good', 'correct'),
+      log('v:kurī|recognise', 'good', 'correct'), log('p:kei-te|apply', 'again', 'wrong', { e: 'order' }), log('p:kei-te|understand', 'good', 'correct'),
+      log('v:tāua|recognise', 'again', 'self'), log('v:hui|recognise', 'good', 'skipped'), log('v:iwi|recognise', 'good', 'correct', {}, NOW - 40 * DAY),
+    ];
+    const m = mistakeSummary(reviews, NOW);
+    expect(m.kinds[0]).toEqual({ kind: 'macron', count: 2 });
+    expect(m.misses).toBe(4);
+    expect(m.skills).toEqual([{ group: 'recognise', total: 2, right: 1 }, { group: 'produce', total: 4, right: 1 }, { group: 'sentences', total: 2, right: 1 }]);
+  });
+  it('filters a review to a focus and a topic', () => {
+    const keys = ['v:kurī|recognise', 'v:kurī|produce', 'v:hui|produce', 'p:kei-te|apply', 'd:he-tangata|recall'];
+    const pick = (f: Parameters<typeof focusFilter>[1], topic = '') => keys.filter(focusFilter(content, f, topic));
+    expect(pick('all')).toEqual(keys);
+    expect(pick('produce')).toEqual(['v:kurī|produce', 'v:hui|produce']);
+    expect(pick('recognise')).toEqual(['v:kurī|recognise']);
+    expect(pick('sentences')).toEqual(['p:kei-te|apply']);
+    expect(pick('deep')).toEqual(['d:he-tangata|recall']);
+    expect(pick('produce', 'work')).toEqual(['v:hui|produce']);
+    expect(pick('all', 'nouns')).toEqual(['v:kurī|recognise', 'v:kurī|produce']);
+    const cards = Object.fromEntries(keys.map((k) => [k, sm2.next(undefined, k, 'good', NOW - 3 * DAY)]));
+    expect(buildReviewSteps(cards, content, NOW, 20, focusFilter(content, 'sentences'))).toHaveLength(1);
   });
 });

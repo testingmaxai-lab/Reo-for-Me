@@ -27,7 +27,7 @@ export function normMi(s: string, equivalents: Record<string, string> = {}): str
 
 const CONTRACTIONS: [RegExp, string][] = [
   [/\bwon't\b/g, 'will not'], [/\bcan't\b/g, 'cannot'], [/\bcan not\b/g, 'cannot'], [/n't\b/g, ' not'],
-  [/\bi'm\b/g, 'i am'], [/'re\b/g, ' are'], [/'ll\b/g, ' will'], [/'ve\b/g, ' have'],
+  [/\bi'm\b/g, 'i am'], [/\blet's\b/g, 'let us'], [/'re\b/g, ' are'], [/'ll\b/g, ' will'], [/'ve\b/g, ' have'],
   [/\b(it|he|she|that|what|where|who|there|this)'s\b/g, '$1 is'],
 ];
 export function normEn(s: string): string {

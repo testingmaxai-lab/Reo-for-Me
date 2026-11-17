@@ -65,6 +65,22 @@ describe('export and import', () => {
     expect(Object.keys(store.getState().cards)).toHaveLength(2);
     expect(store.getState().kv.queue).toEqual(['v:ao']);
   });
+  it('keeps what was typed for missed answers, through a reopen and a backup', async () => {
+    store.review('v:tāua|produce', 'again', 'wrong', NOW, { a: 'māua', e: 'confusion' });
+    store.review('v:kurī|produce', 'good', 'correct', NOW);
+    await new Promise((r) => setTimeout(r, 20));
+    await reopen();
+    expect(store.getState().reviews[0]).toMatchObject({ a: 'māua', e: 'confusion' });
+    expect(store.getState().reviews[1].a).toBeUndefined();
+    const json = store.exportJson(NOW);
+    await store.resetAll();
+    await store.importJson(json);
+    expect(store.getState().reviews[0]).toMatchObject({ a: 'māua', e: 'confusion' });
+    const tampered = JSON.parse(json); tampered.reviews[0].e = 'nonsense'; tampered.reviews[0].a = 42;
+    await store.importJson(JSON.stringify(tampered));
+    expect(store.getState().reviews[0].e).toBeUndefined();
+    expect(store.getState().reviews[0].a).toBeUndefined();
+  });
   it('rejects files that are not valid backups and leaves existing data alone', async () => {
     store.review('v:kurī|recognise', 'good', 'correct', NOW);
     const good = JSON.parse(store.exportJson(NOW));
