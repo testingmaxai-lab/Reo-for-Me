@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildContent, content, examplesFor, firstEn, searchContent, validateContent, vocabIn } from '../content';
-import { greeting, maoriDate, shortDay } from './dates';
+import { auditSummary, effectiveStatus, makeFeedback, mergeFeedback, parseFeedback, reviewUnits } from './audit';
+import { dayLabel, greeting, maoriDate, shortDay } from './dates';
 import { deepMastery, makeClozes, orderTiles, resolveDeep, seeded } from './deep';
 import { generate, keyOf, type GenContext } from './exercises';
 import { classifyError, focusFilter, mistakeSummary, troubleList } from './insights';
@@ -8,7 +9,7 @@ import { checkAnswer, diffExpected, editDistance, expandAlternatives, hintFor, n
 import { activity, doneToday, forecast, summary } from './progress';
 import { buildDiagnostic, nextNew, scoreDiagnostic, units, unmetPrereqs, weakAreas } from './recommend';
 import { buildLearnSteps, buildReviewSteps, requeue } from './session';
-import { applyReview, DAY, isDue, MIN, retrievability, sm2, strength, type Card } from './srs';
+import { applyReview, DAY, fsrs, intervalFor, isDue, memoryOf, MIN, recallAt, retrievability, sm2, strength, type Card } from './srs';
 
 const opts = { equivalents: content.equivalents, lexicon: content.lexicon };
 const NOW = new Date(2026, 10, 16, 9, 0).getTime();
@@ -192,7 +193,7 @@ describe('spaced repetition', () => {
     expect(c.ease).toBe(1.3);
   });
   it('does not inflate the schedule when practising ahead, but still counts a failure', () => {
-    const c = sm2.next(undefined, 'k', 'good', NOW);
+    const c = fsrs.next(undefined, 'k', 'good', NOW);
     const early = applyReview(c, 'k', 'good', NOW + MIN);
     expect(early.interval).toBe(c.interval);
     expect(early.due).toBe(c.due);
@@ -206,7 +207,7 @@ describe('spaced repetition', () => {
     expect(strength({ interval: 30, state: 'learning' } as Card)).toBe('learning');
   });
   it('estimates retention at about 90% when a review falls due', () => {
-    expect(retrievability({ interval: 10, last: NOW - 10 * DAY, state: 'review' } as Card, NOW)).toBeCloseTo(0.9);
+    expect(retrievability({ interval: 10, ease: 2.5, last: NOW - 10 * DAY, state: 'review' } as Card, NOW)).toBeCloseTo(0.9);
   });
   it('tracks skills independently', () => {
     const cards: Record<string, Card> = {};
@@ -521,5 +522,119 @@ describe('review insights', () => {
     expect(pick('all', 'nouns')).toEqual(['v:kurī|recognise', 'v:kurī|produce']);
     const cards = Object.fromEntries(keys.map((k) => [k, sm2.next(undefined, k, 'good', NOW - 3 * DAY)]));
     expect(buildReviewSteps(cards, content, NOW, 20, focusFilter(content, 'sentences'))).toHaveLength(1);
+  });
+});
+
+describe('FSRS scheduling', () => {
+  const run = (grades: ('again' | 'hard' | 'good' | 'easy')[]) => {
+    let c: Card | undefined; let t = NOW;
+    const out: Card[] = [];
+    for (const g of grades) { c = fsrs.next(c, 'k', g, t); out.push(c); t = c.due; }
+    return out;
+  };
+  it('predicts 90% recall at the scheduled interval', () => {
+    expect(recallAt(10, 10)).toBeCloseTo(0.9);
+    expect(intervalFor(10)).toBeCloseTo(10);
+    expect(recallAt(0, 10)).toBe(1);
+    expect(recallAt(100, 10)).toBeLessThan(0.6);
+  });
+  it('gives a first interval that depends on how well the item was known', () => {
+    expect(fsrs.next(undefined, 'k', 'hard', NOW).interval).toBe(1);
+    expect(fsrs.next(undefined, 'k', 'good', NOW).interval).toBe(4);
+    expect(fsrs.next(undefined, 'k', 'easy', NOW).interval).toBe(14);
+    const failed = fsrs.next(undefined, 'k', 'again', NOW);
+    expect(failed.state).toBe('learning');
+    expect(failed.due).toBe(NOW + 10 * MIN);
+    expect(fsrs.next(failed, 'k', 'good', NOW + 10 * MIN).interval).toBe(1); // got it on the retry: back tomorrow
+  });
+  it('widens intervals with each success, and more for easy than good than hard', () => {
+    const good = run(['good', 'good', 'good', 'good', 'good']).map((c) => c.interval);
+    for (let i = 1; i < good.length; i++) expect(good[i]).toBeGreaterThan(good[i - 1]);
+    expect(good[4]).toBeGreaterThan(60);
+    const second = (g: 'hard' | 'good' | 'easy') => { const c = fsrs.next(undefined, 'k', 'good', NOW); return fsrs.next(c, 'k', g, c.due).interval; };
+    expect(second('hard')).toBeLessThan(second('good'));
+    expect(second('good')).toBeLessThan(second('easy'));
+    expect(second('hard')).toBeGreaterThan(4); // a near miss still moves forward, only slightly
+  });
+  it('cuts stability sharply after a lapse and makes the item harder', () => {
+    const [, , third] = run(['good', 'good', 'good']);
+    const lapsed = fsrs.next(third, 'k', 'again', third.due);
+    expect(lapsed.state).toBe('learning');
+    expect(lapsed.lapses).toBe(1);
+    expect(lapsed.s!).toBeLessThan(third.s! / 3);
+    expect(lapsed.d!).toBeGreaterThan(third.d!);
+    const back = fsrs.next(lapsed, 'k', 'good', lapsed.due);
+    expect(back.state).toBe('review');
+    expect(back.interval).toBeLessThan(third.interval);
+  });
+  it('rewards remembering after a long gap more than after a short one', () => {
+    const c = fsrs.next(undefined, 'k', 'good', NOW);
+    expect(fsrs.next(c, 'k', 'good', NOW + 12 * DAY).s!).toBeGreaterThan(fsrs.next(c, 'k', 'good', NOW + 4 * DAY).s!);
+  });
+  it('keeps difficulty within bounds and intervals within a year', () => {
+    let c = fsrs.next(undefined, 'k', 'again', NOW);
+    for (let i = 0; i < 30; i++) c = fsrs.next(c, 'k', 'again', c.due + DAY);
+    expect(c.d!).toBeLessThanOrEqual(10);
+    c = fsrs.next(undefined, 'k', 'easy', NOW);
+    for (let i = 0; i < 30; i++) c = fsrs.next(c, 'k', 'easy', c.due);
+    expect(c.d!).toBeGreaterThanOrEqual(1);
+    expect(c.interval).toBe(365);
+  });
+  it('carries over records made by the old scheduler without losing their progress', () => {
+    const old: Card = { key: 'k', state: 'review', ease: 2.5, interval: 20, due: NOW, reps: 4, lapses: 0, n: 4, first: 0, last: NOW - 20 * DAY };
+    expect(memoryOf(old)).toEqual({ s: 20, d: 5 });
+    expect(memoryOf({ ...old, ease: 1.3 }).d).toBeCloseTo(9.8);
+    expect(retrievability(old, NOW)).toBeCloseTo(0.9);
+    const next = applyReview(old, 'k', 'good', NOW);
+    expect(next.interval).toBeGreaterThan(40);
+    expect(next.s).toBeGreaterThan(40);
+    expect(next.reps).toBe(5);
+    expect(applyReview(old, 'k', 'again', NOW).interval).toBeLessThan(10);
+  });
+});
+
+describe('content check', () => {
+  const units = reviewUnits(content);
+  it('gives a reviewer every word, explanation, sentence, transformation and whakataukī exactly once', () => {
+    const sentences = content.patterns.reduce((n, p) => n + p.sentences.length, 0);
+    const transforms = content.patterns.reduce((n, p) => n + p.transforms.length, 0);
+    expect(units.length).toBe(content.vocab.length + content.patterns.length + sentences + transforms + content.deep.length);
+    expect(new Set(units.map((u) => u.id)).size).toBe(units.length);
+    const s = units.find((u) => u.mi === 'Kei te mahi ia.')!;
+    expect(s.kind).toBe('sentence');
+    expect(s.en).toBe('She / He is working.'); // authoring shorthand is spelled out for the reviewer
+    expect(units.find((u) => u.id === 'd:he-tangata')!.details.map((d) => d.label)).toEqual(expect.arrayContaining(['Meaning', 'Background', 'Piece by piece']));
+  });
+  it('summarises progress and reflects a local check in the status shown', () => {
+    const audit = { 'v:kurī': { v: 'ok' as const, t: 1 }, 'v:ngeru': { v: 'fix' as const, t: 2, note: 'x' }, 'v:removed': { v: 'ok' as const, t: 3 } };
+    expect(auditSummary(units, audit)).toEqual({ total: units.length, ok: 1, fix: 1, left: units.length - 2 });
+    expect(effectiveStatus('cross-checked', audit['v:kurī'])).toEqual({ status: 'verified', local: 'ok' });
+    expect(effectiveStatus('cross-checked', audit['v:ngeru'])).toEqual({ status: 'cross-checked', local: 'fix' });
+    expect(effectiveStatus('draft', undefined)).toEqual({ status: 'draft' });
+  });
+  it('exports feedback that explains itself, and reads it back', () => {
+    const audit = { 'v:kurī': { v: 'ok' as const, t: 10 }, 's:kei-te/s0': { v: 'fix' as const, t: 20, note: 'Prefer ahau here' } };
+    const flags = [{ t: 5, key: 'v:kurī|produce', prompt: 'Type the Māori — dog', expected: 'kurī', answer: 'kuri', reason: 'My answer should be accepted' }];
+    const file = makeFeedback(units, audit, flags, NOW);
+    expect(file.checked.find((c) => c.id === 's:kei-te/s0')).toMatchObject({ verdict: 'fix', note: 'Prefer ahau here', mi: 'Kei te haere au.', kind: 'sentence' });
+    const back = parseFeedback(JSON.stringify(file));
+    expect(back).toEqual({ ok: true, audit, flags });
+    expect(parseFeedback('nope').ok).toBe(false);
+    expect(parseFeedback('{"format":"reo-progress"}').ok).toBe(false);
+    expect(parseFeedback(JSON.stringify({ ...file, checked: [{ id: 'x', verdict: 'maybe' }] })).ok).toBe(false);
+  });
+  it('merges checks from another device, newest judgement winning, without duplicating reports', () => {
+    const flag = { t: 5, key: 'k', prompt: 'p', expected: 'e', answer: 'a', reason: 'r' };
+    const m = mergeFeedback(
+      { audit: { a: { v: 'ok', t: 10 }, b: { v: 'ok', t: 10 } }, flags: [flag] },
+      { audit: { a: { v: 'fix', t: 20, note: 'n' }, b: { v: 'fix', t: 5 }, c: { v: 'ok', t: 1 } }, flags: [flag, { ...flag, t: 6 }] });
+    expect(m.audit).toEqual({ a: { v: 'fix', t: 20, note: 'n' }, b: { v: 'ok', t: 10 }, c: { v: 'ok', t: 1 } });
+    expect(m.flags).toHaveLength(2);
+  });
+  it('labels recordings by day', () => {
+    const at = (d: number, h: number) => new Date(2026, 10, 17 - d, h, 5).getTime();
+    expect(dayLabel(at(0, 9), at(0, 15))).toMatch(/^Today, 9:05/);
+    expect(dayLabel(at(1, 23), at(0, 1))).toMatch(/^Yesterday, 11:05/);
+    expect(dayLabel(at(3, 9), at(0, 15))).toBe('3 days ago');
   });
 });

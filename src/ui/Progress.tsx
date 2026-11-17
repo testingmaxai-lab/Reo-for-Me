@@ -1,25 +1,25 @@
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { content } from '../content';
 import { STATUS_HELP, STATUS_LABEL, type Status } from '../content/types';
+import { auditSummary, makeFeedback, mergeFeedback, parseFeedback, reviewUnits } from '../engine/audit';
 import { deepMastery } from '../engine/deep';
 import { shortDay } from '../engine/dates';
 import { activity, forecast, roughPercent, summary } from '../engine/progress';
 import { DAY } from '../engine/srs';
 import { weakAreas } from '../engine/recommend';
 import { parseBackup } from '../store/backup';
-import { exportJson, importJson, resetAll, updateSettings, useAppState } from '../store/state';
+import { exportJson, getState, importJson, resetAll, setKV, updateSettings, useAppState } from '../store/state';
 import { Bars, BucketBar, Button, Card, H1, H2, List, Muted, Reo, Row, Segmented } from './components';
 import { DiagnosticSummary, LevelPicker } from './Diagnostic';
 import { PacePicker } from './Home';
 import { go } from './router';
 
-async function doExport(): Promise<void> {
-  const name = `reo-progress-${new Date().toLocaleDateString('en-CA')}.json`;
-  const file = new File([exportJson()], name, { type: 'application/json' });
+/** Hands a file to the learner: the share sheet on a phone ("Save to Files"), a download elsewhere. Returns false if cancelled. */
+async function saveFile(name: string, json: string): Promise<boolean> {
+  const file = new File([json], name, { type: 'application/json' });
   const touch = window.matchMedia('(pointer: coarse)').matches;
   if (touch && navigator.canShare?.({ files: [file] })) {
-    // On iPhone the share sheet offers "Save to Files", which is the reliable way to keep a copy.
-    try { await navigator.share({ files: [file], title: name }); } catch (e) { if ((e as Error).name === 'AbortError') return; }
+    try { await navigator.share({ files: [file], title: name }); } catch (e) { if ((e as Error).name === 'AbortError') return false; }
   } else {
     const a = document.createElement('a');
     a.href = URL.createObjectURL(file);
@@ -27,7 +27,11 @@ async function doExport(): Promise<void> {
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   }
-  updateSettings({ lastBackup: Date.now() });
+  return true;
+}
+const today = () => new Date().toLocaleDateString('en-CA');
+async function doExport(): Promise<void> {
+  if (await saveFile(`reo-progress-${today()}.json`, exportJson())) updateSettings({ lastBackup: Date.now() });
 }
 
 export function Progress() {
@@ -38,6 +42,20 @@ export function Progress() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [confirmReset, setConfirmReset] = useState(false);
+  const units = useMemo(() => reviewUnits(content), []);
+  const check = auditSummary(units, kv.audit);
+  const feedbackRef = useRef<HTMLInputElement>(null);
+  const [checkMsg, setCheckMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const onFeedbackFile = async (f: File | undefined) => {
+    if (!f) return;
+    const res = parseFeedback(await f.text());
+    if (feedbackRef.current) feedbackRef.current.value = '';
+    if (!res.ok) { setCheckMsg({ ok: false, text: res.error }); return; }
+    const merged = mergeFeedback({ audit: getState().kv.audit, flags: getState().kv.flags }, res);
+    setKV('audit', merged.audit);
+    setKV('flags', merged.flags);
+    setCheckMsg({ ok: true, text: `Added ${Object.keys(res.audit).length} checked items and ${res.flags.length} reports.` });
+  };
   const counts = (['verified', 'cross-checked', 'draft', 'example'] as Status[]).map((st) => ({ st, n: [...content.vocab, ...content.patterns, ...content.deep].filter((x) => x.status === st).length })).filter((x) => x.n);
 
   const onFile = async (f: File | undefined) => {
@@ -115,6 +133,22 @@ export function Progress() {
         </div>
         <input ref={fileRef} type="file" accept="application/json,.json" className="hidden" aria-label="Backup file to import" onChange={(e) => void onFile(e.target.files?.[0])} />
         {msg && <p role="status" className={`mt-3 rounded-lg p-3 text-sm ${msg.ok ? 'bg-good-soft text-good' : 'bg-bad-soft text-bad'}`}>{msg.text}</p>}
+      </Card>
+
+      <H2>Content check and reports</H2>
+      <Card>
+        <p data-testid="check-progress" className="font-semibold">{check.ok + check.fix} of {check.total} items checked · {check.fix} need fixing</p>
+        <Muted className="mt-1">A fluent speaker can step through every word, sentence and whakataukī and mark each one. They can do it on their own device at the same web address, export the result, and send you the file to import here.</Muted>
+        <p className="mt-3 text-sm">{kv.flags.length} problem report{kv.flags.length === 1 ? '' : 's'} from your own sessions.</p>
+        {kv.flags.slice(-3).reverse().map((f) => <p key={f.t} className="mt-1 text-sm text-muted">“{f.prompt}” — {f.reason}{f.note ? `: ${f.note}` : ''}</p>)}
+        <Button full className="mt-3" onClick={() => go('/check')}>Open the content check</Button>
+        <div className="mt-2 flex gap-2">
+          <Button variant="secondary" className="flex-1" disabled={!Object.keys(kv.audit).length && !kv.flags.length} onClick={() => void saveFile(`reo-content-feedback-${today()}.json`, JSON.stringify(makeFeedback(units, kv.audit, kv.flags, Date.now()), null, 1))}>Export feedback</Button>
+          <Button variant="secondary" className="flex-1" onClick={() => feedbackRef.current?.click()}>Import feedback</Button>
+        </div>
+        <input ref={feedbackRef} type="file" accept="application/json,.json" className="hidden" aria-label="Feedback file to import" onChange={(e) => void onFeedbackFile(e.target.files?.[0])} />
+        {checkMsg && <p role="status" className={`mt-3 rounded-lg p-3 text-sm ${checkMsg.ok ? 'bg-good-soft text-good' : 'bg-bad-soft text-bad'}`}>{checkMsg.text}</p>}
+        <Muted className="mt-3">Exported feedback is what gets used to correct the content files and mark items as verified for everyone.</Muted>
       </Card>
 
       <H2>About the content</H2>

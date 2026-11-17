@@ -5,7 +5,9 @@ import { isIntroduced, unmetPrereqs } from '../engine/recommend';
 import { strength } from '../engine/srs';
 import { review, useAppState } from '../store/state';
 import { startLearn, startPractice } from './actions';
-import { Button, Card, Dot, H1, H2, List, Muted, Reo, Row, StatusBadge, STRENGTH_LABEL } from './components';
+import { Button, Card, Dot, H1, H2, List, Muted, Reo, Row, STRENGTH_LABEL } from './components';
+import { ItemStatus } from './ItemStatus';
+import { Voice } from './Voice';
 import { go } from './router';
 
 const enc = encodeURIComponent;
@@ -119,9 +121,10 @@ export function ItemPage({ id }: { id: string }) {
         {v.altMi.length > 0 && <p className="mt-1 text-muted">also: <Reo>{v.altMi.join(', ')}</Reo></p>}
         <p className="mt-3 text-xl">{v.en.join('; ')}</p>
         {v.note && <Muted className="mt-2">{v.note}</Muted>}
-        <div className="mt-3"><StatusBadge status={v.status} source={v.source} /></div>
+        <div className="mt-3"><ItemStatus id={v.id} status={v.status} source={v.source} /></div>
         {ex.length > 0 && <><H2>In sentences</H2><Card className="space-y-2">{ex.map((e) => <p key={e.mi}><Reo className="font-semibold">{e.mi}</Reo><br /><span className="text-sm text-muted">{e.en}</span></p>)}</Card></>}
         {inDeep.length > 0 && <><H2>Appears in</H2><List>{inDeep.map((d) => <Row key={d.id} lang="mi" title={d.title} onClick={() => go(`/deep/${enc(d.id)}`)} />)}</List></>}
+        <div className="mt-6"><Voice itemId={v.id} text={v.mi} /></div>
         <H2>Your progress</H2>
         <Card><SkillLine label="Recognise" cardKey={keyOf(v.id, 'recognise')} /><SkillLine label="Produce" cardKey={keyOf(v.id, 'produce')} /></Card>
         <div className="mt-4 flex gap-2">
@@ -141,7 +144,7 @@ export function ItemPage({ id }: { id: string }) {
         <h1 lang="mi" className="reo text-2xl font-bold">{p.title}</h1>
         <p lang="mi" className="reo mt-3 rounded-xl bg-accent-soft p-3 font-medium">{p.structure}</p>
         <p className="mt-3 leading-relaxed"><Reo>{p.explanation}</Reo></p>
-        <div className="mt-3"><StatusBadge status={p.status} source={p.source} /></div>
+        <div className="mt-3"><ItemStatus id={p.id} status={p.status} source={p.source} /></div>
         {pre.length > 0 && <Muted className="mt-3">Usually learned after: {pre.map((x) => content.patternById.get(x)!.title).join('; ')}. This is advice only.</Muted>}
         <H2>Examples</H2>
         <Card className="space-y-2">{p.sentences.map((s) => <p key={s.id}><Reo className="font-semibold">{s.mi}</Reo><br /><span className="text-sm text-muted">{firstEn(s.en)}</span></p>)}</Card>

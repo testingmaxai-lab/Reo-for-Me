@@ -13,6 +13,7 @@ const listeners = new Set<() => void>();
 const set = (next: AppState) => { state = next; listeners.forEach((l) => l()); };
 
 export const getState = () => state;
+export const getDb = () => handle;
 export function useAppState(): AppState {
   return useSyncExternalStore((l) => { listeners.add(l); return () => listeners.delete(l); }, getState);
 }
@@ -62,6 +63,7 @@ export async function importJson(text: string): Promise<{ ok: true; cards: numbe
 export async function resetAll(): Promise<void> {
   const empty = { cards: [], reviews: [], kv: defaultKV() };
   if (handle) await db.replaceAll(handle, empty);
+  if (handle) await handle.clear('audio');
   set({ ready: true, cards: {}, reviews: [], kv: empty.kv });
 }
 
