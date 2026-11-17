@@ -31,15 +31,15 @@ Double vowels (`kurii`) are accepted for macrons. `au`/`ahau` and `tūpuna`/`tī
 
 | | Count | Status |
 |---|---|---|
-| Vocabulary | 369 words in 16 topics | Cross-checked |
-| Sentence patterns | 19, with 123 sentences and 37 transformations | Cross-checked |
-| Whakataukī | 6 | Cross-checked |
+| Vocabulary | 787 words in 20 topics | Cross-checked |
+| Sentence patterns | 39, with 225 sentences and 72 transformations | Cross-checked |
+| Whakataukī | 12 | Cross-checked |
 | Pepeha (for tauiwi) | 1 template you fill in | Draft |
 | Karakia | 0 | Supported, deliberately empty |
 
 **None of this has been reviewed by a fluent speaker.** "Cross-checked" means written by AI from standard references. "Verified" is reserved for items you or a fluent speaker have reviewed: change `"status"` in the content file once that happens. Every item shows its status and source in the app.
 
-Things most worth a kaiako's eye: the pepeha acknowledgement line; the provenance and attribution notes on the whakataukī (Meri Ngāroto, Tā Hēmi Hēnare, Paterangi); the negation, a/o possession, counting and time-phrase patterns; and the work and te ao Māori vocabulary, where short English glosses are necessarily rough.
+Things most worth a kaiako's eye: the pepeha acknowledgement line; the provenance and attribution notes on the whakataukī (Meri Ngāroto, Tā Hēmi Hēnare, Paterangi); the negation, a/o possession, counting, time-phrase, passive, actor-emphatic (Nā … i … / Mā … e …), ability (taea) and comparison patterns; and the work and te ao Māori vocabulary, where short English glosses are necessarily rough.
 
 ## Run it locally
 
@@ -126,7 +126,7 @@ The scheduler sits behind a small `Scheduler` interface (`src/engine/srs.ts`), s
 ## Sensible next steps
 
 1. Have a kaiako review the content and mark items verified.
-2. Add content: passives, more on numbers and telling the time, more whakataukī, a sourced karakia.
+2. Add content: telling the time, more on numbers, relative clauses, a sourced karakia.
 3. Licensed or self-recorded audio.
 4. FSRS scheduling once there is enough review history.
 5. Optional sync (for example a file in iCloud Drive).

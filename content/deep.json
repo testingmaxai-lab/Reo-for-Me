@@ -155,6 +155,413 @@
       ]
     },
     {
+      "id": "ma-te-huruhuru",
+      "kind": "whakatauki",
+      "title": "Mā te huruhuru ka rere te manu",
+      "lines": [
+        {
+          "mi": "Mā te huruhuru ka rere te manu.",
+          "en": "It is by feathers that the bird flies."
+        }
+      ],
+      "literal": "By means of the feathers the bird will fly.",
+      "meaning": "No one succeeds without the right support and resources. Give people what they need (skills, backing, funding, encouragement) and they can take flight.",
+      "provenance": "A widely known traditional whakataukī. This app does not attribute it to a named person or iwi because no attribution could be confirmed.",
+      "context": "The image is of a bird that cannot leave the ground until it is fully feathered. It is often rendered in English as 'Adorn the bird with feathers so it may soar'.",
+      "usage": "Used when asking for or acknowledging support for a person or a project, in education, and when resourcing a piece of work.",
+      "nuances": "Mā here marks the means by which something will come about. The same mā … ka shape is used in other sayings to say 'through X, Y will happen'.",
+      "components": [
+        {
+          "mi": "Mā te huruhuru",
+          "gloss": "by means of the feathers",
+          "note": "mā = by means of, through. huruhuru = feathers, hair."
+        },
+        {
+          "mi": "ka rere",
+          "gloss": "will fly",
+          "pattern": "ka",
+          "note": "rere = fly, flow."
+        },
+        {
+          "mi": "te manu",
+          "gloss": "the bird"
+        }
+      ],
+      "structureQs": [
+        {
+          "prompt": "What does 'huruhuru' mean in this saying?",
+          "lang": "en",
+          "answers": [
+            "feathers",
+            "feather",
+            "the feathers"
+          ],
+          "explain": "huruhuru = feathers (also hair, fur)."
+        },
+        {
+          "prompt": "Which word means 'fly'?",
+          "lang": "mi",
+          "answers": [
+            "rere"
+          ],
+          "explain": "rere = fly, flow."
+        },
+        {
+          "prompt": "What does 'te manu' mean?",
+          "lang": "en",
+          "answers": [
+            "the bird",
+            "bird"
+          ],
+          "explain": "manu = bird."
+        },
+        {
+          "prompt": "Which small word at the start means 'by means of'?",
+          "lang": "mi",
+          "answers": [
+            "mā"
+          ],
+          "explain": "Mā te huruhuru = by means of the feathers."
+        }
+      ]
+    },
+    {
+      "id": "he-kai-kei-aku-ringa",
+      "kind": "whakatauki",
+      "title": "He kai kei aku ringa",
+      "lines": [
+        {
+          "mi": "He kai kei aku ringa.",
+          "en": "There is food at the end of my hands."
+        }
+      ],
+      "literal": "[There is] food at my hands.",
+      "meaning": "I can provide for myself by my own effort and skill. It expresses self-reliance, resilience and confidence in one's own abilities.",
+      "provenance": "A widely known traditional whakataukī. This app does not attribute it to a named person or iwi because no attribution could be confirmed.",
+      "context": "The hands stand for work and skill: whoever can use their hands will not go hungry.",
+      "usage": "Used to encourage people to back their own abilities, and to acknowledge someone who has made their own way through hard work.",
+      "nuances": "Kei marks present location, so the food is 'at' the hands. Aku is the neutral plural 'my'. English versions usually add 'at the end of' to make the image clear.",
+      "components": [
+        {
+          "mi": "He kai",
+          "gloss": "[there is] food",
+          "pattern": "he"
+        },
+        {
+          "mi": "kei",
+          "gloss": "at (present location)",
+          "pattern": "locative"
+        },
+        {
+          "mi": "aku ringa",
+          "gloss": "my hands",
+          "pattern": "possession",
+          "note": "aku = my (several things)."
+        }
+      ],
+      "structureQs": [
+        {
+          "prompt": "What does 'aku ringa' mean?",
+          "lang": "en",
+          "answers": [
+            "my hands",
+            "my arms",
+            "my hand"
+          ],
+          "explain": "aku = my (plural); ringa = hand, arm."
+        },
+        {
+          "prompt": "Which word here marks where something is now?",
+          "lang": "mi",
+          "answers": [
+            "kei"
+          ],
+          "explain": "kei + place = at."
+        },
+        {
+          "prompt": "What does 'kai' mean here?",
+          "lang": "en",
+          "answers": [
+            "food",
+            "sustenance"
+          ],
+          "explain": "kai = food."
+        }
+      ]
+    },
+    {
+      "id": "ka-mua-ka-muri",
+      "kind": "whakatauki",
+      "title": "Ka mua, ka muri",
+      "lines": [
+        {
+          "mi": "Ka mua, ka muri.",
+          "en": "Looking back in order to move forward."
+        }
+      ],
+      "literal": "The front, the back.",
+      "meaning": "We move into the future with our eyes on the past. What has gone before is what guides what comes next.",
+      "provenance": "A widely known traditional whakataukī. This app does not attribute it to a named person or iwi because no attribution could be confirmed.",
+      "context": "In Māori thought the past lies in front, where it can be seen, and the future lies behind, unseen. Mua means both 'in front' and 'before in time'; muri means both 'behind' and 'afterwards'. The saying is often explained as walking backwards into the future.",
+      "usage": "Used when acknowledging history, tūpuna or earlier work before setting out plans, and in strategy and education settings.",
+      "nuances": "The English versions are explanations, not translations: the Māori is only four words. Its force depends on the double meaning of mua and muri.",
+      "components": [
+        {
+          "mi": "Ka mua",
+          "gloss": "the front; what came before",
+          "note": "mua = in front, before."
+        },
+        {
+          "mi": "ka muri",
+          "gloss": "the back; what comes after",
+          "note": "muri = behind, after."
+        }
+      ],
+      "structureQs": [
+        {
+          "prompt": "'Mua' means 'in front'. What does it mean when speaking about time?",
+          "lang": "en",
+          "answers": [
+            "before",
+            "the past",
+            "past",
+            "earlier",
+            "formerly"
+          ],
+          "explain": "mua = in front, and before in time: the past is in front of us."
+        },
+        {
+          "prompt": "Which word means 'behind' and also 'afterwards'?",
+          "lang": "mi",
+          "answers": [
+            "muri"
+          ],
+          "explain": "muri = behind, after."
+        },
+        {
+          "prompt": "In this way of seeing time, is the future in front of us or behind us?",
+          "lang": "en",
+          "answers": [
+            "behind",
+            "behind us",
+            "at the back",
+            "the back"
+          ],
+          "explain": "The future is behind, unseen; the past is in front, visible."
+        }
+      ]
+    },
+    {
+      "id": "whaowhia-te-kete",
+      "kind": "whakatauki",
+      "title": "Whaowhia te kete mātauranga",
+      "lines": [
+        {
+          "mi": "Whaowhia te kete mātauranga.",
+          "en": "Fill the basket of knowledge."
+        }
+      ],
+      "literal": "Let the knowledge basket be filled.",
+      "meaning": "Keep learning. Gather knowledge at every opportunity, as you would fill a basket.",
+      "provenance": "A widely known traditional whakataukī. This app does not attribute it to a named person or iwi because no attribution could be confirmed.",
+      "context": "The kete (woven basket) is a common image for holding knowledge. In well-known traditions, three baskets of knowledge were brought from the heavens for people.",
+      "usage": "Very common in schools, training and anywhere learning is being encouraged or celebrated.",
+      "nuances": "Whaowhia is the command form of whao (to fill, to put into a container): commands with verbs that act on something use the passive ending. Mātauranga follows kete and describes it: the knowledge basket.",
+      "components": [
+        {
+          "mi": "Whaowhia",
+          "gloss": "fill! let it be filled",
+          "pattern": "passive",
+          "note": "From whao, to fill. The passive ending gives a command."
+        },
+        {
+          "mi": "te kete",
+          "gloss": "the basket"
+        },
+        {
+          "mi": "mātauranga",
+          "gloss": "knowledge",
+          "note": "Describes the basket: the basket of knowledge."
+        }
+      ],
+      "structureQs": [
+        {
+          "prompt": "What is a 'kete'?",
+          "lang": "en",
+          "answers": [
+            "basket",
+            "a basket",
+            "woven basket",
+            "kit",
+            "bag"
+          ],
+          "explain": "kete = woven basket."
+        },
+        {
+          "prompt": "What does 'mātauranga' mean?",
+          "lang": "en",
+          "answers": [
+            "knowledge",
+            "education",
+            "wisdom"
+          ],
+          "explain": "mātauranga = knowledge."
+        },
+        {
+          "prompt": "'Whaowhia' is the command form of which verb?",
+          "lang": "mi",
+          "answers": [
+            "whao"
+          ],
+          "explain": "whao = to fill, to put into."
+        }
+      ]
+    },
+    {
+      "id": "poipoia-te-kakano",
+      "kind": "whakatauki",
+      "title": "Poipoia te kākano kia puāwai",
+      "lines": [
+        {
+          "mi": "Poipoia te kākano kia puāwai.",
+          "en": "Nurture the seed and it will blossom."
+        }
+      ],
+      "literal": "Let the seed be nurtured so that it may bloom.",
+      "meaning": "With care and encouragement, potential is realised. It is most often said of children and learners, and of ideas in their early stages.",
+      "provenance": "A widely known traditional whakataukī. This app does not attribute it to a named person or iwi because no attribution could be confirmed.",
+      "context": "The seed stands for a child, a learner or a beginning; the blossom for what they can become when they are looked after.",
+      "usage": "Common in early childhood, education and mentoring, and when launching something new that will need looking after.",
+      "nuances": "Poipoia is the command form of poipoi (to nurture, to rock gently). Kia before puāwai expresses purpose or hoped-for result: so that it blossoms.",
+      "components": [
+        {
+          "mi": "Poipoia",
+          "gloss": "nurture! let it be nurtured",
+          "pattern": "passive",
+          "note": "From poipoi, to nurture."
+        },
+        {
+          "mi": "te kākano",
+          "gloss": "the seed"
+        },
+        {
+          "mi": "kia puāwai",
+          "gloss": "so that it may blossom",
+          "pattern": "kia",
+          "note": "kia = so that, in order that. puāwai = to bloom."
+        }
+      ],
+      "structureQs": [
+        {
+          "prompt": "What does 'kākano' mean?",
+          "lang": "en",
+          "answers": [
+            "seed",
+            "the seed",
+            "a seed"
+          ],
+          "explain": "kākano = seed."
+        },
+        {
+          "prompt": "Which word means 'blossom, bloom'?",
+          "lang": "mi",
+          "answers": [
+            "puāwai"
+          ],
+          "explain": "puāwai = to bloom, blossom."
+        },
+        {
+          "prompt": "What does 'kia' express before 'puāwai'?",
+          "lang": "en",
+          "answers": [
+            "so that",
+            "purpose",
+            "in order that",
+            "a purpose",
+            "result",
+            "so that it may",
+            "in order to"
+          ],
+          "explain": "kia + verb = so that …"
+        }
+      ]
+    },
+    {
+      "id": "kaore-te-kumara",
+      "kind": "whakatauki",
+      "title": "Kāore te kūmara e kōrero mō tōna ake reka",
+      "lines": [
+        {
+          "mi": "Kāore te kūmara e kōrero mō tōna ake reka.",
+          "en": "The kūmara does not speak of its own sweetness."
+        }
+      ],
+      "literal": "The kūmara does not talk about its own sweetness.",
+      "meaning": "Be humble. Let others speak of your qualities and achievements; do not praise yourself.",
+      "provenance": "A widely known traditional whakataukī. This app does not attribute it to a named person or iwi because no attribution could be confirmed.",
+      "context": "The kūmara was a prized food, valued for its sweetness. It has no need to announce what everyone already knows.",
+      "usage": "Used to remind people of the value of humility, and often said lightly when someone is uncomfortable being praised or asked to talk about themselves. Understanding it helps explain why people may be reluctant to promote themselves.",
+      "nuances": "Kāore … e … negates a general or future action. Mō means about or concerning. Ake after tōna gives 'its own'. Reka is usually a describing word (sweet); here it is used as a noun, sweetness.",
+      "components": [
+        {
+          "mi": "Kāore te kūmara e kōrero",
+          "gloss": "the kūmara does not speak",
+          "pattern": "negation",
+          "note": "Kāore + subject + e + verb."
+        },
+        {
+          "mi": "mō",
+          "gloss": "about, concerning"
+        },
+        {
+          "mi": "tōna ake reka",
+          "gloss": "its own sweetness",
+          "pattern": "a-o",
+          "note": "tōna = its; ake = own."
+        }
+      ],
+      "structureQs": [
+        {
+          "prompt": "Which word begins the sentence and makes it negative?",
+          "lang": "mi",
+          "answers": [
+            "kāore"
+          ],
+          "explain": "Kāore … e kōrero = does not speak."
+        },
+        {
+          "prompt": "What does 'reka' mean here?",
+          "lang": "en",
+          "answers": [
+            "sweetness",
+            "sweet",
+            "sweet taste",
+            "tastiness"
+          ],
+          "explain": "reka = sweet, tasty; here, sweetness."
+        },
+        {
+          "prompt": "Which word means 'about, concerning'?",
+          "lang": "mi",
+          "answers": [
+            "mō"
+          ],
+          "explain": "mō tōna ake reka = about its own sweetness."
+        },
+        {
+          "prompt": "What does 'ake' add to 'tōna'?",
+          "lang": "en",
+          "answers": [
+            "own",
+            "its own",
+            "the sense of own",
+            "emphasis"
+          ],
+          "explain": "tōna ake = its own."
+        }
+      ]
+    },
+    {
       "id": "pepeha-tauiwi", "kind": "pepeha",
       "title": "Introducing yourself (for tauiwi)",
       "status": "draft",

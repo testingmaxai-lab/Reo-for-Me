@@ -34,7 +34,7 @@ describe('content', () => {
   it('every word used in sentences and transforms is spelled consistently with the vocabulary', () => {
     // a sentence word that differs from a vocab word only by macrons is almost certainly a typo
     const bare = new Map(content.vocab.filter((v) => !v.mi.includes(' ')).map((v) => [v.mi.normalize('NFD').replace(/̄/g, ''), v.mi]));
-    const allowed = new Set(['tō', 'to', 'ō', 'o', 'ana', 'tana', 'kia', 'ka', 'ki', 'i', 'e', 'he', 'te', 'ko', 'mai', 'anō', 'matua', 'mātua', 'tāu', 'tau', 'ā', 'a', 'mā', 'wā']);
+    const allowed = new Set(['tō', 'to', 'ō', 'o', 'ana', 'tana', 'kia', 'ka', 'ki', 'i', 'e', 'he', 'te', 'ko', 'mai', 'anō', 'matua', 'mātua', 'tāu', 'tau', 'ā', 'a', 'mā', 'wā', 'tūpuna', 'nā', 'rā', 'kē', 'mā', 'pā', 'kī', 'ana', 'tātari', 'tatari', 'kainga', 'kāinga', 'māku', 'mākū', 'nāku', 'nāu', 'nāna', 'māu', 'māna', 'mana']);
     for (const p of content.patterns) for (const s of p.sentences) for (const w of normMi(s.mi).split(' ')) {
       const b = w.normalize('NFD').replace(/̄/g, '');
       if (bare.has(b) && !allowed.has(w)) expect(w, `${s.mi}`).toBe(bare.get(b));

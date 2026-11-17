@@ -75,7 +75,7 @@ export function validateContent(c: Content): string[] {
     if (!v.mi?.trim()) errs.push(`${v.id}: missing Māori text`);
     if (!v.en.length) errs.push(`${v.id}: needs at least one English meaning`);
     if (!v.source) errs.push(`${v.id}: missing source`);
-    if (/aa|ee|ii|oo|uu/.test(v.mi) && !/whakaaro|ātaahua|manaaki|whakaako|whakaata/.test(v.mi)) errs.push(`${v.id}: double vowel — use a macron?`);
+    if (/aa|ee|ii|oo|uu/.test(v.mi) && !/whakaa|ātaahua|manaaki|ataata/.test(v.mi)) errs.push(`${v.id}: double vowel — use a macron?`);
   }
   for (const p of c.patterns) {
     uniq(p.id); status(p.id, p.status);
@@ -140,7 +140,7 @@ export function searchContent(query: string, c: Content = content, limit = 40): 
     if (score >= 0) scored.push({ v, score });
   }
   return {
-    vocab: scored.sort((a, b) => a.score - b.score).slice(0, limit).map((x) => x.v),
+    vocab: scored.sort((a, b) => a.score - b.score || a.v.mi.length - b.v.mi.length).slice(0, limit).map((x) => x.v),
     patterns: c.patterns.filter((p) => fold(p.title + ' ' + p.structure).includes(q)),
   };
 }
